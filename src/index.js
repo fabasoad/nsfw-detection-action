@@ -16,6 +16,7 @@ async function run() {
     const failures = [];
     const files = await getFiles(core.getInput('type').split(','), core.getInput('extensions').split(','));
     for (const file of files) {
+      console.log(file);
       const score = await getScore(core.getInput('api_key'), file);
       if (score >= core.getInput('threshold')) {
         failures.push({ file, score });
