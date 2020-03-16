@@ -35,7 +35,7 @@ async function processCommit(commit, types, extensions) {
     if (types.includes('added')) {
       validators.push(isAdded);
     }
-
+    console.log(files);
     return files
       .filter(file => extensions.map(e => e.toLowerCase()).includes(file.split('.').pop().toLowerCase()))
       .filter(file => validators.every(v => v(file)));
