@@ -1,0 +1,23 @@
+{
+  "name": "nsfw-detection-action",
+  "version": "1.0.0",
+  "description": "This GitHub action detects nsfw content in commited files.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabasoad/nsfw-detection-action.git"
+  },
+  "author": "Yevhen Fabizhevskyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fabasoad/nsfw-detection-action/issues"
+  },
+  "homepage": "https://github.com/fabasoad/nsfw-detection-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

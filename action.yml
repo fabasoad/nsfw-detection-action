@@ -1,0 +1,30 @@
+---
+name: 'NSFW Detection Action'
+description: 'This GitHub action detects NSFW content in commited files.'
+# branding:
+#   icon: users
+#   color: green
+inputs:
+  github_token:
+    description: 'GitHub token'
+    required: true
+  type:
+    description: 'Type of commited files separated by comma.'
+    required: false
+    default: 'modified,added'
+  provider:
+    description: 'Provider identifier.'
+    required: true
+  api_key:
+    description: 'API key that should be used for chosen provider.'
+    required: true
+  extensions:
+    description: 'List of extensions separated by comma.'
+    required: false
+    default: 'jpeg,jpg,png,gif,webp,tiff,bmp'
+  threshold:
+    description: 'Action will be failed in case NSFW detection value will be greater or equal to this parameter.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'src/index.js'
