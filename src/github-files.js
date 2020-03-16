@@ -43,4 +43,4 @@ async function processCommit(commit, types, extensions) {
   throw new Error(`Failed to get commited files. Reason: ${result}`);
 }
 
-module.exports = (types, extensions) => Promise.all(commits.flatMap(c => processCommit(c, types, extensions)));
+module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions)).filter(c => c.length > 0));
