@@ -30,7 +30,7 @@ Sign up to [DeepAI](https://deepai.org/) official website. Then go to [Profile](
 ### Workflow configuration
 
 ```yaml
-name: NSFW detection
+name: Test
 
 on: push
 
@@ -43,10 +43,11 @@ jobs:
       - uses: fabasoad/nsfw-detection-action@v1.0.0
         with:
           provider: deepai
+          threshold: 0.9
+          type: modified,added
+          extensions: jpg,jpeg
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           api_key: ${{ secrets.DEEPAI_API_KEY }}
-          threshold: 0.51
-          extensions: 'png'
-          type: 'added'
 ```
 
 ### Result

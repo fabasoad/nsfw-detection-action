@@ -1,0 +1,20 @@
+---
+name: Test
+
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run fabasoad/nsfw-detection-action@1.0.0
+        uses: ./
+        with:
+          provider: deepai
+          threshold: 0.9
+          type: modified,added
+          extensions: jpg,jpeg
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          api_key: ${{ secrets.DEEPAI_API_KEY }}

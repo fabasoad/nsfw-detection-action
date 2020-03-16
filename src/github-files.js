@@ -37,7 +37,7 @@ async function processCommit(commit, types, extensions) {
     }
 
     return files
-      .filter(file => extensions.includes(file.split('.').pop()))
+      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.split('.').pop().toLowerCase()))
       .filter(file => validators.every(v => v(file)));
   }
   throw new Error(`Failed to get commited files. Reason: ${result}`);
