@@ -27,7 +27,7 @@ async function processCommit(commit, types, extensions) {
   result = await gh.repos.getCommit(args);
 
   if (result && result.data) {
-    const validators = [() => true];
+    const validators = [() => false];
     const files = result.data.files;
     if (types.includes('modified')) {
       validators.push(isModified);
