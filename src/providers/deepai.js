@@ -1,8 +1,15 @@
+const fs = require('fs');
+const request = require('request');
+
 const BASE_URL = 'https://api.deepai.org/api/nsfw-detector';
-module.exports = (apiKey, file) => fetch(BASE_URL, {
+
+module.exports = (apiKey, file) => request({
   method: 'POST',
+  uri: BASE_URL,
   headers: {
     'api-key': apiKey
   },
-  body: file
-}).then(resp => resp.json()['output']['nsfw_score']);
+  formData: {
+    image: fs.createReadStream(file)
+  }
+});

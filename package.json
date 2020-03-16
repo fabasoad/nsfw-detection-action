@@ -15,7 +15,8 @@
   "homepage": "https://github.com/fabasoad/nsfw-detection-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.3",
-    "@actions/github": "^2.1.1"
+    "@actions/github": "^2.1.1",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0"
