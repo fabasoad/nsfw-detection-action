@@ -11,7 +11,7 @@ const repo = context.payload.repository;
 const org = repo.organization;
 const owner = org || repo.owner;
 
-const gh = new GitHub(core.getInput('token'));
+const gh = new GitHub(core.getInput('github_token'));
 const args = { owner: owner.name, repo: repo.name };
 
 function isAdded(file) {
