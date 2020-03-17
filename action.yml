@@ -1,9 +1,9 @@
 ---
 name: 'NSFW Detection Action'
 description: 'This GitHub action detects NSFW content in commited files.'
-# branding:
-#   icon: users
-#   color: green
+branding:
+  icon: alert-octagon
+  color: red
 inputs:
   github_token:
     description: 'GitHub token'
