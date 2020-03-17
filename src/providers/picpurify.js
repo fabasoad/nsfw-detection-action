@@ -13,12 +13,12 @@ module.exports = (apiKey, file) => {
   return axios
     .post(BASE_URL, form)
     .then((resp) => {
-        console.log(resp);
-        if (resp.status !== 'success') {
-            const message = resp.error && resp.error.errorMsg
-                ? resp.error.errorMsg : `Failed to analyze ${file}.`;
+        console.log(resp.data);
+        if (resp.data.status !== 'success') {
+            const message = resp.data.error && resp.data.error.errorMsg
+                ? resp.data.error.errorMsg : `Failed to analyze ${file}.`;
             throw new Error(message);
         }
-        return resp['confidence_score_decision'];
+        return resp.data.confidence_score_decision;
     });
 };
