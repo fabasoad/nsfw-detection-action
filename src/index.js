@@ -8,6 +8,9 @@ async function run() {
     case 'deepai':
       getScore = require('./providers/deepai');
       break;
+    case 'picpurify':
+      getScore = require('./providers/picpurify');
+      break;
     default:
       core.setFailed(`${provider} is not supported`);
       return;

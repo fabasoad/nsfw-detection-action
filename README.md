@@ -6,13 +6,17 @@ This action checks each modified and added file with the extensions that is defi
 ## Contents
 - [Providers](#providers)
   - [DeepAI](#deepai)
+  - [PicPurify](#picpurify)
 - [Inputs](#inputs)
 - [Example usage](#example-usage)
 
 ## Providers
 
 ### DeepAI
-Identifier is `deepai`. Please sign up to [DeepAI](https://deepai.org/) official website. Then go to [Profile](https://deepai.org/dashboard/profile) page and copy `api-key` that is located on the top of the page to get API key.
+Identifier is `deepai`. Sign up to [DeepAI](https://deepai.org/) official website. Then go to [Profile](https://deepai.org/dashboard/profile) page and copy `api-key` that is located on the top of the page.
+
+### PicPurify
+Identifier is `picpurify`. Sign up to [PicPurify](https://www.picpurify.com/) official website. Then go to [API Keys](https://www.picpurify.com/apikey.html) page and copy `API key` that is located on the top of the page.
 
 ## Inputs
 1. `github_token` - _[Required]_ GitHub token. 
