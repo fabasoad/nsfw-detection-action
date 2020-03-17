@@ -10,6 +10,6 @@ module.exports = (apiKey, file) => request({
     'api-key': apiKey
   },
   formData: {
-    image: fs.createReadStream(file.filename)
+    image: fs.createReadStream(file)
   }
 });

@@ -15,7 +15,7 @@ async function run() {
   try {
     const failures = [];
     const files = await getFiles(core.getInput('type').split(','), core.getInput('extensions').split(','));
-    console.log(files);
+    
     for (const file of files) {
       console.log(file);
       const score = await getScore(core.getInput('api_key'), file);

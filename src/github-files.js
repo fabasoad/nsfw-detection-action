@@ -26,16 +26,9 @@ async function processCommit(commit, types, extensions) {
     files
       .filter(file => types.includes(file.status))
       .map(file => file.filename)
-      .filter(filename => {
-        console.log('filtered2: ', filename);
-        return extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase());
-      })
+      .filter(filename => extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase()))
       .forEach(filename => FILES.add(filename));
   }
 }
 
-
-module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions))).then(() => {
-  console.log('returned', FILES);
-  return FILES;
-});
+module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions))).then(() => FILES);
