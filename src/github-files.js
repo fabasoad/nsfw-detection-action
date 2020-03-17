@@ -18,7 +18,7 @@ const args = { owner: owner.name, repo: repo.name };
 
 async function processCommit(commit, types, extensions) {
   args.ref = commit.id;
-  result = await gh.repos.getCommit(args);
+  const result = await gh.repos.getCommit(args);
 
   if (result && result.data) {
     const files = result.data.files;
