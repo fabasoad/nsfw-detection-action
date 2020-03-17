@@ -19,18 +19,11 @@ async function processCommit(commit, types, extensions) {
   const result = await gh.repos.getCommit(args);
 
   if (result && result.data) {
-    const validators = [() => false];
     const files = result.data.files;
-    if (types.includes('modified')) {
-      validators.push((file) => 'modified' === file.status);
-    }
-    if (types.includes('added')) {
-      validators.push((file) => 'added' === file.status);
-    }
-    console.log('FILES: ', files);
+    
     return files
-      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()))
-      .filter(file => validators.some(v => v(file)));
+      .filter(file => types.includes(file.status))
+      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()));
   }
   throw new Error(`Failed to get commited files. Reason: ${result}`);
 }

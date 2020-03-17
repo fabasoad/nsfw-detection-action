@@ -22,7 +22,7 @@ Sign up to [DeepAI](https://deepai.org/) official website. Then go to [Profile](
 2. `provider` - _[Required]_ Provider identifier.
 3. `api_key` - _[Required]_ API key that should be used for chosen `provider`.
 4. `threshold` - _[Required]_ Action will be failed in case NSFW detection value will be greater or equal to this parameter.
-5. `type` - _[Optional]_ Type of commited files separated by comma. Default: `modified,added`.
+5. `type` - _[Optional]_ Type of commited files separated by comma. Default: `modified,added,renamed`.
 6. `extensions` - _[Optional]_ List of extensions separated by comma. Default: `jpeg,jpg,png,gif,webp,tiff,bmp`.
 
 ## Example usage
