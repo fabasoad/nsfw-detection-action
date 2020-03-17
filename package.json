@@ -18,8 +18,5 @@
     "@actions/github": "^2.1.1",
     "axios": "^0.19.2",
     "form-data": "^3.0.0"
-  },
-  "devDependencies": {
-    "dotenv": "^8.2.0"
   }
 }
