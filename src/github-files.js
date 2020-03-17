@@ -11,28 +11,37 @@ const repo = context.payload.repository;
 const org = repo.organization;
 const owner = org || repo.owner;
 
-const gh = new GitHub(core.getInput('github_token'));
+const FILES = new Set();
+
+const gh = new GitHub(core.getInput('token'));
 const args = { owner: owner.name, repo: repo.name };
 
-async function processCommit(commit, types, extensions) {
+function isAdded(file) {
+  return 'added' === file.status;
+}
+
+function isModified(file) {
+  return 'modified' === file.status;
+}
+
+function isRenamed(file) {
+  return 'renamed' === file.status;
+}
+
+async function processCommit(commit) {
   args.ref = commit.id;
-  const result = await gh.repos.getCommit(args);
+  result = await gh.repos.getCommit(args);
 
   if (result && result.data) {
     const files = result.data.files;
-    console.log('FILES: ');
-    console.log(files);
-    
-    console.table(extensions);
-    console.table(extensions.map(e => e.toLowerCase()));
-    console.table(files.map(file => file.filename.split('').pop().toLowerCase()));
-    const result = files
-      .filter(file => types.includes(file.status))
-      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()));
-    console.log(result);
-    return result;
+
+    files.forEach(file => {
+      isModified(file) && FILES.add(file.filename);
+      isAdded(file) && FILES.add(file.filename);
+      isRenamed(file) && FILES.add(file.filename);
+    });
   }
-  throw new Error(`Failed to get commited files. Reason: ${result}`);
 }
 
-module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions)).filter(c => c.length > 0));
+
+module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions))).then(() => FILES);
