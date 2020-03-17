@@ -20,6 +20,8 @@ async function processCommit(commit, types, extensions) {
 
   if (result && result.data) {
     const files = result.data.files;
+    console.log('FILES: ');
+    console.log(files);
     
     console.table(extensions);
     console.table(extensions.map(e => e.toLowerCase()));
