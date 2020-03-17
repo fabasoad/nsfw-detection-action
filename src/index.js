@@ -11,6 +11,9 @@ async function run() {
     case 'picpurify':
       getScore = require('./providers/picpurify');
       break;
+    case 'sightengine':
+      getScore = require('./providers/sightengine');
+      break;
     default:
       core.setFailed(`${provider} is not supported`);
       return;

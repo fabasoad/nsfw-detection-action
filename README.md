@@ -7,6 +7,7 @@ This action checks each modified and added file with the extensions that is defi
 - [Providers](#providers)
   - [DeepAI](#deepai)
   - [PicPurify](#picpurify)
+  - [SightEngine](#sightengine)
 - [Inputs](#inputs)
 - [Example usage](#example-usage)
 
@@ -17,6 +18,9 @@ Identifier is `deepai`. Sign up to [DeepAI](https://deepai.org/) official websit
 
 ### PicPurify
 Identifier is `picpurify`. Sign up to [PicPurify](https://www.picpurify.com/) official website. Then go to [API Keys](https://www.picpurify.com/apikey.html) page and copy `API key` that is located on the top of the page.
+
+### SightEngine
+Identifier is `sightengine`. Sign up to [SightEngine](https://sightengine.com/) official website. Then go to [Get Started](https://dashboard.sightengine.com/getstarted) page and copy API user and API secret from the examples provided. This provider requires to provide 2 API identifiers, so please put them into `api_key` parameter separated by comma. For example, your `api_user` is _123456_ and `api_secret` is _abcdef_, so `api_key` should be _123456,abcdef_.
 
 ## Inputs
 1. `github_token` - _[Required]_ GitHub token. 
