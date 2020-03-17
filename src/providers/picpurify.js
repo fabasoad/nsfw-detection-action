@@ -9,6 +9,7 @@ module.exports = (apiKey, file) => {
   form.append('file_image', fs.createReadStream(file));
   form.append('API_KEY', apiKey);
   form.append('task', 'porn_moderation,suggestive_nudity_moderation');
+  console.log(form);
 
   return axios
     .post(BASE_URL, form)
