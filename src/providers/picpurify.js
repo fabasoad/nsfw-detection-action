@@ -1,4 +1,4 @@
-const axios = require('axios');
+const got = require('got');
 const FormData = require('form-data');
 const fs = require('fs');
 
@@ -9,17 +9,16 @@ module.exports = (apiKey, file) => {
   form.append('file_image', fs.createReadStream(file));
   form.append('API_KEY', apiKey);
   form.append('task', 'porn_moderation,suggestive_nudity_moderation');
-  console.log(form);
 
-  return axios
-    .post(BASE_URL, form)
-    .then((resp) => {
-        console.log(resp.data);
-        if (resp.data.status !== 'success') {
-            const message = resp.data.error && resp.data.error.errorMsg
-                ? resp.data.error.errorMsg : `Failed to analyze ${file}.`;
-            throw new Error(message);
-        }
-        return resp.data.confidence_score_decision;
+  return got
+    .post(BASE_URL, { body: form })
+    .then(({ body }) => {
+      const resp = JSON.parse(body);
+      if (resp.status !== 'success') {
+        const message = resp.error && resp.error.errorMsg
+          ? resp.error.errorMsg : `Failed to analyze ${file}.`;
+        throw new Error(message);
+      }
+      return resp.confidence_score_decision;
     });
 };

@@ -1,4 +1,4 @@
-const axios = require('axios');
+const got = require('got');
 const FormData = require('form-data');
 const fs = require('fs');
 
@@ -10,8 +10,10 @@ module.exports = (apiKey, file) => {
 
   const headers = form.getHeaders();
   headers['api-key'] = apiKey;
-  return axios
-    .create({ headers: headers })
-    .post(BASE_URL, form)
-    .then((resp) => resp['data']['output']['nsfw_score']);
+  return got
+    .post(BASE_URL, {
+      body: form,
+      headers: headers
+    })
+    .then(({ body }) => JSON.parse(body).output.nsfw_score);
 };
