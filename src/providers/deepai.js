@@ -13,5 +13,8 @@ module.exports = (apiKey, file) => {
   return axios
     .create({ headers: headers })
     .post(BASE_URL, form)
-    .then((resp) => resp['output']['nsfw_score']);
+    .then((resp) => {
+      console.log(resp);
+      return resp['output']['nsfw_score'];
+    });
 };
