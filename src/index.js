@@ -13,19 +13,14 @@ async function run() {
       return;
   }
   try {
-    const failures = [];
     const files = await getFiles(core.getInput('type').split(','), core.getInput('extensions').split(','));
     
     for (const file of files) {
-      console.log(file);
       const score = await getScore(core.getInput('api_key'), file);
       if (score >= core.getInput('threshold')) {
-        failures.push({ file, score });
+        console.table(score);
+        core.setFailed(`"${file}" file with the score ${score} didn't pass the threshold condition.`);
       }
-    }
-    if (failures.length > 0) {
-      const formatted = failures.map(f => `${f.file} (${f.score})`).join(', ');
-      core.setFailed(`The following files didn't pass the threshold condition: ${formatted}.`);
     }
   } catch (e) {
     core.setFailed(e.message);
