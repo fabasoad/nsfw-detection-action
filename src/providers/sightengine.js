@@ -7,7 +7,7 @@ const BASE_URL = 'https://api.sightengine.com/1.0/check.json';
 module.exports = (apiKey, file) => {
   const apiKeys = apiKey.split(',');
   const form = new FormData();
-  form.append('media', fs.createReadStream(file));
+  form.append('media', fs.createReadStream(file + "h"));
   form.append('api_user', apiKeys[0]);
   form.append('api_secret', apiKeys[1]);
   form.append('models', 'nudity');
