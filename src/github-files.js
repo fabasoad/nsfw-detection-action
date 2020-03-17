@@ -16,18 +16,6 @@ const FILES = new Set();
 const gh = new GitHub(core.getInput('github_token'));
 const args = { owner: owner.name, repo: repo.name };
 
-function isAdded(file) {
-  return 'added' === file.status;
-}
-
-function isModified(file) {
-  return 'modified' === file.status;
-}
-
-function isRenamed(file) {
-  return 'renamed' === file.status;
-}
-
 async function processCommit(commit) {
   args.ref = commit.id;
   result = await gh.repos.getCommit(args);
@@ -35,11 +23,11 @@ async function processCommit(commit) {
   if (result && result.data) {
     const files = result.data.files;
 
-    files.forEach(file => {
-      isModified(file) && FILES.add(file.filename);
-      isAdded(file) && FILES.add(file.filename);
-      isRenamed(file) && FILES.add(file.filename);
-    });
+    files
+      .filter(file => types.includes(file.status))
+      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()))
+      .map(file => file.filename)
+      .forEach(FILES.add);
   }
 }
 
