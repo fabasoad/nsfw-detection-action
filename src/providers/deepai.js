@@ -13,6 +13,7 @@ module.exports = (apiKey, file) => {
     data,
     {
       headers: {
+        'Content-Type': 'multipart/form-data',
         'api-key': apiKey
       }
     }
