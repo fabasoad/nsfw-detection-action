@@ -30,10 +30,7 @@ async function processCommit(commit, types, extensions) {
         console.log('filtered2: ', filename);
         return extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase());
       })
-      .forEach(filename => {
-        console.log('added:', filename);
-        FILES.add(filename);
-      });
+      .forEach(FILES.add);
   }
 }
 
