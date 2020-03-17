@@ -13,6 +13,7 @@ module.exports = (apiKey, file) => {
   return axios
     .post(BASE_URL, form)
     .then((resp) => {
+        console.log(resp);
         if (resp.status !== 'success') {
             const message = resp.error && resp.error.errorMsg
                 ? resp.error.errorMsg : `Failed to analyze ${file}.`;
