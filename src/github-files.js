@@ -26,8 +26,14 @@ async function processCommit(commit, types, extensions) {
     files
       .filter(file => types.includes(file.status))
       .map(file => file.filename)
-      .filter(filename => extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase()))
-      .forEach(FILES.add);
+      .filter(filename => {
+        console.log('filtered2: ', filename);
+        return extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase());
+      })
+      .forEach(filename => {
+        console.log('added:', filename);
+        FILES.add(filename);
+      });
   }
 }
 
