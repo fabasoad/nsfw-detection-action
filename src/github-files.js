@@ -1,8 +1,8 @@
 /**
-This file is part of "GitHub Action: Get Changed Files" which is released under MIT license.
+This file is part of "GitHub Action: Get Changed Files" project which is released under MIT license.
 See file https://github.com/lots0logs/gh-action-get-changed-files/blob/master/main.js or go to https://github.com/lots0logs/gh-action-get-changed-files/ for full license details.
 It was modified a bit to fit project needs.
- */
+**/
 const { context, GitHub } = require('@actions/github');
 const core = require('@actions/core');
 
@@ -14,14 +14,6 @@ const owner = org || repo.owner;
 const gh = new GitHub(core.getInput('github_token'));
 const args = { owner: owner.name, repo: repo.name };
 
-function isAdded(file) {
-  return 'added' === file.status;
-}
-
-function isModified(file) {
-  return 'modified' === file.status;
-}
-
 async function processCommit(commit, types, extensions) {
   args.ref = commit.id;
   const result = await gh.repos.getCommit(args);
@@ -30,12 +22,12 @@ async function processCommit(commit, types, extensions) {
     const validators = [() => false];
     const files = result.data.files;
     if (types.includes('modified')) {
-      validators.push(isModified);
+      validators.push((file) => 'modified' === file.status);
     }
     if (types.includes('added')) {
-      validators.push(isAdded);
+      validators.push((file) => 'added' === file.status);
     }
-    
+    console.log('FILES: ', files);
     return files
       .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()))
       .filter(file => validators.some(v => v(file)));
