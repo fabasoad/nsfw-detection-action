@@ -13,7 +13,7 @@ const owner = org || repo.owner;
 
 const FILES = new Set();
 
-const gh = new GitHub(core.getInput('token'));
+const gh = new GitHub(core.getInput('github_token'));
 const args = { owner: owner.name, repo: repo.name };
 
 function isAdded(file) {
