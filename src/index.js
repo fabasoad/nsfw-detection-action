@@ -17,9 +17,9 @@ async function run() {
     
     for (const file of files) {
       const score = await getScore(core.getInput('api_key'), file);
-      if (score >= core.getInput('threshold')) {
-        console.table(score);
-        core.setFailed(`"${file}" file with the score ${score} didn't pass the threshold condition.`);
+      const threshold = core.getInput('threshold');
+      if (score >= threshold) {
+        core.setFailed(`"${file}" file has been detected as NSFW content. Condition: ${score} >= ${threshold}.`);
       }
     }
   } catch (e) {
