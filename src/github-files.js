@@ -21,6 +21,9 @@ async function processCommit(commit, types, extensions) {
   if (result && result.data) {
     const files = result.data.files;
     
+    console.log(types);
+    console.log(files);
+    console.log(files.filter(file => types.includes(file.status)));
     return files
       .filter(file => types.includes(file.status))
       .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()));
