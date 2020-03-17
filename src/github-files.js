@@ -24,7 +24,7 @@ function isModified(file) {
 
 async function processCommit(commit, types, extensions) {
   args.ref = commit.id;
-  result = await gh.repos.getCommit(args);
+  const result = await gh.repos.getCommit(args);
 
   if (result && result.data) {
     const validators = [() => false];
