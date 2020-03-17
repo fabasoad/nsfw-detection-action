@@ -15,12 +15,9 @@ module.exports = (apiKey, file) => {
   return got
     .post(BASE_URL, { body: form })
     .then(({ body }) => {
-      console.log(body);
       const resp = JSON.parse(body);
       if (resp.status !== 'success') {
-        const message = resp.error && resp.error.errorMsg
-          ? resp.error.errorMsg : `Failed to analyze ${file}.`;
-        throw new Error(message);
+        throw new Error(`Failed to analyze ${file}.`);
       }
       return resp.nudity.raw;
     });
