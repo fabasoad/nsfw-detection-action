@@ -21,12 +21,14 @@ async function processCommit(commit, types, extensions) {
   if (result && result.data) {
     const files = result.data.files;
     
-    console.log(types);
-    console.log(files);
-    console.log(files.filter(file => types.includes(file.status)));
-    return files
+    console.table(extensions);
+    console.table(extensions.map(e => e.toLowerCase()));
+    console.table(files.map(file => file.filename.split('').pop().toLowerCase()));
+    const result = files
       .filter(file => types.includes(file.status))
       .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()));
+    console.log(result);
+    return result;
   }
   throw new Error(`Failed to get commited files. Reason: ${result}`);
 }
