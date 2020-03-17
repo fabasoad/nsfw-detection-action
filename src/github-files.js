@@ -16,7 +16,7 @@ const FILES = new Set();
 const gh = new GitHub(core.getInput('github_token'));
 const args = { owner: owner.name, repo: repo.name };
 
-async function processCommit(commit) {
+async function processCommit(commit, types, extensions) {
   args.ref = commit.id;
   result = await gh.repos.getCommit(args);
 
