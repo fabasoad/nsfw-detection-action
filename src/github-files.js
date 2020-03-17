@@ -25,11 +25,14 @@ async function processCommit(commit, types, extensions) {
 
     files
       .filter(file => types.includes(file.status))
-      .filter(file => extensions.map(e => e.toLowerCase()).includes(file.filename.split('.').pop().toLowerCase()))
       .map(file => file.filename)
+      .filter(filename => extensions.map(e => e.toLowerCase()).includes(filename.split('.').pop().toLowerCase()))
       .forEach(FILES.add);
   }
 }
 
 
-module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions))).then(() => FILES);
+module.exports = (types, extensions) => Promise.all(commits.map(c => processCommit(c, types, extensions))).then(() => {
+  console.log('returned', FILES);
+  return FILES;
+});
