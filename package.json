@@ -13,7 +13,8 @@
     "url": "https://github.com/fabasoad/nsfw-detection-action/issues"
   },
   "scripts": {
-    "test": "mocha --timeout 10000 src/providers/test"
+    "test": "./node_modules/mocha/bin/_mocha --timeout 10000 src/providers/test",
+    "test:local": "mocha --timeout 10000 src/providers/test"
   },
   "homepage": "https://github.com/fabasoad/nsfw-detection-action#readme",
   "dependencies": {
