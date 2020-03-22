@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
+      - name: Define API Keys
+        run: |
+          export CLOUDMERSIVE_API_KEY=${{ secrets.CLOUDMERSIVE_API_KEY }}
+          export DEEPAI_API_KEY=${{ secrets.DEEPAI_API_KEY }}
+          export PICPURIFY_API_KEY=${{ PICPURIFY_API_KEY }}
+          export SIGHTENGINE_API_KEY=${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
       - uses: Adzz/jest_test_action@v1.0.0
         with:
           package-manager: npm
