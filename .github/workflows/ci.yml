@@ -9,4 +9,5 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: anna-money/github-actions-npm@v1
+      - name: Run tests
+        run: npm test
