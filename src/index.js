@@ -5,6 +5,9 @@ async function run() {
   const provider = core.getInput('provider');
   let getScore;
   switch (provider) {
+    case 'cloudmersive':
+      getScore = require('./providers/cloudmersive');
+      break;
     case 'deepai':
       getScore = require('./providers/deepai');
       break;
