@@ -18,8 +18,8 @@ module.exports = [{
   provider: 'picpurify',
   apiKey: process.env.PICPURIFY_API_KEY,
   threshold: {
-    positive: 0.637,
-    negative: 0.638
+    positive: 0.967,
+    negative: 0.968
   }
 }, {
   provider: 'sightengine',
