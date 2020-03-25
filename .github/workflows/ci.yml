@@ -9,14 +9,12 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - name: Define API Keys
-        run: |
-          touch .env
-          echo "CLOUDMERSIVE_API_KEY=${{ secrets.CLOUDMERSIVE_API_KEY }}" >> .env
-          echo "DEEPAI_API_KEY=${{ secrets.DEEPAI_API_KEY }}" >> .env
-          echo "PICPURIFY_API_KEY=${{ secrets.PICPURIFY_API_KEY }}" >> .env
-          echo "SIGHTENGINE_API_KEY=${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}" >> .env
       - uses: Adzz/jest_test_action@v1.0.0
+        env:
+          CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+          DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
+          PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
+          SIGHTENGINE_API_KEY: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
         with:
           package-manager: npm
           command: test
