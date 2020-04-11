@@ -1,5 +1,6 @@
 ---
 name: 'NSFW Detection Action'
+author: Yevhen Fabizhevskyi
 description: 'This GitHub action detects NSFW content in commited files.'
 branding:
   icon: alert-octagon
