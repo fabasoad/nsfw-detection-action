@@ -12,6 +12,11 @@
   "bugs": {
     "url": "https://github.com/fabasoad/nsfw-detection-action/issues"
   },
+  "keywords": [
+    "actions",
+    "nsfw",
+    "ai"
+  ],
   "scripts": {
     "build": "ncc build -m src/index.js",
     "test": "mocha --timeout 10000 __tests__"
