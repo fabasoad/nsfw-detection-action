@@ -1,0 +1,26 @@
+---
+name: CI (latest)
+
+on: push
+  # push:
+  #   tags:
+  #     - 'v*.*.*'
+
+jobs:
+  tests:
+    name: Tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+        with:
+          ref: v1.3.1 # ${{ github.ref }}
+      - uses: Adzz/jest_test_action@v1.0.0
+        env:
+          CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+          DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
+          PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
+          SIGHTENGINE_API_KEY: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+        with:
+          package-manager: npm
+          command: test

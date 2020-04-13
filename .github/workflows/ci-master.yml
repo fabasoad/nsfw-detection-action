@@ -1,14 +1,21 @@
 ---
-name: CI
+name: CI (master)
 
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   tests:
     name: Tests
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.1.0
       - uses: Adzz/jest_test_action@v1.0.0
         env:
           CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
