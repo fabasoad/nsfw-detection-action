@@ -10,7 +10,7 @@ jobs:
   lint:
     name: Lint
     timeout-minutes: 3
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
       - uses: ibiqlik/action-yamllint@v1.0.0

@@ -27,12 +27,14 @@ Identifier is `picpurify`. Sign up to [PicPurify](https://www.picpurify.com/) of
 Identifier is `sightengine`. Sign up to [SightEngine](https://sightengine.com/) official website. Then go to [Get Started](https://dashboard.sightengine.com/getstarted) page and copy API user and API secret from the examples provided. This provider requires to provide 2 API identifiers, so please put them into `api_key` parameter separated by comma. For example, your `api_user` is _123456_ and `api_secret` is _abcdef_, so `api_key` should be _123456,abcdef_.
 
 ## Inputs
-1. `github_token` - _[Required]_ GitHub token. 
-2. `provider` - _[Required]_ Provider identifier.
-3. `api_key` - _[Required]_ API key that should be used for chosen `provider`.
-4. `threshold` - _[Required]_ Action will be failed in case NSFW detection value will be greater or equal to this parameter.
-5. `type` - _[Optional]_ Type of commited files separated by comma. Default: `modified,added,renamed`.
-6. `extensions` - _[Optional]_ List of extensions separated by comma. Default: `jpeg,jpg,png,gif,webp,tiff,bmp`.
+| Name         | Required | Description                                                                                   | Default                        | Possible values                |
+|--------------|----------|-----------------------------------------------------------------------------------------------|--------------------------------|--------------------------------|
+| github_token | Yes      | GitHub token                                                                                  |                                | &lt;String&gt;                 |
+| provider     | Yes      | Provider identifier                                                                           |                                | &lt;String&gt;                 |
+| api_key      | Yes      | API key that should be used for chosen `provider`                                             |                                | &lt;String&gt;                 |
+| threshold    | Yes      | Action will be failed in case NSFW detection value will be greater or equal to this parameter |                                | &lt;Float&gt;                  |
+| type         | No       | Type of commited files separated by comma                                                     | modified,added,renamed         | modified,added,renamed         |
+| extensions   | No       | List of file extensions separated by comma                                                    | jpeg,jpg,png,gif,webp,tiff,bmp | jpeg,jpg,png,gif,webp,tiff,bmp |
 
 ## Example usage
 
@@ -49,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: fabasoad/nsfw-detection-action@v1.3.1
+      - uses: fabasoad/nsfw-detection-action@master
         with:
           provider: deepai
           threshold: 0.9
