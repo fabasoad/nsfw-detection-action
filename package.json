@@ -25,17 +25,17 @@
   },
   "homepage": "https://github.com/fabasoad/nsfw-detection-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.3",
-    "@actions/github": "^2.1.1",
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^4.0.0",
     "form-data": "^3.0.0",
-    "got": "^11.0.2",
-    "snyk": "^1.316.0"
+    "got": "^11.5.1",
+    "snyk": "^1.364.2"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22.1",
+    "@zeit/ncc": "^0.22.3",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "mocha": "^7.1.2",
+    "mocha": "^8.0.1",
     "mocha-param": "^2.0.1"
   },
   "snyk": true
