@@ -28,14 +28,14 @@
     "@actions/core": "^1.2.4",
     "@actions/github": "^4.0.0",
     "form-data": "^3.0.0",
-    "got": "^11.5.1",
-    "snyk": "^1.364.2"
+    "got": "^11.5.2",
+    "snyk": "^1.373.1"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "mocha": "^8.0.1",
+    "mocha": "^8.1.1",
     "mocha-param": "^2.0.1"
   },
   "snyk": true
