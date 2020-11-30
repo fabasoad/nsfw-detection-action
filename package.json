@@ -46,7 +46,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "git-branch-is -r \"^((?!main).)*$\" && yarn run build && git add dist/index.js",
-      "pre-push": "yarn run lint && yarn test"
+      "pre-push": "yarn test"
     }
   }
 }
