@@ -13,8 +13,8 @@ module.exports = (apiKey, file) => {
   form.append('models', 'nudity');
 
   return got
-    .post(BASE_URL, { body: form })
-    .then(({ body }) => {
+    .post(BASE_URL, {body: form})
+    .then(({body}) => {
       const resp = JSON.parse(body);
       if (resp.status !== 'success') {
         throw new Error(`Failed to analyze ${file}.`);

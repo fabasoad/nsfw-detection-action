@@ -11,12 +11,12 @@ module.exports = (apiKey, file) => {
   form.append('task', 'porn_moderation,suggestive_nudity_moderation');
 
   return got
-    .post(BASE_URL, { body: form })
-    .then(({ body }) => {
+    .post(BASE_URL, {body: form})
+    .then(({body}) => {
       const resp = JSON.parse(body);
       if (resp.status !== 'success') {
-        const message = resp.error && resp.error.errorMsg
-          ? resp.error.errorMsg : `Failed to analyze ${file}.`;
+        const message = resp.error && resp.error.errorMsg ?
+          resp.error.errorMsg : `Failed to analyze ${file}.`;
         throw new Error(message);
       }
       return resp.confidence_score_decision;
