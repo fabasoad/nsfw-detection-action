@@ -5,23 +5,48 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+      - 'bugfix/**'
+      - 'feature/**'
 
 jobs:
-  tests:
-    name: Tests
-    timeout-minutes: 5
+  unit_tests:
+    name: Unit tests
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    env:
+      CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+      DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
+      PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
+      SIGHTENGINE_API_KEY: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
     steps:
-      - uses: actions/checkout@v2.3.3
-      - uses: Adzz/jest_test_action@v1.0.0
-        env:
-          CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
-          DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
-          PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
-          SIGHTENGINE_API_KEY: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+      - uses: actions/checkout@v2.3.4
         with:
-          package-manager: npm
-          command: test
+          ref: ${{ github.ref }}
+      - name: Cache node_modules
+        id: yarn-cache
+        uses: actions/cache@v2.1.3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Compile
+        if: ${{ steps.yarn-cache.outputs.cache-hit != 'true' }}
+        run: yarn install
+      - name: Lint
+        run: yarn run lint
+      - name: Security tests
+        run: |
+          yarn run security:auth ${{ secrets.SNYK_API_TOKEN }}
+          yarn run security:test
+      - name: Unit tests
+        run: yarn run test
+        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
+      - name: Unit tests with coverage
+        uses: paambaati/codeclimate-action@v2.7.4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: yarn run test
+          debug: true
