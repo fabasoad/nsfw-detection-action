@@ -41,10 +41,10 @@ jobs:
           yarn run security:test
       - name: Unit tests
         run: yarn run test
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
       - name: Unit tests with coverage
         uses: paambaati/codeclimate-action@v2.7.4
-        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
