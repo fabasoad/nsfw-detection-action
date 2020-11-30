@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - main
-      - 'bugfix/**'
-      - 'feature/**'
+      - "bugfix/**"
+      - "feature/**"
 
 jobs:
   unit_tests:
@@ -26,7 +26,7 @@ jobs:
         id: yarn-cache
         uses: actions/cache@v2.1.3
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
@@ -41,10 +41,10 @@ jobs:
           yarn run security:test
       - name: Unit tests
         run: yarn run test
-        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       - name: Unit tests with coverage
         uses: paambaati/codeclimate-action@v2.7.4
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:

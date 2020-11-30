@@ -13,7 +13,7 @@ module.exports = (apiKey, file) => {
   return got
     .post(BASE_URL, {
       body: form,
-      headers: headers
+      headers: headers,
     })
-    .then(({ body }) => JSON.parse(body).output.nsfw_score);
+    .then(({body}) => JSON.parse(body).output.nsfw_score);
 };
