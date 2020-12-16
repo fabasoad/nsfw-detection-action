@@ -1,4 +1,5 @@
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .env
 .nyc_output
 node_modules
