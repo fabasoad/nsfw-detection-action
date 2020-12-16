@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "build": "ncc build -m src/index.js",
-    "lint": "eslint \"{src,__tests__}/**/*.js\"",
+    "lint": "eslint src __tests__",
     "security:auth": "snyk auth",
     "security:test": "snyk test",
     "test": "nyc mocha --timeout 10000 __tests__",

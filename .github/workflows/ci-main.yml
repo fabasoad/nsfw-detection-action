@@ -11,6 +11,9 @@ on:
     branches:
       - "bump/patch-**"
 
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
 jobs:
   unit_tests:
     name: Unit tests
