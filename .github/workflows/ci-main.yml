@@ -7,6 +7,9 @@ on:
       - main
       - "bugfix/**"
       - "feature/**"
+  pull_request:
+    branches:
+      - "bump/patch-**"
 
 jobs:
   unit_tests:
@@ -41,7 +44,7 @@ jobs:
           yarn run security:test
       - name: Unit tests
         run: yarn run test
-        if: startsWith(github.ref, 'refs/heads/bugfix/') || startsWith(github.ref, 'refs/heads/feature/')
+        if: github.ref != 'refs/heads/main'
       - name: Unit tests with coverage
         uses: paambaati/codeclimate-action@v2.7.4
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
