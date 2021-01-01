@@ -57,7 +57,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@main
       - uses: fabasoad/nsfw-detection-action@main
         with:
           provider: deepai
@@ -70,4 +70,4 @@ jobs:
 
 ### Result
 
-![Result](https://raw.githubusercontent.com/fabasoad/nsfw-detection-action/main/screenshot.png)
+![Result](screenshot.png)

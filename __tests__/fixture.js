@@ -4,28 +4,29 @@ module.exports = [{
   provider: 'cloudmersive',
   apiKey: process.env.CLOUDMERSIVE_API_KEY,
   threshold: {
-    positive: 0.314,
-    negative: 0.315,
+    positive: 0.31,
+    negative: 0.32,
   },
 }, {
   provider: 'deepai',
   apiKey: process.env.DEEPAI_API_KEY,
   threshold: {
-    positive: 0.395,
-    negative: 0.396,
+    positive: 0.37,
+    negative: 0.38,
   },
 }, {
   provider: 'picpurify',
   apiKey: process.env.PICPURIFY_API_KEY,
   threshold: {
-    positive: 0.967,
-    negative: 0.968,
+    positive: 0.96,
+    negative: 0.97,
   },
 }, {
   provider: 'sightengine',
-  apiKey: process.env.SIGHTENGINE_API_KEY,
+  apiKey: process.env.SIGHTENGINE_API_USER +
+    ',' + process.env.SIGHTENGINE_API_SECRET,
   threshold: {
-    positive: 0.448,
-    negative: 0.449,
+    positive: 0.44,
+    negative: 0.45,
   },
 }];
