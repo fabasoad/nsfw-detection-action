@@ -10,6 +10,7 @@
     "UNSECURE",
     "brainfuck",
     "camelcase",
+    "markdownlint",
     "vercel"
   ]
 }
