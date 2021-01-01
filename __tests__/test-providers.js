@@ -1,6 +1,6 @@
 const stream = require('stream');
-const {promisify} = require('util');
-const {assert} = require('chai');
+const { promisify } = require('util');
+const { assert } = require('chai');
 const fs = require('fs');
 const got = require('got');
 const itParam = require('mocha-param');
@@ -19,19 +19,23 @@ describe('Test NSFW detection', () => {
     );
   });
 
-  itParam('${value.provider} should detect NSFW content',
-    fixture, async (arg) => {
-      const getScore = require(`../src/providers/${arg.provider}`);
-      const score = await getScore(arg.apiKey, filePath);
-      assert.isTrue(score >= arg.threshold.positive);
-    });
+  const scoreRetriever = async (arg, assertCondition) => {
+    const getScore = require(`../src/providers/${arg.provider}`);
+    const score = await getScore(arg.apiKey, filePath);
+    assertCondition(score, arg.threshold);
+  };
 
-  itParam('${value.provider} should not detect NSFW content',
-    fixture, async (arg) => {
-      const getScore = require(`../src/providers/${arg.provider}`);
-      const score = await getScore(arg.apiKey, filePath);
-      assert.isTrue(score < arg.threshold.negative);
-    });
+  itParam(
+    '${value.provider} should detect NSFW content',
+    fixture,
+    async (arg) => scoreRetriever(arg, (s, t) => assert.isAbove(s, t.positive)),
+  );
+
+  itParam(
+    '${value.provider} should not detect NSFW content',
+    fixture,
+    async (arg) => scoreRetriever(arg, (s, t) => assert.isBelow(s, t.negative)),
+  );
 
   after(() => fs.unlinkSync(filePath));
 });
