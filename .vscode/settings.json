@@ -1,5 +1,9 @@
 {
   "files.eol": "\n",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.eslint": false
+  },
   "editor.formatOnSave": true,
   "editor.tabSize": 2,
   "javascript.validate.enable": false,
