@@ -23,7 +23,8 @@ module.exports = [{
   },
 }, {
   provider: 'sightengine',
-  apiKey: `${process.env.SIGHTENGINE_API_USER},${process.env.SIGHTENGINE_API_SECRET}`,
+  apiKey: process.env.SIGHTENGINE_API_USER +
+    ',' + process.env.SIGHTENGINE_API_SECRET,
   threshold: {
     positive: 0.44,
     negative: 0.45,

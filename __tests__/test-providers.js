@@ -1,6 +1,6 @@
 const stream = require('stream');
-const { promisify } = require('util');
-const { assert } = require('chai');
+const {promisify} = require('util');
+const {assert} = require('chai');
 const fs = require('fs');
 const got = require('got');
 const itParam = require('mocha-param');

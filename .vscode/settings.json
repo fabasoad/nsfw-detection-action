@@ -11,7 +11,10 @@
     "brainfuck",
     "camelcase",
     "cloudmersive",
+    "deepai",
     "markdownlint",
+    "picpurify",
+    "sightengine",
     "vercel"
   ]
 }
