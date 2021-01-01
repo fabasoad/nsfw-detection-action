@@ -23,7 +23,8 @@ jobs:
       CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
       DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
       PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
-      SIGHTENGINE_API_KEY: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+      SIGHTENGINE_API_USER: ${{ secrets.SIGHTENGINE_API_USER }}
+      SIGHTENGINE_API_SECRET: ${{ secrets.SIGHTENGINE_API_SECRET }}
     steps:
       - uses: actions/checkout@v2.3.4
         with:
