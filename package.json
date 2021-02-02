@@ -20,8 +20,8 @@
   "scripts": {
     "build": "ncc build -m src/index.js",
     "lint:md": "markdownlint --config .markdownlint.yml '**/*.md'",
-    "lint:js": "eslint src __tests__",
-    "lint": "yarn run lint:md && yarn run lint:js",
+    "lint:es": "eslint src __tests__",
+    "lint": "yarn run lint:md && yarn run lint:es",
     "postinstall": "yarn husky install",
     "prepare": "yarn run snyk-protect",
     "security:auth": "snyk auth",
