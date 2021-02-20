@@ -15,10 +15,13 @@
     "brainfuck",
     "camelcase",
     "cloudmersive",
+    "codeql",
     "deepai",
     "markdownlint",
     "picpurify",
+    "semver",
     "sightengine",
+    "simbo",
     "vercel"
   ]
 }
