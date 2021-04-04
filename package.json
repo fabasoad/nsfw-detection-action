@@ -35,7 +35,7 @@
     "@actions/github": "4.0.0",
     "form-data": "4.0.0",
     "got": "11.8.2",
-    "snyk": "1.520.0"
+    "snyk": "1.522.0"
   },
   "devDependencies": {
     "@vercel/ncc": "0.27.0",
