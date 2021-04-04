@@ -4,9 +4,10 @@ name: Unit Tests
 on:
   push:
     branches:
-      - main
-      - "bugfix/**"
-      - "feature/**"
+      - 'main'
+      - 'bugfix/**'
+      - 'bump/patch-*'
+      - 'feature/**'
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
