@@ -26,7 +26,7 @@ module.exports = [{
   apiKey: process.env.SIGHTENGINE_API_USER +
     ',' + process.env.SIGHTENGINE_API_SECRET,
   threshold: {
-    positive: 0.74,
+    positive: 0.73,
     negative: 0.75,
   },
 }];
