@@ -1,10 +1,10 @@
-const stream = require('stream');
-const { promisify } = require('util');
-const { assert } = require('chai');
-const fs = require('fs');
-const got = require('got');
-const itParam = require('mocha-param');
-const fixture = require('./fixture');
+import stream from 'stream';
+import { promisify } from 'util';
+import { assert } from 'chai';
+import fs from 'fs';
+import got from 'got';
+import itParam from 'mocha-param';
+import fixture from './fixture';
 
 const IMAGE_URL = 'https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg';
 
@@ -12,7 +12,7 @@ describe('Test NSFW detection', () => {
   const pipeline = promisify(stream.pipeline);
   const filePath = 'fiR75VM78Yviy3.jpg';
 
-  before(async () => {
+  beforeAll(async () => {
     await pipeline(
       got.stream(IMAGE_URL),
       fs.createWriteStream(filePath),
@@ -37,5 +37,5 @@ describe('Test NSFW detection', () => {
     async (arg) => scoreRetriever(arg, (s, t) => assert.isBelow(s, t.negative)),
   );
 
-  after(() => fs.unlinkSync(filePath));
+  afterAll(() => fs.unlinkSync(filePath));
 });

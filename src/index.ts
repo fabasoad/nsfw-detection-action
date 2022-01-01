@@ -1,5 +1,5 @@
-const core = require('@actions/core');
-const getFiles = require('./github-files');
+import core from '@actions/core';
+import getFiles from './github-files';
 
 async function run() {
   const provider = core.getInput('provider');
@@ -23,7 +23,8 @@ async function run() {
   }
   try {
     const files = await getFiles(
-      core.getInput('type').split(','), core.getInput('extensions').split(','));
+        core.getInput('type').split(','),
+        core.getInput('extensions').split(','));
 
     for (const file of files) {
       const score = await getScore(core.getInput('api_key'), file);
@@ -34,7 +35,7 @@ async function run() {
       }
     }
   } catch (e) {
-    core.setFailed(e.message);
+    core.setFailed((<Error>e).message);
   }
 }
 

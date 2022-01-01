@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-module.exports = [{
+export default [{
   provider: 'cloudmersive',
   apiKey: process.env.CLOUDMERSIVE_API_KEY,
   threshold: {
