@@ -12,7 +12,7 @@ module.exports = [{
   apiKey: process.env.DEEPAI_API_KEY,
   threshold: {
     positive: 0.37,
-    negative: 0.38,
+    negative: 0.39,
   },
 }, {
   provider: 'picpurify',
