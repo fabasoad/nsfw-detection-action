@@ -5,12 +5,8 @@ on:
   push:
     branches:
       - 'main'
-      - 'bugfix/**'
-      - 'dependabot/*'
-      - 'feature/**'
-
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - 'bugfix-*'
+      - 'feature-*'
 
 jobs:
   unit_tests:
@@ -24,10 +20,10 @@ jobs:
       SIGHTENGINE_API_USER: ${{ secrets.SIGHTENGINE_API_USER }}
       SIGHTENGINE_API_SECRET: ${{ secrets.SIGHTENGINE_API_SECRET }}
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Cache node_modules
         id: cache
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
