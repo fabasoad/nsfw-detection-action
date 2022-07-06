@@ -1,4 +1,4 @@
-import fetch, { RequestInit } from 'node-fetch'
+import fetch, { RequestInit } from 'node-fetch';
 
 export default class HttpClient {
   public request<TResponse>(
@@ -6,6 +6,6 @@ export default class HttpClient {
   ): Promise<TResponse> {
     return fetch(url, init)
       .then((resp) => resp.json())
-      .then((data) => data as TResponse)
+      .then((data) => data as TResponse);
   }
 }

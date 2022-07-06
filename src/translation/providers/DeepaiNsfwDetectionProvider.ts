@@ -1,10 +1,10 @@
-import FormData from 'form-data'
-import fs from 'fs'
+import FormData from 'form-data';
+import fs from 'fs';
 import NsfwDetectionProviderBase from './NsfwDetectionProviderBase';
 
 type DeepaiResponse = {
   output: {
-    nsfw_score: number
+    nsfw_score: number;
   }
 }
 
@@ -20,7 +20,7 @@ export class DeepaiNsfwDetectionProvider extends NsfwDetectionProviderBase {
     const headers = body.getHeaders();
     headers['api-key'] = apiKey;
 
-    const resp = await this.request<DeepaiResponse>(body, headers)
-    return resp.output.nsfw_score
+    const resp = await this.request<DeepaiResponse>(body, headers);
+    return resp.output.nsfw_score;
   }
 }

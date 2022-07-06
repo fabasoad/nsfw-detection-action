@@ -1,6 +1,6 @@
-import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
-import HttpClient from '../../utils/HttpClient'
-import FormData from 'form-data'
+import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory';
+import HttpClient from '../../utils/HttpClient';
+import FormData from 'form-data';
 import { RequestInit } from 'node-fetch';
 import { PathLike } from 'fs';
 
@@ -15,12 +15,12 @@ implements INsfwDetectionProvider {
   protected request<TResponse>(
     body: FormData, headers?: FormData.Headers
   ): Promise<TResponse> {
-    const client = new HttpClient()
-    const init: RequestInit = { body }
+    const client = new HttpClient();
+    const init: RequestInit = { body };
     if (headers) {
-      init['headers'] = headers
+      init['headers'] = headers;
     }
-    return client.request<TResponse>(this.baseUrl, init)
+    return client.request<TResponse>(this.baseUrl, init);
   }
 
   abstract getScore(apiKey: string, file: PathLike): Promise<number>

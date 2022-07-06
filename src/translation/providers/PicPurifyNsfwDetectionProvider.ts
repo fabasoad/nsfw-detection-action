@@ -12,7 +12,7 @@ type PicPurifyResponse = {
 
 export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
   constructor() {
-    super('https://www.picpurify.com/analyse/1.1')
+    super('https://www.picpurify.com/analyse/1.1');
   }
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {

@@ -12,7 +12,7 @@ type SightEngineResponse = {
 export class SightEngineNsfwDetectionProvider
   extends NsfwDetectionProviderBase {
   constructor() {
-    super('https://api.sightengine.com/1.0/check.json')
+    super('https://api.sightengine.com/1.0/check.json');
   }
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
@@ -23,7 +23,7 @@ export class SightEngineNsfwDetectionProvider
     body.append('api_secret', apiKeys[1]);
     body.append('models', 'nudity');
 
-    const resp = await this.request<SightEngineResponse>(body)
+    const resp = await this.request<SightEngineResponse>(body);
     if (resp.status !== 'success') {
       throw new Error(`Failed to analyze ${file}.`);
     }
