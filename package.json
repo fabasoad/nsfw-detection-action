@@ -18,26 +18,30 @@
     "ai"
   ],
   "scripts": {
-    "build": "ncc build -m src/index.js",
-    "lint": "eslint src __tests__",
+    "build": "ncc build -m src/index.ts",
+    "lint": "eslint src",
     "postinstall": "pre-commit install --hook-type pre-commit && pre-commit install --hook-type pre-push",
-    "test": "nyc mocha --timeout 10000 __tests__"
+    "test": "jest --config=jest.config.json --coverage"
   },
   "homepage": "https://github.com/fabasoad/nsfw-detection-action#readme",
   "dependencies": {
     "@actions/core": "1.9.0",
     "@actions/github": "5.0.3",
-    "form-data": "4.0.0",
-    "got": "12.1.0"
+    "@octokit/webhooks-definitions": "3.68.1",
+    "form-data": "4.0.0"
   },
   "devDependencies": {
+    "@types/jest": "28.1.4",
+    "@typescript-eslint/eslint-plugin": "5.30.5",
+    "@typescript-eslint/parser": "5.30.5",
     "@vercel/ncc": "0.34.0",
-    "chai": "4.3.6",
     "dotenv": "16.0.1",
     "eslint": "8.19.0",
     "eslint-config-google": "0.14.0",
-    "mocha": "10.0.0",
+    "jest": "28.1.2",
     "mocha-param": "2.0.1",
-    "nyc": "15.1.0"
+    "node-fetch": "4.0.0-beta.4",
+    "ts-jest": "28.0.5",
+    "typescript": "4.7.4"
   }
 }

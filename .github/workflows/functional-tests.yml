@@ -1,0 +1,44 @@
+---
+name: Functional Tests
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'fix-*'
+      - 'dependabot/**'
+      - 'feature-*'
+
+jobs:
+  cloudmersive:
+    name: Cloudmersive Tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - provider: cloudmersive
+            api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+            threshold: 0.31
+          - provider: deepai
+            api_key: ${{ secrets.DEEPAI_API_KEY }}
+            threshold: 0.37
+          - provider: picpurify
+            api_key: ${{ secrets.PICPURIFY_API_KEY }}
+            threshold: 0.96
+          - provider: sightengine
+            api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+            threshold: 0.73
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test file
+        run: |
+          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+          git add test.jpg
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: ${{ matrix.provider }}
+          api_key: ${{ matrix.api_key }}
+          threshold: ${{ matrix.threshold }}
+          type: added
