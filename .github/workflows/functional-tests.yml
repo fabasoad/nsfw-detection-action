@@ -18,16 +18,16 @@ jobs:
       matrix:
         include:
           - provider: cloudmersive
-            api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+            api_key: "${{ secrets.CLOUDMERSIVE_API_KEY }}"
             threshold: 0.31
           - provider: deepai
-            api_key: ${{ secrets.DEEPAI_API_KEY }}
+            api_key: "${{ secrets.DEEPAI_API_KEY }}"
             threshold: 0.37
           - provider: picpurify
-            api_key: ${{ secrets.PICPURIFY_API_KEY }}
+            api_key: "${{ secrets.PICPURIFY_API_KEY }}"
             threshold: 0.96
           - provider: sightengine
-            api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+            api_key: "${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}"
             threshold: 0.73
     steps:
       - uses: actions/checkout@v3
