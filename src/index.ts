@@ -1,14 +1,15 @@
-// import { getInput, setFailed, error, warning, info } from '@actions/core'
-// import {
-//   NsfwDetectionProviderFactory
-// } from './translation/NsfwDetectionProviderFactory'
+import { getInput } from '@actions/core'
+import {
+  NsfwDetectionProviderFactory
+} from './translation/NsfwDetectionProviderFactory'
 // import { GitHubUtils } from './utils/GitHubUtils'
 
 async function run() {
   // try {
   //   const threshold = Number(getInput('threshold'))
-  //   const provider =
-  //       NsfwDetectionProviderFactory.getProvider(getInput('provider'))
+    const provider =
+        NsfwDetectionProviderFactory.getProvider(getInput('provider'))
+  console.log(provider.constructor.name)
   //   const files: Set<string> = await GitHubUtils.getChangedFiles(
   //     getInput('github_token'),
   //     getInput('type').split(','),
