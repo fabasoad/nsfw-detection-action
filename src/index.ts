@@ -27,7 +27,7 @@ async function run() {
       } else if (result > 5) {
         info(`[INFO   ] File is safe to be used. ${output}`)
       } else {
-        warning(`[WARNING] File is closed to be detected as NSFW. ${output}`)
+        warning(`[WARNING] File is close to be detected as NSFW. ${output}`)
       }
     }
     if (count > 0) {

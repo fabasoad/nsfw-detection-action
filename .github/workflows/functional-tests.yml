@@ -32,7 +32,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: deepai
           api_key: ${{ secrets.DEEPAI_API_KEY }}
-          threshold: 0.37
+          threshold: 0.39
   picpurify:
     name: PicPurify
     timeout-minutes: 5
@@ -44,7 +44,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: picpurify
           api_key: ${{ secrets.PICPURIFY_API_KEY }}
-          threshold: 0.96
+          threshold: 0.97
   sightengine:
     name: SightEngine
     timeout-minutes: 5
@@ -55,5 +55,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: picpurify
-          api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+          api_key: "${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}"
           threshold: 0.73
