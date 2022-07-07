@@ -19,6 +19,7 @@ jobs:
         run: |
           curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
           git add test.jpg
+          git commit -m "Adding test.jpg"
       - uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
