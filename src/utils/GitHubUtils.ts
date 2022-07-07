@@ -1,15 +1,14 @@
-// import { context, getOctokit } from '@actions/github'
-// import { Commit, PushEvent } from '@octokit/webhooks-definitions/schema'
+import { context, getOctokit } from '@actions/github'
+import { Commit, PushEvent } from '@octokit/webhooks-definitions/schema'
 
 export class GitHubUtils {
   public static async getChangedFiles(
     gitHubToken: string,
     types: string[],
     extensions: string[]): Promise<Set<string>> {
-    return new Set<string>()
-    // const payload = context.payload as PushEvent
-    // const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
-    //
+    const payload = context.payload as PushEvent
+    const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
+
     // const octokit = getOctokit(gitHubToken)
     //
     // const repo = payload.repository
@@ -18,8 +17,9 @@ export class GitHubUtils {
     //   throw new Error('Cannot retrieve repository owner')
     // }
     //
-    // const result: Set<string> = new Set<string>()
-    // for (const commit of commits) {
+    const result: Set<string> = new Set<string>()
+    for (const commit of commits) {
+      console.log(commit.id)
     //   const resp = await octokit.rest.repos.getCommit(
     //     { owner, repo: repo.name, ref: commit.id }
     //   )
@@ -34,7 +34,7 @@ export class GitHubUtils {
     //       })
     //       .forEach((filename) => result.add(filename))
     //   }
-    // }
-    // return result
+    }
+    return result
   }
 }
