@@ -32,7 +32,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: deepai
           api_key: ${{ secrets.DEEPAI_API_KEY }}
-          threshold: 0.35
+          threshold: 0.39
   picpurify:
     name: PicPurify
     timeout-minutes: 5
