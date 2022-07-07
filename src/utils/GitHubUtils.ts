@@ -9,20 +9,20 @@ export class GitHubUtils {
     const payload = context.payload as PushEvent
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
 
-    // const octokit = getOctokit(gitHubToken)
-    //
-    // const repo = payload.repository
-    // const owner = repo.organization || repo.owner.name
-    // if (!owner) {
-    //   throw new Error('Cannot retrieve repository owner')
-    // }
-    //
+    const octokit = getOctokit(gitHubToken)
+
+    const repo = payload.repository
+    const owner = repo.organization || repo.owner.name
+    if (!owner) {
+      throw new Error('Cannot retrieve repository owner')
+    }
+
     const result: Set<string> = new Set<string>()
     for (const commit of commits) {
-      console.log(commit.id)
-    //   const resp = await octokit.rest.repos.getCommit(
-    //     { owner, repo: repo.name, ref: commit.id }
-    //   )
+      const resp = await octokit.rest.repos.getCommit(
+        { owner, repo: repo.name, ref: commit.id }
+      )
+      console.log(resp.url)
     //   if (resp && resp.data) {
     //     resp.data.files
     //       ?.filter((file) => types.includes(file.status))
