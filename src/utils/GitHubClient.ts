@@ -1,13 +1,18 @@
 import { context, getOctokit } from '@actions/github'
 import { Commit, PushEvent } from '@octokit/webhooks-definitions/schema'
+import LoggerFactory from './LoggerFactory'
+import { Logger } from 'winston'
 
-export class GitHubUtils {
-  public static async getChangedFiles(
+export class GitHubClient {
+  private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
+
+  public async getChangedFiles(
     gitHubToken: string,
     types: string[],
     extensions: string[]): Promise<Set<string>> {
     const payload = context.payload as PushEvent
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
+    this.logger.info(`There are ${commits.length} commits have been done`)
 
     const octokit = getOctokit(gitHubToken)
 
@@ -17,23 +22,26 @@ export class GitHubUtils {
       throw new Error('Cannot retrieve repository owner')
     }
 
-    let result: Set<string> = new Set<string>()
+    const result: Set<string> = new Set<string>()
     for (const commit of commits) {
       const resp = await octokit.rest.repos.getCommit(
         { owner, repo: repo.name, ref: commit.id }
       )
       if (resp && resp.data && resp.data.files) {
-        // for (const file of resp.data.files) {
-        //
-        // }
-        result = new Set<string>(resp.data.files
+        this.logger.info(`There are ${resp.data.files.length} ` +
+          `files found in ${commit.id} commit`)
+        resp.data.files
           .filter((file) => types.includes(file.status))
           .map((file) => file.filename)
           .filter((filename: string) => {
             const temp: string[] = filename.split('.')
             return extensions.map((e: string) => e.toLowerCase())
               .includes(temp[temp.length - 1].toLowerCase())
-          }))
+          })
+          .forEach((filename: string) => result.add(filename))
+      } else {
+        this.logger.warning(
+          `Cannot retrieve information by ${commit.id} commit`)
       }
     }
     return result
