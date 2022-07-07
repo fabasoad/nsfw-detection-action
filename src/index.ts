@@ -20,18 +20,19 @@ async function run() {
     for (const file of files) {
       const score: number = await provider.getScore(getInput('api_key'), file)
       const result: number = threshold - score
-      const output = `Score: ${score}, File: ${file}`
       if (result < 0) {
         count++
-        error(`[ERROR  ] File is detected as NSFW. ${output}`)
+        error(`${file} file is detected as NSFW (score is ${score})`)
       } else if (result > 5) {
-        info(`[INFO   ] File is safe to be used. ${output}`)
+        info(`${file} is safe to be used (score is ${score})`)
       } else {
-        warning(`[WARNING] File is close to be detected as NSFW. ${output}`)
+        warning(
+          `${file} file is close to be detected as NSFW (score is ${score})`)
       }
     }
     if (count > 0) {
-      setFailed(`\nThere are ${count} files have been detected as NSFW`)
+      setFailed(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
+        `file${count > 1 ? 's' : ''} have been detected as NSFW`)
     }
   } catch (e) {
     setFailed((<Error>e).message)
