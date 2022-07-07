@@ -20,7 +20,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: cloudmersive
           api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
-          threshold: 0.31
+          threshold: 0.32
   deepai:
     name: Deepai
     timeout-minutes: 5
