@@ -23,15 +23,8 @@
     "comma-dangle": "off",
     "indent": ["error", 2],
     "linebreak-style": "off",
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "after-used",
-        "varsIgnorePattern": "FaxInstance",
-        "ignoreRestSiblings": false,
-        "vars": "all"
-      }
-    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "object-curly-spacing": "off",
     "require-jsdoc": "off",
     "semi": "off"
