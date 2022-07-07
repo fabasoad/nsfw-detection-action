@@ -1,14 +1,14 @@
 import { getInput, setFailed, error, warning, info } from '@actions/core'
-import {
-  NsfwDetectionProviderFactory
-} from './translation/NsfwDetectionProviderFactory'
+// import {
+//   NsfwDetectionProviderFactory
+// } from './translation/NsfwDetectionProviderFactory'
 import { GitHubUtils } from './utils/GitHubUtils'
 
 async function run() {
   try {
     const threshold = Number(getInput('threshold'))
-    const provider =
-        NsfwDetectionProviderFactory.getProvider(getInput('provider'))
+    // const provider =
+    //     NsfwDetectionProviderFactory.getProvider(getInput('provider'))
     const files: Set<string> = await GitHubUtils.getChangedFiles(
       getInput('github_token'),
       getInput('type').split(','),
@@ -17,7 +17,8 @@ async function run() {
 
     let count = 0
     for (const file of files) {
-      const score: number = await provider.getScore(getInput('api_key'), file)
+      const score: number = 12
+      // await provider.getScore(getInput('api_key'), file)
       const result: number = threshold - score
       const output = `Score: ${score}, File: ${file}`
       if (result < 0) {
