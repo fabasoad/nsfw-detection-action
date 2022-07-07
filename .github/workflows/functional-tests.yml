@@ -21,7 +21,6 @@ jobs:
           provider: cloudmersive
           api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
           threshold: 0.31
-          type: added
   deepai:
     name: Deepai
     timeout-minutes: 5
@@ -34,7 +33,6 @@ jobs:
           provider: deepai
           api_key: ${{ secrets.DEEPAI_API_KEY }}
           threshold: 0.37
-          type: added
   picpurify:
     name: PicPurify
     timeout-minutes: 5
@@ -47,7 +45,6 @@ jobs:
           provider: picpurify
           api_key: ${{ secrets.PICPURIFY_API_KEY }}
           threshold: 0.96
-          type: added
   sightengine:
     name: SightEngine
     timeout-minutes: 5
@@ -60,4 +57,3 @@ jobs:
           provider: picpurify
           api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
           threshold: 0.73
-          type: added

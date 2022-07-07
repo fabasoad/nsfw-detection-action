@@ -16,7 +16,7 @@ implements INsfwDetectionProvider {
     body: FormData, headers?: FormData.Headers
   ): Promise<TResponse> {
     const client = new HttpClient()
-    const init: RequestInit = { body }
+    const init: RequestInit = { body, method: 'post' }
     if (headers) {
       init['headers'] = headers
     }
