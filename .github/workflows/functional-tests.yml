@@ -44,7 +44,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: picpurify
           api_key: ${{ secrets.PICPURIFY_API_KEY }}
-          threshold: 0.97
+          threshold: 0.95
   sightengine:
     name: SightEngine
     timeout-minutes: 5
