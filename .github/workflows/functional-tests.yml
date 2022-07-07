@@ -17,10 +17,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Download test file
         run: curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
-      - uses: EndBug/add-and-commit@v9.0.1
+      - name: Add file to git
+        uses: EndBug/add-and-commit@v9.0.1
         with:
           add: test.jpg
-          push: false
+          push: true
       - uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -28,6 +29,13 @@ jobs:
           api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
           threshold: 0.31
           type: added
+      - name: Cleaning up
+        run: rm -f test.jpg
+      - name: Remove file from git
+        uses: EndBug/add-and-commit@v9.0.1
+        with:
+          add: test.jpg
+          push: true
   deepai:
     name: Deepai
     timeout-minutes: 5
