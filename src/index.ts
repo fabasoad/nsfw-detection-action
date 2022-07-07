@@ -2,14 +2,18 @@ import { getInput, setFailed, error, warning, info } from '@actions/core'
 import {
   NsfwDetectionProviderFactory
 } from './translation/NsfwDetectionProviderFactory'
-// import { GitHubUtils } from './utils/GitHubUtils'
+import { GitHubUtils } from './utils/GitHubUtils'
 
 async function run() {
   try {
     const threshold = Number(getInput('threshold'))
     const provider =
         NsfwDetectionProviderFactory.getProvider(getInput('provider'))
-    const files: Set<string> = new Set<string>()
+    const files: Set<string> = await GitHubUtils.getChangedFiles(
+      getInput('github_token'),
+      getInput('type').split(','),
+      getInput('extensions').split(',')
+    )
 
     let count = 0
     for (const file of files) {
