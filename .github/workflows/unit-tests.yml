@@ -1,0 +1,45 @@
+---
+name: Unit Tests
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'fix-*'
+      - 'feature-*'
+
+jobs:
+  unit_tests:
+    name: Tests
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    env:
+      CLOUDMERSIVE_API_KEY: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+      DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
+      PICPURIFY_API_KEY: ${{ secrets.PICPURIFY_API_KEY }}
+      SIGHTENGINE_API_USER: ${{ secrets.SIGHTENGINE_API_USER }}
+      SIGHTENGINE_API_SECRET: ${{ secrets.SIGHTENGINE_API_SECRET }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Compile
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        run: yarn install
+      - name: Unit tests
+        run: yarn test
+        if: github.ref != 'refs/heads/main'
+      - name: Unit tests with coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: yarn test
+          debug: true

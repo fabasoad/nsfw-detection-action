@@ -1,0 +1,79 @@
+---
+name: Functional Tests
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'fix-*'
+      - 'feature-*'
+
+jobs:
+  cloudmersive:
+    name: Cloudmersive
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test file
+        run: |
+          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+          git add test.jpg
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: cloudmersive
+          api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+          threshold: 0.31
+          type: added
+  deepai:
+    name: Deepai
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test file
+        run: |
+          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+          git add test.jpg
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: deepai
+          api_key: ${{ secrets.DEEPAI_API_KEY }}
+          threshold: 0.37
+          type: added
+  picpurify:
+    name: PicPurify
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test file
+        run: |
+          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+          git add test.jpg
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: picpurify
+          api_key: ${{ secrets.PICPURIFY_API_KEY }}
+          threshold: 0.96
+          type: added
+  sightengine:
+    name: SightEngine
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download test file
+        run: |
+          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+          git add test.jpg
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: picpurify
+          api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+          threshold: 0.73
+          type: added
