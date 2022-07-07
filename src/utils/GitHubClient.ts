@@ -30,15 +30,17 @@ export class GitHubClient {
       if (resp && resp.data && resp.data.files) {
         this.logger.info(`There are ${resp.data.files.length} ` +
           `files found in ${commit.id} commit`)
-        resp.data.files
-          .filter((file) => types.includes(file.status))
-          .map((file) => file.filename)
-          .filter((filename: string) => {
-            const temp: string[] = filename.split('.')
-            return extensions.map((e: string) => e.toLowerCase())
-              .includes(temp[temp.length - 1].toLowerCase())
-          })
-          .forEach((filename: string) => result.add(filename))
+        for (const file of resp.data.files) {
+          this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
+          if (types.includes(file.status)) {
+            const temp: string[] = file.filename.split('.')
+            if (extensions.map((e: string) => e.toLowerCase())
+              .includes(temp[temp.length - 1].toLowerCase())) {
+              result.add(file.filename)
+            }
+          }
+        }
+        this.logger.info(`There are ${result.size} files will be checked`)
       } else {
         this.logger.warning(
           `Cannot retrieve information by ${commit.id} commit`)
