@@ -16,10 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download test file
-        run: |
-          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
-          git add test.jpg
-          git commit -m "Adding test.jpg"
+        run: curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+      - uses: EndBug/add-and-commit@v9.0.1
+        with:
+          add: test.jpg
+          push: false
       - uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
