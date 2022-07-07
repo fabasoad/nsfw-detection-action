@@ -17,21 +17,23 @@ export class GitHubUtils {
       throw new Error('Cannot retrieve repository owner')
     }
 
-    const result: Set<string> = new Set<string>()
+    let result: Set<string> = new Set<string>()
     for (const commit of commits) {
       const resp = await octokit.rest.repos.getCommit(
         { owner, repo: repo.name, ref: commit.id }
       )
-      if (resp && resp.data) {
-        resp.data.files
-          ?.filter((file) => types.includes(file.status))
+      if (resp && resp.data && resp.data.files) {
+        // for (const file of resp.data.files) {
+        //
+        // }
+        result = new Set<string>(resp.data.files
+          .filter((file) => types.includes(file.status))
           .map((file) => file.filename)
           .filter((filename: string) => {
             const temp: string[] = filename.split('.')
             return extensions.map((e: string) => e.toLowerCase())
               .includes(temp[temp.length - 1].toLowerCase())
-          })
-          .forEach((filename) => result.add(filename))
+          }))
       }
     }
     return result
