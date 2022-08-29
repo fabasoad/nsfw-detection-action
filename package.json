@@ -1,6 +1,6 @@
 {
   "name": "nsfw-detection-action",
-  "version": "1.3.17",
+  "version": "1.3.18",
   "description": "This GitHub action detects nsfw content in committed files.",
   "main": "dist/index.js",
   "repository": {
