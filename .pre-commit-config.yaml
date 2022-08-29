@@ -26,12 +26,12 @@ repos:
         stages: ["push"]
   # Security
   - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.2.0
+    rev: v1.3.0
     hooks:
       - id: detect-secrets
         stages: ["commit", "push"]
   - repo: https://github.com/zricethezav/gitleaks
-    rev: v8.8.11
+    rev: v8.11.2
     hooks:
       - id: gitleaks
         stages: ["commit", "push"]
@@ -42,7 +42,7 @@ repos:
         stages: ["push"]
   # TypeScript
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.19.0
+    rev: v8.23.0
     hooks:
       - id: eslint
         args: ['--fix']
@@ -51,12 +51,12 @@ repos:
         exclude: ^dist/.*\.js$
   # Markdown
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.31.1
+    rev: v0.32.2
     hooks:
       - id: markdownlint
   # Yaml
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.26.3
+    rev: v1.27.1
     hooks:
       - id: yamllint
         args: ["-c", ".yamllint.yml"]
