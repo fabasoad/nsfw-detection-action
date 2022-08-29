@@ -37,9 +37,7 @@ This repository has issue templates for bug report and feature request. Please u
 
 ## Use a Consistent Coding Style
 
-Please follow all the rules from [this](https://google.github.io/styleguide/jsguide.html) great guide provided by Google for coding style except of following coding styles:
-
-- File names must be all lowercase and may include dashes (-).
+Please follow all the rules from [this](https://github.com/excelmicro/typescript) great guide provided by [excelmicro](https://github.com/excelmicro) for coding style.
 
 ## License
 

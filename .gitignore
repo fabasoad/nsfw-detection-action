@@ -3,6 +3,6 @@
 !.vscode/settings.json
 .env
 .idea
-.nyc_output
 coverage
 node_modules
+yarn-error.log
