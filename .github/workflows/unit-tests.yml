@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Compile
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
-        run: yarn install
+        run: yarn install --ignore-scripts
       - name: Unit tests
         run: yarn test
         if: github.ref != 'refs/heads/main'
