@@ -27,5 +27,5 @@ inputs:
     description: 'Action will be failed in case NSFW detection value will be greater or equal to this parameter.'
     required: true
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
