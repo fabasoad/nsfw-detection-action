@@ -26,7 +26,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Compile
@@ -36,7 +36,7 @@ jobs:
         run: yarn test
         if: github.ref != 'refs/heads/main'
       - name: Unit tests with coverage
-        uses: paambaati/codeclimate-action@v3.0.0
+        uses: paambaati/codeclimate-action@v3.2.0
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}

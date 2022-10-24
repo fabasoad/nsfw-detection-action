@@ -1,6 +1,5 @@
 .DS_Store
-.vscode/*
-!.vscode/settings.json
+.vscode
 .env
 .idea
 coverage
