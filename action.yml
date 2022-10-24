@@ -1,7 +1,7 @@
 ---
 name: 'NSFW Detection Action'
 author: Yevhen Fabizhevskyi
-description: 'This GitHub action detects NSFW content in commited files.'
+description: 'This GitHub action detects NSFW content in committed files.'
 branding:
   icon: alert-octagon
   color: red
@@ -10,7 +10,7 @@ inputs:
     description: 'GitHub token'
     required: true
   type:
-    description: 'Type of commited files separated by comma.'
+    description: 'Type of committed files separated by comma.'
     required: false
     default: 'modified,added,renamed'
   provider:
