@@ -57,7 +57,6 @@ _abcdef_, so `api_key` should be _123456,abcdef_.
 
 ## Inputs
 
-<!-- markdownlint-disable MD013 -->
 | Name         | Required | Description                                                                                   | Default                          | Possible values                  |
 |--------------|----------|-----------------------------------------------------------------------------------------------|----------------------------------|----------------------------------|
 | github_token | Yes      | GitHub token                                                                                  |                                  | &lt;String&gt;                   |
@@ -66,7 +65,6 @@ _abcdef_, so `api_key` should be _123456,abcdef_.
 | threshold    | Yes      | Action will be failed in case NSFW detection value will be greater or equal to this parameter |                                  | &lt;Float&gt;                    |
 | type         | No       | Type of committed files separated by comma                                                    | `modified,added,renamed`         | `modified,added,renamed`         |
 | extensions   | No       | List of file extensions separated by comma                                                    | `jpeg,jpg,png,gif,webp,tiff,bmp` | `jpeg,jpg,png,gif,webp,tiff,bmp` |
-<!-- markdownlint-enable MD013 -->
 
 ## Example usage
 
