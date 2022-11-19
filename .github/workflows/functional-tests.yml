@@ -8,51 +8,31 @@ on:
   pull_request:
 
 jobs:
-  cloudmersive:
-    name: Cloudmersive
+  detect:
+    name: Detect NSFW
     timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - provider: cloudmersive
+            api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
+            threshold: 0.32
+          - provider: deepai
+            api_key: ${{ secrets.DEEPAI_API_KEY }}
+            threshold: 0.39
+          - provider: picpurify
+            api_key: ${{ secrets.PICPURIFY_API_KEY }}
+            threshold: 0.97
+          - provider: sightengine
+            api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+            threshold: 0.8
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          provider: cloudmersive
-          api_key: ${{ secrets.CLOUDMERSIVE_API_KEY }}
-          threshold: 0.32
-  deepai:
-    name: Deepai
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provider: deepai
-          api_key: ${{ secrets.DEEPAI_API_KEY }}
-          threshold: 0.39
-  picpurify:
-    name: PicPurify
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provider: picpurify
-          api_key: ${{ secrets.PICPURIFY_API_KEY }}
-          threshold: 0.97
-  sightengine:
-    name: SightEngine
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provider: sightengine
-          api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
-          threshold: 0.8
+          provider: ${{ matrix.provider }}
+          api_key: ${{ matrix.api_key }}
+          threshold: ${{ matrix.threshold }}
