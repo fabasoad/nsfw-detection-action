@@ -11,8 +11,7 @@ export class GitHubClient {
     types: string[],
     extensions: string[]): Promise<Set<string>> {
     const payload = context.payload as PushEvent
-    console.log(typeof context.payload)
-    console.log(payload.commits)
+    console.log(payload)
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
     this.logger.info(`There ${commits.length > 1 ? 'are' : 'is'} ` +
       `${commits.length} commit${commits.length > 1 ? 's' : ''} ` +
@@ -26,7 +25,7 @@ export class GitHubClient {
       throw new Error('Cannot retrieve repository owner')
     }
 
-    const result: Set<string> = new Set<string>()
+    const result = new Set<string>()
     for (const commit of commits) {
       const resp = await octokit.rest.repos.getCommit(
         { owner, repo: repo.name, ref: commit.id }
