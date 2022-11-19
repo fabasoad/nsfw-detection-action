@@ -13,6 +13,7 @@ export class GitHubClient {
     extensions: string[]): Promise<Set<string>> {
     const payload: WebhookPayload = context.payload
     const repo = payload.repository
+    console.dir(repo)
     const owner = repo?.organization || repo?.owner.name
     if (!owner) {
       throw new Error('Cannot retrieve repository owner')
