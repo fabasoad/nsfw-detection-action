@@ -2,7 +2,7 @@ import { context, getOctokit } from '@actions/github'
 import { Commit } from '@octokit/webhooks-definitions/schema'
 import LoggerFactory from './LoggerFactory'
 import { Logger } from 'winston'
-import {WebhookPayload} from '@actions/github/lib/interfaces';
+import { WebhookPayload } from '@actions/github/lib/interfaces'
 
 export class GitHubClient {
   private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
@@ -12,26 +12,24 @@ export class GitHubClient {
     types: string[],
     extensions: string[]): Promise<Set<string>> {
     const payload: WebhookPayload = context.payload
-    console.log('Context', context)
-    const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
-    this.logger.info(`There ${commits.length > 1 ? 'are' : 'is'} ` +
-      `${commits.length} commit${commits.length > 1 ? 's' : ''} ` +
-      `ha${commits.length > 1 ? 've' : 's'} been done`)
-
-    const octokit = getOctokit(gitHubToken)
-
     const repo = payload.repository
     const owner = repo?.organization || repo?.owner.name
     if (!owner) {
       throw new Error('Cannot retrieve repository owner')
     }
 
+    const octokit = getOctokit(gitHubToken)
+    const compare = await octokit.rest.repos.compareCommits(
+      { owner, repo: repo.name, base: payload.before, head: payload.after }
+    )
+    console.dir(compare)
     const result = new Set<string>()
+    const commits: Commit[] = []
     for (const commit of commits) {
       const resp = await octokit.rest.repos.getCommit(
         { owner, repo: repo.name, ref: commit.id }
       )
-      if (resp && resp.data && resp.data.files) {
+      if (resp?.data.files) {
         const count: number = resp.data.files.length
         this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
           `file${count > 1 ? 's' : ''} found in ${commit.id} commit`)
