@@ -17,10 +17,10 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
     const body = new FormData()
-    console.log(file)
     body.append('file_image', fs.createReadStream(file))
     body.append('API_KEY', apiKey)
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
+    console.log(body)
 
     const resp = await this.request<PicPurifyResponse>(body)
     if (resp.status !== 'success') {
