@@ -1,6 +1,6 @@
 ---
 default_stages: ["commit"]
-exclude: ^(.gitleaks\.toml|dist/.*\.js|coverage/.*)$
+exclude: ^(\.gitleaks\.toml|dist/.*\.js|coverage/.*)$
 repos:
   - repo: local
     hooks:
