@@ -11,7 +11,7 @@ export class GitHubClient {
     types: string[],
     extensions: string[]): Promise<Set<string>> {
     const payload = context.payload as PushEvent
-    console.log(payload)
+    console.log('Payload', payload)
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
     this.logger.info(`There ${commits.length > 1 ? 'are' : 'is'} ` +
       `${commits.length} commit${commits.length > 1 ? 's' : ''} ` +
