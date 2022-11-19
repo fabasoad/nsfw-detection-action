@@ -1,7 +1,7 @@
 import { getInput, setFailed, error, warning, info } from '@actions/core'
 import {
   NsfwDetectionProviderFactory
-} from './translation/NsfwDetectionProviderFactory'
+} from './detection/NsfwDetectionProviderFactory'
 import { GitHubClient } from './utils/GitHubClient'
 
 async function run() {

@@ -1,20 +1,20 @@
 import {
   INsfwDetectionProvider,
   NsfwDetectionProviderFactory
-} from '../../translation/NsfwDetectionProviderFactory'
+} from '../../detection/NsfwDetectionProviderFactory'
 import itParam from 'mocha-param'
 import {
   CloudmersiveNsfwDetectionProvider
-} from '../../translation/providers/CloudmersiveNsfwDetectionProvider'
+} from '../../detection/providers/CloudmersiveNsfwDetectionProvider'
 import {
   DeepaiNsfwDetectionProvider
-} from '../../translation/providers/DeepaiNsfwDetectionProvider'
+} from '../../detection/providers/DeepaiNsfwDetectionProvider'
 import {
   PicPurifyNsfwDetectionProvider
-} from '../../translation/providers/PicPurifyNsfwDetectionProvider'
+} from '../../detection/providers/PicPurifyNsfwDetectionProvider'
 import {
   SightEngineNsfwDetectionProvider
-} from '../../translation/providers/SightEngineNsfwDetectionProvider'
+} from '../../detection/providers/SightEngineNsfwDetectionProvider'
 
 type NsfwDetectionProviderFactorySpecFixture = {
   className: string,
