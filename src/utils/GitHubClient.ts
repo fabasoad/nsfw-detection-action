@@ -1,7 +1,8 @@
 import { context, getOctokit } from '@actions/github'
-import { Commit, PushEvent } from '@octokit/webhooks-definitions/schema'
+import { Commit } from '@octokit/webhooks-definitions/schema'
 import LoggerFactory from './LoggerFactory'
 import { Logger } from 'winston'
+import {WebhookPayload} from '@actions/github/lib/interfaces';
 
 export class GitHubClient {
   private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
@@ -10,8 +11,10 @@ export class GitHubClient {
     gitHubToken: string,
     types: string[],
     extensions: string[]): Promise<Set<string>> {
-    const payload = context.payload as PushEvent
+    const payload: WebhookPayload = context.payload
+    console.log('Context', context)
     console.log('Payload', payload)
+    console.log('Payload.PR.Body', payload.pull_request?.body)
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
     this.logger.info(`There ${commits.length > 1 ? 'are' : 'is'} ` +
       `${commits.length} commit${commits.length > 1 ? 's' : ''} ` +
@@ -20,7 +23,7 @@ export class GitHubClient {
     const octokit = getOctokit(gitHubToken)
 
     const repo = payload.repository
-    const owner = repo.organization || repo.owner.name
+    const owner = repo?.organization || repo?.owner.name
     if (!owner) {
       throw new Error('Cannot retrieve repository owner')
     }
