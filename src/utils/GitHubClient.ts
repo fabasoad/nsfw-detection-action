@@ -50,8 +50,8 @@ export class GitHubClient {
         }
       }
     }
-    this.logger.info(`There ${result.size > 1 ? 'are' : 'is'}` +
-      ` ${result.size} file${result.size > 1 ? 's' : ''} will be checked`)
+    this.logger.info(`There ${result.size === 1 ? 'is' : 'are'}` +
+      ` ${result.size} file${result.size === 1 ? '' : 's'} will be checked`)
     return result
   }
 }
