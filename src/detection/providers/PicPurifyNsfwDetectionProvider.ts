@@ -22,7 +22,6 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
 
     const resp = await this.request<PicPurifyResponse>(body)
-    console.dir(resp)
     if (resp.status !== 'success') {
       const message = resp.error && resp.error.errorMsg ?
         resp.error.errorMsg : `Failed to analyze ${file}.`
