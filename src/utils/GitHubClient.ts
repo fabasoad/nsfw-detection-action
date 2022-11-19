@@ -19,34 +19,27 @@ export class GitHubClient {
     const { data } = await octokit.rest.repos.compareCommits(
       { owner, repo, base: payload.before, head: payload.after }
     )
-    console.log('data:', data)
+    console.log('data.files:', data.files)
+    const count = 0;
+    this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count}
+      file${count > 1 ? 's' : ''} found between ${payload.before} &
+      ${payload.after} commits`)
     const result = new Set<string>()
-    const commits: Commit[] = []
-    for (const commit of commits) {
-      const resp = await octokit.rest.repos.getCommit(
-        { owner, repo, ref: commit.id }
-      )
-      if (resp?.data.files) {
-        const count: number = resp.data.files.length
-        this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
-          `file${count > 1 ? 's' : ''} found in ${commit.id} commit`)
-        for (const file of resp.data.files) {
-          this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
-          if (types.includes(file.status)) {
-            const temp: string[] = file.filename.split('.')
-            if (extensions.map((e: string) => e.toLowerCase())
-              .includes(temp[temp.length - 1].toLowerCase())) {
-              result.add(file.filename)
-            }
-          }
-        }
-        this.logger.info(`There ${result.size > 1 ? 'are' : 'is'}` +
-          ` ${result.size} file${result.size > 1 ? 's' : ''} will be checked`)
-      } else {
-        this.logger.warning(
-          `Cannot retrieve information by ${commit.id} commit`)
-      }
-    }
+    // for (const commit of commits) {
+    //   const count: number = resp.data.files.length
+    //   for (const file of resp.data.files) {
+    //     this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
+    //     if (types.includes(file.status)) {
+    //       const temp: string[] = file.filename.split('.')
+    //       if (extensions.map((e: string) => e.toLowerCase())
+    //         .includes(temp[temp.length - 1].toLowerCase())) {
+    //         result.add(file.filename)
+    //       }
+    //     }
+    //   }
+    //   this.logger.info(`There ${result.size > 1 ? 'are' : 'is'}` +
+    //     ` ${result.size} file${result.size > 1 ? 's' : ''} will be checked`)
+    // }
     return result
   }
 }
