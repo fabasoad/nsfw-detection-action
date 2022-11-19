@@ -37,7 +37,7 @@ export class GitHubClient {
     }
     const count = data.files.length;
     this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
-      `file${count > 1 ? 's' : ''} found between ${payload.before} & ` +
+      `file${count > 1 ? 's' : ''} found between ${payload.before} and ` +
       `${payload.after} commits`)
     const result = new Set<string>()
     for (const file of data.files) {
