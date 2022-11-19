@@ -12,19 +12,14 @@ export class GitHubClient {
     types: string[],
     extensions: string[]): Promise<Set<string>> {
     const payload: WebhookPayload = context.payload
-    console.log('context:', context)
-    console.log('context.repo:', context.repo)
     const repo = context.repo.repo
     const owner = context.repo.owner
-    if (!owner) {
-      throw new Error('Cannot retrieve repository owner')
-    }
 
     const octokit = getOctokit(gitHubToken)
-    const compare = await octokit.rest.repos.compareCommits(
+    const { data } = await octokit.rest.repos.compareCommits(
       { owner, repo, base: payload.before, head: payload.after }
     )
-    console.dir(compare)
+    console.log('data:', data)
     const result = new Set<string>()
     const commits: Commit[] = []
     for (const commit of commits) {
