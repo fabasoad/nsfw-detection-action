@@ -13,8 +13,6 @@ export class GitHubClient {
     extensions: string[]): Promise<Set<string>> {
     const payload: WebhookPayload = context.payload
     console.log('Context', context)
-    console.log('Payload', payload)
-    console.log('Payload.PR.Body', payload.pull_request?.body)
     const commits: Commit[] = payload.commits.filter((c: Commit) => c.distinct)
     this.logger.info(`There ${commits.length > 1 ? 'are' : 'is'} ` +
       `${commits.length} commit${commits.length > 1 ? 's' : ''} ` +
