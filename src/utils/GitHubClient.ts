@@ -36,9 +36,9 @@ export class GitHubClient {
       throw new Error('Cannot retrieve files list')
     }
     const count = data.files.length;
-    this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count}
-      file${count > 1 ? 's' : ''} found between ${payload.before} &
-      ${payload.after} commits`)
+    this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
+      `file${count > 1 ? 's' : ''} found between ${payload.before} & ` +
+      `${payload.after} commits`)
     const result = new Set<string>()
     for (const file of data.files) {
       this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
