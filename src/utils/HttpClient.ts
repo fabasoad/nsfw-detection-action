@@ -5,7 +5,7 @@ export default class HttpClient {
     url: string, init?: RequestInit
   ): Promise<TResponse> {
     return fetch(url, init)
-      .then(({ json }) => json())
+      .then((resp) => resp.json())
       .then((data) => data as TResponse)
   }
 }
