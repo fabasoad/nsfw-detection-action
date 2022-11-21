@@ -26,7 +26,7 @@ export class GitHubClient {
     const payload: WebhookPayload = context.payload
     const repo = context.repo.repo
     const owner = context.repo.owner
-
+    console.dir(process.env)
     const resp: CompareCommitsResponseType =
       await octokit.rest.repos.compareCommits(
         { owner, repo, base: payload.before, head: payload.after }
@@ -42,7 +42,7 @@ export class GitHubClient {
     const result = new Set<string>()
     for (const file of data.files) {
       const fileName =
-        `${process.env.GITHUB_ACTION_PATH}${path.sep}${file.filename}`
+        `.${path.sep}${file.filename}`
       this.logger.debug(`File: ${fileName}. Status: ${file.status}`)
       if (types.includes(file.status)) {
         const temp: string[] = fileName.split('.')
