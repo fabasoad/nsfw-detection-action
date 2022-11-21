@@ -6,6 +6,7 @@ import {
   GetResponseTypeFromEndpointMethod,
   GetResponseDataTypeFromEndpointMethod
 } from '@octokit/types'
+import * as path from 'path'
 
 export class GitHubClient {
   private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
@@ -22,7 +23,6 @@ export class GitHubClient {
     type CompareCommitsResponseDataType = GetResponseDataTypeFromEndpointMethod<
       typeof octokit.rest.repos.compareCommits
     >
-    console.dir(context)
     const payload: WebhookPayload = context.payload
     const repo = context.repo.repo
     const owner = context.repo.owner
@@ -41,9 +41,11 @@ export class GitHubClient {
       `${payload.after} commits`)
     const result = new Set<string>()
     for (const file of data.files) {
-      this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
+      const fileName =
+        `${process.env.GITHUB_ACTION_PATH}${path.sep}${file.filename}`
+      this.logger.debug(`File: ${fileName}. Status: ${file.status}`)
       if (types.includes(file.status)) {
-        const temp: string[] = file.filename.split('.')
+        const temp: string[] = fileName.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
           .includes(temp[temp.length - 1].toLowerCase())) {
           result.add(file.filename)
