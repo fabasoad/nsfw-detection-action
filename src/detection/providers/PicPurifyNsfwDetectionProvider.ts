@@ -20,7 +20,9 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
     body.append('file_image', fs.createReadStream(file))
     body.append('API_KEY', apiKey)
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
-
+    console.log('file_image: ', file)
+    console.log('API_KEY: ', apiKey)
+    console.log('task: ', 'porn_moderation,suggestive_nudity_moderation')
     const resp = await this.request<PicPurifyResponse>(body)
     if (resp.status !== 'success') {
       const message = resp.error && resp.error.errorMsg ?
