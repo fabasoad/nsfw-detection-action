@@ -14,12 +14,13 @@ export class CloudmersiveNsfwDetectionProvider
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
     const body = new FormData()
-    body.append('imageFile', fs.createReadStream(file))
+    body.append('imageFile', fs.createReadStream(file), {
+      header: {
+        apikey: apiKey
+      }
+    })
 
-    const headers = body.getHeaders()
-    headers['apikey'] = apiKey
-
-    const resp = await this.request<CloudmersiveResponse>(body, headers)
+    const resp = await this.request<CloudmersiveResponse>(body)
     return resp.Score
   }
 }
