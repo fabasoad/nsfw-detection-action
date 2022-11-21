@@ -22,7 +22,7 @@ export class GitHubClient {
     type CompareCommitsResponseDataType = GetResponseDataTypeFromEndpointMethod<
       typeof octokit.rest.repos.compareCommits
     >
-
+    console.dir(context)
     const payload: WebhookPayload = context.payload
     const repo = context.repo.repo
     const owner = context.repo.owner
