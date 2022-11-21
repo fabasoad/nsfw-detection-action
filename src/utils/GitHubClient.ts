@@ -42,7 +42,7 @@ export class GitHubClient {
     const result = new Set<string>()
     for (const file of data.files) {
       const fileName =
-        `.${path.sep}${file.filename}`
+        `${process.env.GITHUB_WORKSPACE}${path.sep}${file.filename}`
       this.logger.debug(`File: ${fileName}. Status: ${file.status}`)
       if (types.includes(file.status)) {
         const temp: string[] = fileName.split('.')

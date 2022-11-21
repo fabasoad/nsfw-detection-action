@@ -44,15 +44,15 @@ jobs:
           provider: picpurify
           api_key: ${{ secrets.PICPURIFY_API_KEY }}
           threshold: 0.97
-#  sightengine:
-#    name: SightEngine
-#    timeout-minutes: 5
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: ./
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          provider: sightengine
-#          api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
-#          threshold: 0.8
+  sightengine:
+    name: SightEngine
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          provider: sightengine
+          api_key: ${{ secrets.SIGHTENGINE_API_USER }},${{ secrets.SIGHTENGINE_API_SECRET }}
+          threshold: 0.8
