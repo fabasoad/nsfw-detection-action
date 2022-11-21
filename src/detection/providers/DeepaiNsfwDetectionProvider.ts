@@ -15,13 +15,12 @@ export class DeepaiNsfwDetectionProvider extends NsfwDetectionProviderBase {
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
     const body = new FormData()
-    body.append('image', fs.createReadStream(file), {
-      header: {
-        'api-key': apiKey
-      }
-    })
+    body.append('image', fs.createReadStream(file))
 
-    const resp = await this.request<DeepaiResponse>(body)
+    const headers = body.getHeaders()
+    headers['api-key'] = apiKey
+
+    const resp = await this.request<DeepaiResponse>(body, headers)
     return resp.output.nsfw_score
   }
 }
