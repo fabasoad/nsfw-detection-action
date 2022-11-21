@@ -26,7 +26,7 @@ export class GitHubClient {
     const payload: WebhookPayload = context.payload
     const repo = context.repo.repo
     const owner = context.repo.owner
-    console.dir(process.env)
+
     const resp: CompareCommitsResponseType =
       await octokit.rest.repos.compareCommits(
         { owner, repo, base: payload.before, head: payload.after }
