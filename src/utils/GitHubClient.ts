@@ -6,7 +6,6 @@ import {
   GetResponseTypeFromEndpointMethod,
   GetResponseDataTypeFromEndpointMethod
 } from '@octokit/types'
-import * as path from 'path'
 
 export class GitHubClient {
   private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
@@ -41,11 +40,9 @@ export class GitHubClient {
       `${payload.after} commits`)
     const result = new Set<string>()
     for (const file of data.files) {
-      const fileName =
-        `${process.env.GITHUB_WORKSPACE}${path.sep}${file.filename}`
-      this.logger.debug(`File: ${fileName}. Status: ${file.status}`)
+      this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
       if (types.includes(file.status)) {
-        const temp: string[] = fileName.split('.')
+        const temp: string[] = file.filename.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
           .includes(temp[temp.length - 1].toLowerCase())) {
           result.add(file.filename)
