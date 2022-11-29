@@ -1,6 +1,6 @@
 {
   "name": "nsfw-detection-action",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "This GitHub action detects nsfw content in committed files.",
   "main": "dist/index.js",
   "repository": {
@@ -31,8 +31,8 @@
     "@types/glob": "8.0.0",
     "@types/jest": "29.2.3",
     "@types/node": "18.11.9",
-    "@typescript-eslint/eslint-plugin": "5.43.0",
-    "@typescript-eslint/parser": "5.43.0",
+    "@typescript-eslint/eslint-plugin": "5.45.0",
+    "@typescript-eslint/parser": "5.45.0",
     "@vercel/ncc": "0.34.0",
     "eslint": "8.28.0",
     "eslint-config-google": "0.14.0",
