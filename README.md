@@ -1,5 +1,6 @@
 # NSFW detection action
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/fabasoad/nsfw-detection-action?include_prereleases)
 ![Unit Tests](https://github.com/fabasoad/nsfw-detection-action/workflows/Unit%20Tests/badge.svg)
 ![Functional Tests](https://github.com/fabasoad/nsfw-detection-action/workflows/Functional%20Tests/badge.svg)
