@@ -32,7 +32,7 @@ repos:
     rev: v1.4.0
     hooks:
       - id: detect-secrets
-  - repo: https://github.com/zricethezav/gitleaks
+  - repo: https://github.com/gitleaks/gitleaks
     rev: v8.17.0
     hooks:
       - id: gitleaks
@@ -58,7 +58,7 @@ repos:
     rev: v1.6.25
     hooks:
       - id: actionlint
-        args: ["-shellcheck=", "-pyflakes="]
+        args: ["-pyflakes="]
         stages: ["push"]
   # Other
   - repo: https://github.com/pre-commit/pre-commit-hooks
