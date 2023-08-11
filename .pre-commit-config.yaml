@@ -1,7 +1,7 @@
 ---
 default_install_hook_types: ["pre-commit", "pre-push"]
 default_stages: ["commit", "push"]
-exclude: ^(\.gitleaks\.toml|dist/.*\.js|coverage/.*|\.yarn/.*)$
+exclude: ^(dist/.*\.js|coverage/.*|\.yarn/.*)$
 minimum_pre_commit_version: 2.18.0
 repos:
   - repo: local
