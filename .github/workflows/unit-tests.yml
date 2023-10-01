@@ -19,7 +19,7 @@ jobs:
       SIGHTENGINE_API_USER: ${{ secrets.SIGHTENGINE_API_USER }}
       SIGHTENGINE_API_SECRET: ${{ secrets.SIGHTENGINE_API_SECRET }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Cache node_modules
         id: cache
         uses: actions/cache@v3
