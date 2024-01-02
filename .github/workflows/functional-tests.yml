@@ -29,7 +29,8 @@ jobs:
             api-key: SIGHTENGINE_API_SECRET
             threshold: 0.8
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
       - name: Prepare API key
         id: secrets
         run: |
@@ -42,7 +43,8 @@ jobs:
         run: |
           curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
           git add test.jpg
-      - uses: ./
+      - name: Detect NSFW content
+        uses: ./
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           provider: ${{ matrix.provider }}
