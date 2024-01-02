@@ -25,6 +25,7 @@
     "winston": "3.11.0"
   },
   "devDependencies": {
+    "@microsoft/eslint-formatter-sarif": "3.0.0",
     "@octokit/types": "12.4.0",
     "@types/chai": "4.3.11",
     "@types/glob": "8.1.0",
