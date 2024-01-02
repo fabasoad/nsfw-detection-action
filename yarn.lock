@@ -1112,10 +1112,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/chai@npm:4.3.9":
-  version: 4.3.9
-  resolution: "@types/chai@npm:4.3.9"
-  checksum: 3c20a208840dfc15df15c555074bec14d8be7ed2c825f139250f99f944cf8f75b47e9741877688be8baa68d41c197c44e72baebcaa808fe81ae1234264b5f86e
+"@types/chai@npm:4.3.11":
+  version: 4.3.11
+  resolution: "@types/chai@npm:4.3.11"
+  checksum: 0c216ac4a19bfbf8318bb104d32e50704ee2ffc4b538b976c4326e6638fee121462402caa570662227a2a218810388aadb14bdbd3d3d474ec300b00695db448a
   languageName: node
   linkType: hard
 
@@ -1163,13 +1163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:29.5.6":
-  version: 29.5.6
-  resolution: "@types/jest@npm:29.5.6"
+"@types/jest@npm:29.5.11":
+  version: 29.5.11
+  resolution: "@types/jest@npm:29.5.11"
   dependencies:
     expect: "npm:^29.0.0"
     pretty-format: "npm:^29.0.0"
-  checksum: 316463d2755677c42db5b6d5189794b8bbcf281c79f60cc936b5daa049cb2dc6339a6e343941b3c995ef29778c1c84b2a4f32f10a119ece418c47a3febfb2051
+  checksum: 524a3394845214581278bf4d75055927261fbeac7e1a89cd621bd0636da37d265fe0a85eac58b5778758faad1cbd7c7c361dfc190c78ebde03a91cce33463261
   languageName: node
   linkType: hard
 
@@ -3944,9 +3944,9 @@ __metadata:
     "@actions/github": "npm:5.1.1"
     "@microsoft/eslint-formatter-sarif": "npm:3.0.0"
     "@octokit/types": "npm:12.0.0"
-    "@types/chai": "npm:4.3.9"
+    "@types/chai": "npm:4.3.11"
     "@types/glob": "npm:8.1.0"
-    "@types/jest": "npm:29.5.6"
+    "@types/jest": "npm:29.5.11"
     "@types/node": "npm:20.8.7"
     "@typescript-eslint/eslint-plugin": "npm:6.8.0"
     "@typescript-eslint/parser": "npm:6.8.0"
