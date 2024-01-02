@@ -5,7 +5,7 @@
 ![unit-tests](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/unit-tests.yml/badge.svg)
 ![functional-tests](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/functional-tests.yml/badge.svg)
 ![security](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/security.yml/badge.svg)
-![pre-commit](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/pre-commit.yml/badge.svg)
+![linting](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/linting.yml/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4b83792aebf367a33f6c/maintainability)](https://codeclimate.com/github/fabasoad/nsfw-detection-action/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4b83792aebf367a33f6c/test_coverage)](https://codeclimate.com/github/fabasoad/nsfw-detection-action/test_coverage)
 [![Known Vulnerabilities](https://snyk.io/test/github/fabasoad/nsfw-detection-action/badge.svg?targetFile=package.json)](https://snyk.io/test/github/fabasoad/nsfw-detection-action?targetFile=package.json)

@@ -28,28 +28,35 @@ repos:
         verbose: true
         stages: ["push"]
   # Security
+      - id: audit
+        name: Yarn audit
+        entry: yarn npm audit --all
+        language: system
+        pass_filenames: false
+        verbose: false
+        stages: ["push"]
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.0
+    rev: v8.18.1
     hooks:
       - id: gitleaks
   - repo: https://github.com/fabasoad/pre-commit-snyk
-    rev: v0.4.0
+    rev: v0.5.0
     hooks:
       - id: snyk-test
         stages: ["push"]
   # Markdown
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.37.0
+    rev: v0.38.0
     hooks:
       - id: markdownlint-fix
         stages: ["commit"]
   # Yaml
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.32.0
+    rev: v1.33.0
     hooks:
       - id: yamllint
         stages: ["push"]

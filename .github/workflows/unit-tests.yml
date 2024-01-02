@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  unit_tests:
+  unit-tests:
     name: Tests
     timeout-minutes: 5
     runs-on: ubuntu-latest
@@ -19,7 +19,8 @@ jobs:
       SIGHTENGINE_API_USER: ${{ secrets.SIGHTENGINE_API_USER }}
       SIGHTENGINE_API_SECRET: ${{ secrets.SIGHTENGINE_API_SECRET }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v4
       - name: Cache node_modules
         id: cache
         uses: actions/cache@v3
