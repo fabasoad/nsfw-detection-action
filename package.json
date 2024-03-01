@@ -26,21 +26,21 @@
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "3.0.0",
-    "@octokit/types": "12.0.0",
-    "@types/chai": "4.3.11",
+    "@octokit/types": "12.6.0",
+    "@types/chai": "4.3.12",
     "@types/glob": "8.1.0",
-    "@types/jest": "29.5.11",
-    "@types/node": "20.8.7",
+    "@types/jest": "29.5.12",
+    "@types/node": "20.11.24",
     "@typescript-eslint/eslint-plugin": "7.1.0",
     "@typescript-eslint/parser": "7.1.0",
     "@vercel/ncc": "0.38.1",
-    "eslint": "8.52.0",
+    "eslint": "8.57.0",
     "eslint-config-google": "0.14.0",
     "jest": "29.7.0",
     "jest-circus": "29.7.0",
     "mocha-param": "2.0.1",
-    "ts-jest": "29.1.1",
-    "typescript": "5.2.2"
+    "ts-jest": "29.1.2",
+    "typescript": "5.3.3"
   },
   "packageManager": "yarn@4.1.0"
 }
