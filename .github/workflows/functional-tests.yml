@@ -46,7 +46,7 @@ jobs:
       - name: Detect NSFW content
         uses: ./
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          provider: ${{ matrix.provider }}
-          api_key: ${{ steps.secrets.outputs.api-key }}
-          threshold: ${{ matrix.threshold }}
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          provider: "${{ matrix.provider }}"
+          api_key: "${{ steps.secrets.outputs.api-key }}"
+          threshold: "${{ matrix.threshold }}"
