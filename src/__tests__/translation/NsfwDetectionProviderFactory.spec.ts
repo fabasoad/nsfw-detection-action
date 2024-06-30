@@ -34,15 +34,15 @@ describe(NsfwDetectionProviderFactory.name, () => {
       paramName: 'sightengine'
     }
   ]
-  itParam('should return ${value.className} instance', fixture,
-    (value: NsfwDetectionProviderFactorySpecFixture) => {
+  test.each(fixture)('should return $className instance',
+    ({ className, paramName }: NsfwDetectionProviderFactorySpecFixture) => {
       const provider: INsfwDetectionProvider =
-          NsfwDetectionProviderFactory.getProvider(value.paramName)
-      expect(provider.constructor.name).toBe(value.className)
+          NsfwDetectionProviderFactory.getProvider(paramName)
+      expect(provider.constructor.name).toBe(className)
     })
-  it('should throw error', () => {
+  test('should throw error', () => {
     const name = 'randomstring'
     expect(() => NsfwDetectionProviderFactory.getProvider(name))
-      .toThrowError(`${name} provider is not supported`)
+      .toThrow(`${name} provider is not supported`)
   });
 })
