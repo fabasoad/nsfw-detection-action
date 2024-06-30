@@ -48,6 +48,15 @@ repos:
     hooks:
       - id: snyk-test
         stages: ["push"]
+  - repo: https://github.com/fabasoad/pre-commit-grype
+    rev: v0.3.1
+    hooks:
+      - id: grype-dir
+        args:
+          - --hook-args=--log-level debug
+          - --grype-args=--fail-on low
+          - --grype-args=--by-cve
+        stages: ["push"]
   # Markdown
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.41.0
@@ -66,7 +75,7 @@ repos:
     hooks:
       - id: actionlint
         args: ["-pyflakes="]
-        stages: ["push"]
+        stages: ["commit"]
   # Other
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
