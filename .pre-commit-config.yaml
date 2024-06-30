@@ -13,7 +13,7 @@ repos:
         pass_filenames: false
         verbose: true
         stages: ["push"]
-      - id: eslint
+      - id: lint
         name: Lint
         entry: yarn run lint
         language: system
