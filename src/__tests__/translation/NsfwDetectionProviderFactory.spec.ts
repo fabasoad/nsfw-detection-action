@@ -34,7 +34,6 @@ describe(NsfwDetectionProviderFactory.name, () => {
       paramName: 'sightengine'
     }
   ]
-  // test.each(SupportedLocales._items)('[$code] should render LanguageItem correctly', ({ code }: Locale) => {
   test.each(fixture)('should return $className instance',
     ({ className, paramName }: NsfwDetectionProviderFactorySpecFixture) => {
       const provider: INsfwDetectionProvider =
