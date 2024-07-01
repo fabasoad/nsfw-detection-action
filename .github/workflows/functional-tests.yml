@@ -2,9 +2,10 @@
 name: Functional Tests
 
 on: # yamllint disable-line rule:truthy
+  pull_request: {}
   push:
-    branches: ["main"]
-  pull_request:
+    branches:
+      - main
 
 jobs:
   detect:
