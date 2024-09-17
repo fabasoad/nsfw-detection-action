@@ -47,6 +47,9 @@ repos:
     rev: v1.0.0
     hooks:
       - id: snyk-test
+        args:
+          - --snyk-args=--severity-threshold=low
+          - --hook-args=--log-level debug
         stages: ["push"]
   - repo: https://github.com/fabasoad/pre-commit-grype
     rev: v0.6.1
