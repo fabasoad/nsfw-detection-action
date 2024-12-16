@@ -1,7 +1,6 @@
 import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
 import HttpClient from '../../utils/HttpClient'
 import FormData from 'form-data'
-import { RequestInit } from 'node-fetch'
 import { PathLike } from 'fs'
 
 export default abstract class NsfwDetectionProviderBase
