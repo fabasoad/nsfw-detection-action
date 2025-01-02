@@ -1,25 +1,24 @@
-import { createLogger, format, transports } from 'winston'
+import { createLogger as winstonCreateLogger, format, Logger, transports } from 'winston'
 import { TransformableInfo } from 'logform'
 
-export default class LoggerFactory {
-  private static header = 'nsfw-detection-action'
-
-  static create() {
-    return createLogger({
-      level: 'debug',
-      levels: {
-        'error': 1,
-        'warning': 2,
-        'info': 3,
-        'debug': 4
-      },
-      format: format.printf((info: TransformableInfo) => {
-        const t = (info['timestamp'] as string).replace(/T/, ' ').replace(/\..+/, '')
-        return `[${info.level}] [${LoggerFactory.header}] ${t} ${info.message}`
-      }),
-      transports: [
-        new transports.Console()
-      ]
-    })
-  }
+export function createLogger(): Logger {
+  const header = 'nsfw-detection-action'
+  return winstonCreateLogger({
+    level: 'debug',
+    levels: {
+      error: 1,
+      warning: 2,
+      info: 3,
+      debug: 4
+    },
+    format: format.combine(
+      format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+      format.printf(({ level, message, timestamp }: TransformableInfo) => {
+        return `[${level}] [${header}] ${timestamp} ${message}`
+      })
+    ),
+    transports: [
+      new transports.Console()
+    ]
+  })
 }

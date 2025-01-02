@@ -1,5 +1,5 @@
 import { context, getOctokit } from '@actions/github'
-import LoggerFactory from './LoggerFactory'
+import { createLogger } from './LoggerFactory'
 import { Logger } from 'winston'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import {
@@ -8,7 +8,7 @@ import {
 } from '@octokit/types'
 
 export class GitHubClient {
-  private readonly logger: Logger = LoggerFactory.create()
+  private readonly logger: Logger = createLogger()
 
   public async getChangedFiles(
     gitHubToken: string,
