@@ -2,7 +2,6 @@ import {
   INsfwDetectionProvider,
   NsfwDetectionProviderFactory
 } from '../../detection/NsfwDetectionProviderFactory'
-import itParam from 'mocha-param'
 import {
   CloudmersiveNsfwDetectionProvider
 } from '../../detection/providers/CloudmersiveNsfwDetectionProvider'
