@@ -6,11 +6,12 @@ export default class LoggerFactory {
 
   static create() {
     return createLogger({
+      level: 'debug',
       levels: {
-        'debug': 0,
-        'info': 1,
+        'error': 1,
         'warning': 2,
-        'error': 3
+        'info': 3,
+        'debug': 4
       },
       format: format.printf((info: TransformableInfo) => {
         const t = (info['timestamp'] as string).replace(/T/, ' ').replace(/\..+/, '')
