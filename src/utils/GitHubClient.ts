@@ -8,7 +8,7 @@ import {
 } from '@octokit/types'
 
 export class GitHubClient {
-  private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
+  private readonly logger: Logger = LoggerFactory.create()
 
   public async getChangedFiles(
     gitHubToken: string,
