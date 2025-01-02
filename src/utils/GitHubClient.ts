@@ -39,7 +39,7 @@ export class GitHubClient {
       `${payload.after} commits`)
     const result = new Set<string>()
     for (const file of data.files) {
-      this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
+      this.logger.info(`File: ${file.filename}. Status: ${file.status}`)
       if (types.includes(file.status)) {
         const temp: string[] = file.filename.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
