@@ -2,10 +2,13 @@ export default class HttpClient {
   public async request<TResponse>(
     url: string, init?: RequestInit
   ): Promise<TResponse> {
-    console.log('>> 1')
-    const { json } = await fetch(url, init)
-    console.log('>> 2')
-    console.dir(await json())
-    return await json() as TResponse
+    const response = await fetch(url, init)
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data as TResponse;
   }
 }
