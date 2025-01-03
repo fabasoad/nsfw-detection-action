@@ -14,7 +14,7 @@ list_files_by_type() {
   type_modifier="${5}"
   case ",${types}," in
     *",${type},"*)
-      git diff --name-status $(git merge-base "${head_sha}" "${base_sha}") "${head_sha}" \
+      git diff --name-status "${base_sha}" "${head_sha}" \
         | grep "^${type_modifier}" \
         | cut -f2
       ;;
