@@ -1,10 +1,13 @@
-import { getInput, setFailed, error, warning, info } from '@actions/core'
+import { getInput, setFailed } from '@actions/core'
+import { Logger } from 'winston'
 import {
   NsfwDetectionProviderFactory
 } from './detection/NsfwDetectionProviderFactory'
 import { GitHubClient } from './utils/GitHubClient'
+import { getLogger } from './utils/LoggerFactory'
 
 async function run() {
+  const logger: Logger = getLogger()
   try {
     const threshold = Number(getInput('threshold'))
     const provider =
@@ -22,11 +25,11 @@ async function run() {
       const result: number = threshold - score
       if (result < 0) {
         count++
-        error(`${file} file is detected as NSFW (score is ${score})`)
+        logger.error(`${file} file is detected as NSFW (score is ${score})`)
       } else if (result > 5) {
-        info(`${file} is safe to be used (score is ${score})`)
+        logger.info(`${file} is safe to be used (score is ${score})`)
       } else {
-        warning(
+        logger.warning(
           `${file} file is close to be detected as NSFW (score is ${score})`)
       }
     }
