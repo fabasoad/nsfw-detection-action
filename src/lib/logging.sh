@@ -6,13 +6,13 @@
 # 2. (Required) Message.
 log() {
   header="nsfw-detection-action"
-  printf "[%s] [%s] %s %s\n" "${1}" "${header}" "$(date +'%Y-%m-%d %T')" "${2}" 1>&2
+  printf "%s[%s] %s %s\n" "${1}" "${header}" "$(date +'%Y-%m-%d %T')" "${2}" 1>&2
 }
 
 log_info() {
-  log "info" "${1}"
+  log "[info] " "${1}"
 }
 
 log_warning() {
-  log "warning" "${1}"
+  log "[warning]" "${1}"
 }

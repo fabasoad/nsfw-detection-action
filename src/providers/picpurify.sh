@@ -13,11 +13,12 @@ main() {
   api_key="${2}"
 
   for file_path in ${files}; do
+    log_info "Classifying ${file_path}..."
     response=$(curl -s \
       -X POST "${url}" \
       -F "API_KEY=${api_key}" \
       -F "task=porn_moderation,suggestive_nudity_moderation" \
-      -F "file_image=@/path/to/local/file.jpg")
+      -F "file_image=@${file_path}")
     if [ "$(echo "${response}" | jq -r '.status')" = "success" ]; then
       score=$(echo "${response}" | jq -r '.confidence_score_decision')
       log_info "Classified ${file_path} with score ${score}"
