@@ -74,6 +74,10 @@ runs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       env:
         INPUT_PROVIDER: ${{ inputs.provider }}
-      run: ./${INPUT_PROVIDER}.sh "${{ steps.changed-files.outputs.all_changed_files }}"
+        INPUT_API_KEY: ${{ inputs.api-key }}
+      run: |
+        ./${INPUT_PROVIDER}.sh \
+          "${{ steps.changed-files.outputs.all_changed_files }}" \
+          "${INPUT_API_KEY}"
       shell: sh
       working-directory: "${{ github.action_path }}/src/providers"
