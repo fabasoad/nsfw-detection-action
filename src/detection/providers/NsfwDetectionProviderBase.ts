@@ -5,13 +5,6 @@ import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
 import FormData from 'form-data'
 import { PathLike } from 'fs'
 
-class HTTPError extends Error {
-  constructor(status: number, message: string) {
-    super(`Status: ${status}. Reason: ${message}`)
-    this.name = 'HTTPError'
-  }
-}
-
 export default abstract class NsfwDetectionProviderBase
 implements INsfwDetectionProvider {
   private readonly baseUrl: string
@@ -25,14 +18,10 @@ implements INsfwDetectionProvider {
   protected async request<TResponse>(
     body: FormData, headers?: FormData.Headers
   ): Promise<TResponse> {
-    const { ok, status, statusText, json } = await ky.post<TResponse>(this.baseUrl, {
+    const { json } = await ky.post<TResponse>(this.baseUrl, {
       body: body,
       headers: headers
     })
-
-    if (!ok) {
-      throw new HTTPError(status, statusText)
-    }
 
     return await json()
   }
