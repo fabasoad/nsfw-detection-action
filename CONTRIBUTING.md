@@ -45,8 +45,8 @@ use them to create an issue and fill all required fields.
 
 ## Use a consistent coding style
 
-Please follow all the rules from [this](https://github.com/excelmicro/typescript)
-great guide provided by [excelmicro](https://github.com/excelmicro) for coding style.
+Please follow all the rules from [this](https://google.github.io/styleguide/shellguide.html)
+great guide provided by Google for coding style.
 
 ## License
 

@@ -65,6 +65,7 @@ runs:
         INPUT_API_KEY: ${{ inputs.api-key }}
         INPUT_THRESHOLD: ${{ inputs.threshold }}
       run: |
+        # TODO: Not all files but based on types
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
           "${{ steps.changed-files.outputs.all_changed_files }}" \
           "${INPUT_API_KEY}" \

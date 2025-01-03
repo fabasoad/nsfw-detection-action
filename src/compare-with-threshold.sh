@@ -5,7 +5,7 @@ compare_with_threshold() {
   threshold="${2}"
   file_path="${3}"
 
-  if awk -v t="${threshold}" -v s="${score}" 'BEGIN {exit !((t - s) < 0)}'; then
+  if awk -v t="${threshold}" -v s="${score}" 'BEGIN {exit !((t - s) <= 0)}'; then
     log_error "NSFW content detected in ${file_path} with score ${score}."
     exit 1
   elif awk -v t="${threshold}" -v s="${score}" 'BEGIN {exit !((t - s) > 0.2)}'; then

@@ -26,14 +26,14 @@ jobs:
         include:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
-            threshold: 0.32
+            threshold: 0.45
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
-            threshold: 0.97
+            threshold: 0.95
           - provider: sightengine
             api-user: SIGHTENGINE_API_USER
             api-key: SIGHTENGINE_API_SECRET
-            threshold: 0.8
+            threshold: 0.85
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4

@@ -17,6 +17,7 @@ by chosen provider.
 
 ## Contents
 
+<!-- prettier-ignore-start -->
 <!-- TOC -->
 * [NSFW detection action](#nsfw-detection-action)
   * [Contents](#contents)
@@ -24,11 +25,12 @@ by chosen provider.
     * [Cloudmersive](#cloudmersive)
     * [PicPurify](#picpurify)
     * [SightEngine](#sightengine)
+  * [Supported OS](#supported-os)
+  * [Prerequisites](#prerequisites)
   * [Inputs](#inputs)
-  * [Example usage](#example-usage)
-    * [Workflow configuration](#workflow-configuration)
-    * [Result](#result)
+  * [Outputs](#outputs)
 <!-- TOC -->
+<!-- prettier-ignore-end -->
 
 ## Providers
 
@@ -53,42 +55,41 @@ requires to provide 2 API identifiers, so please put them into `api-key` paramet
 separated by comma. For example, `api-key` should be _123456,abcdef_ if your
 `api_user` is _123456_ and `api_secret` is _abcdef_.
 
+## Supported OS
+
+<!-- prettier-ignore-start -->
+| OS      |                    |
+|---------|--------------------|
+| Windows | :white_check_mark: |
+| Linux   | :white_check_mark: |
+| macOS   | :white_check_mark: |
+<!-- prettier-ignore-end -->
+
+## Prerequisites
+
+The following tools have to be installed for successful work of this GitHub Action:
+[curl](https://curl.se), [awk](https://en.wikipedia.org/wiki/AWK).
+
 ## Inputs
 
-| Name         | Required | Description                                                                                   | Default                          | Possible values                  |
-|--------------|----------|-----------------------------------------------------------------------------------------------|----------------------------------|----------------------------------|
-| github-token | Yes      | GitHub token                                                                                  |                                  | &lt;String&gt;                   |
-| provider     | Yes      | Provider identifier                                                                           |                                  | &lt;String&gt;                   |
-| api-key      | Yes      | API key that should be used for chosen `provider`                                             |                                  | &lt;String&gt;                   |
-| threshold    | Yes      | Action will be failed in case NSFW detection value will be greater or equal to this parameter |                                  | &lt;Float&gt;                    |
-| type         | No       | Type of committed files separated by comma                                                    | `modified,added,renamed`         | `modified,added,renamed`         |
-| extensions   | No       | List of file extensions separated by comma                                                    | `jpeg,jpg,png,gif,webp,tiff,bmp` | `jpeg,jpg,png,gif,webp,tiff,bmp` |
-
-## Example usage
-
-### Workflow configuration
-
 ```yaml
-name: Test
-
-on: push
-
-jobs:
-  nsfw-detection:
-    name: Verify files
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: fabasoad/nsfw-detection-action@v3
-        with:
-          provider: picpurify
-          threshold: 0.9
-          type: modified,added,renamed
-          extensions: jpg,jpeg
-          github-token: ${{ github.token }}
-          api-key: ${{ secrets.PICPURIFY_API_KEY }}
+- uses: fabasoad/nsfw-detection-action@v3
+  with:
+    # (Required) Provider identifier.
+    provider: "picpurify"
+    # (Required) API key required for the selected provider.
+    api-key: ${{ secrets.PICPURIFY_API_KEY }}
+    # (Required) The action will fail if the NSFW detection value is greater
+    # than or equal to this parameter.
+    threshold: "0.6"
+    # (Optional) Comma-separated list of file extensions for NSFW detection.
+    # Defaults to "jpeg,jpg,png,gif,webp,tiff,bmp".
+    extensions: "jpg,png,gif"
+    # (Optional) Comma-separated types of changes made during work on the branch.
+    # Defaults to "added,copied,modified,renamed".
+    types: "added,modified"
 ```
 
-### Result
+## Outputs
 
-![Result](screenshot1.png)
+None.
