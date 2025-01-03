@@ -24,9 +24,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          #          - provider: cloudmersive
-          #            api-key: CLOUDMERSIVE_API_KEY
-          #            threshold: 0.32
+          - provider: cloudmersive
+            api-key: CLOUDMERSIVE_API_KEY
+            threshold: 0.32
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.97

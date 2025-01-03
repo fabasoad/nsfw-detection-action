@@ -15,7 +15,7 @@ main() {
 
   for file_path in ${files}; do
     log_debug "Classifying ${file_path}..."
-    response=$(curl \
+    response=$(curl -s \
       -X POST "${url}" \
       -F "media=@${file_path}" \
       -F "models=nudity-2.1" \
