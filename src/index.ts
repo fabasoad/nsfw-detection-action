@@ -34,7 +34,7 @@ async function run({ threshold, providerName, githubToken, types, extensions }: 
       if (result < 0) {
         count++
         logger.error(`${file} file is detected as NSFW (score is ${score})`)
-      } else if (result > 5) {
+      } else if (result > 0.2) {
         logger.info(`${file} is safe to be used (score is ${score})`)
       } else {
         logger.warning(

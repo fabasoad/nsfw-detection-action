@@ -1,3 +1,5 @@
+import { Logger } from 'winston'
+import { getLogger } from '../../utils/LoggerFactory'
 import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
 import HttpClient from '../../utils/HttpClient'
 import FormData from 'form-data'
@@ -7,6 +9,8 @@ export default abstract class NsfwDetectionProviderBase
 implements INsfwDetectionProvider {
   private readonly baseUrl: string
   private readonly client = new HttpClient()
+
+  protected readonly logger: Logger = getLogger()
 
   protected constructor(baseUrl: string) {
     this.baseUrl = baseUrl

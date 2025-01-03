@@ -30,7 +30,7 @@ jobs:
             api-key: CLOUDMERSIVE_API_KEY
             threshold: 0.32
           - provider: picpurify
-            api-key: picpurify
+            api-key: PICPURIFY_API_KEY
             threshold: 0.97
           - provider: sightengine
             api-user: SIGHTENGINE_API_USER
@@ -39,14 +39,6 @@ jobs:
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
-      - name: Prepare API key
-        id: secrets
-        run: |
-          if [ "${{ matrix.provider }}" = "sightengine" ]; then
-            echo "api-key=${{ secrets[matrix.api-user] }},${{ secrets[matrix.api-key] }}" >> $GITHUB_OUTPUT
-          else
-            echo "api-key=${{ secrets[matrix.api-key] }}" >> $GITHUB_OUTPUT
-          fi
       - name: Download test file
         run: |
           curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
@@ -56,5 +48,5 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           provider: "${{ matrix.provider }}"
-          api-key: "${{ steps.secrets.outputs.api-key }}"
+          api-key: "${{ matrix.provider == 'sightengine' && format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]) || secrets[matrix.api-key] }}"
           threshold: "${{ matrix.threshold }}"
