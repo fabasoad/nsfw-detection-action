@@ -19,6 +19,7 @@ main() {
       -F "API_KEY=${api_key}" \
       -F "task=porn_moderation,suggestive_nudity_moderation" \
       -F "file_image=@${file_path}")
+    echo "${response}"
     if [ "$(echo "${response}" | jq -r '.status')" = "success" ]; then
       score=$(echo "${response}" | jq -r '.confidence_score_decision')
       log_info "Classified ${file_path} with score ${score}"
