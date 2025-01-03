@@ -1,14 +1,20 @@
+import ky from 'ky'
 import { Logger } from 'winston'
 import { getLogger } from '../../logging/LoggerFactory'
 import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
-import HttpClient from '../../utils/HttpClient'
 import FormData from 'form-data'
 import { PathLike } from 'fs'
+
+class HTTPError extends Error {
+  constructor(status: number, message: string) {
+    super(`Status: ${status}. Reason: ${message}`)
+    this.name = 'HTTPError'
+  }
+}
 
 export default abstract class NsfwDetectionProviderBase
 implements INsfwDetectionProvider {
   private readonly baseUrl: string
-  private readonly client = new HttpClient()
 
   protected readonly logger: Logger = getLogger()
 
@@ -16,14 +22,19 @@ implements INsfwDetectionProvider {
     this.baseUrl = baseUrl
   }
 
-  protected request<TResponse>(
+  protected async request<TResponse>(
     body: FormData, headers?: FormData.Headers
   ): Promise<TResponse> {
-    const init: RequestInit = { body, method: 'POST' }
-    if (headers) {
-      init['headers'] = headers
+    const { ok, status, statusText, json } = await ky.post<TResponse>(this.baseUrl, {
+      body: body,
+      headers: headers
+    })
+
+    if (!ok) {
+      throw new HTTPError(status, statusText)
     }
-    return this.client.request<TResponse>(this.baseUrl, init)
+
+    return await json()
   }
 
   abstract getScore(apiKey: string, file: PathLike): Promise<number | null>
