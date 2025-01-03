@@ -6,9 +6,6 @@ import {
   CloudmersiveNsfwDetectionProvider
 } from '../../detection/providers/CloudmersiveNsfwDetectionProvider'
 import {
-  DeepaiNsfwDetectionProvider
-} from '../../detection/providers/DeepaiNsfwDetectionProvider'
-import {
   PicPurifyNsfwDetectionProvider
 } from '../../detection/providers/PicPurifyNsfwDetectionProvider'
 import {
@@ -26,7 +23,6 @@ describe(NsfwDetectionProviderFactory.name, () => {
       className: CloudmersiveNsfwDetectionProvider.name,
       paramName: 'cloudmersive'
     },
-    { className: DeepaiNsfwDetectionProvider.name, paramName: 'deepai' },
     { className: PicPurifyNsfwDetectionProvider.name, paramName: 'picpurify' },
     {
       className: SightEngineNsfwDetectionProvider.name,

@@ -3,9 +3,6 @@ import {
   CloudmersiveNsfwDetectionProvider
 } from './providers/CloudmersiveNsfwDetectionProvider'
 import {
-  DeepaiNsfwDetectionProvider
-} from './providers/DeepaiNsfwDetectionProvider'
-import {
   PicPurifyNsfwDetectionProvider
 } from './providers/PicPurifyNsfwDetectionProvider'
 import {
@@ -20,7 +17,6 @@ export class NsfwDetectionProviderFactory {
   public static getProvider(name: string): INsfwDetectionProvider {
     switch (name) {
     case 'cloudmersive': return new CloudmersiveNsfwDetectionProvider()
-    case 'deepai': return new DeepaiNsfwDetectionProvider()
     case 'picpurify': return new PicPurifyNsfwDetectionProvider()
     case 'sightengine': return new SightEngineNsfwDetectionProvider()
     default:

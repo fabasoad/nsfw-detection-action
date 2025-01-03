@@ -17,13 +17,18 @@ by chosen provider.
 
 ## Contents
 
-- [Providers](#providers)
-  - [Cloudmersive](#cloudmersive)
-  - [DeepAI](#deepai)
-  - [PicPurify](#picpurify)
-  - [SightEngine](#sightengine)
-- [Inputs](#inputs)
-- [Example usage](#example-usage)
+<!-- TOC -->
+* [NSFW detection action](#nsfw-detection-action)
+  * [Contents](#contents)
+  * [Providers](#providers)
+    * [Cloudmersive](#cloudmersive)
+    * [PicPurify](#picpurify)
+    * [SightEngine](#sightengine)
+  * [Inputs](#inputs)
+  * [Example usage](#example-usage)
+    * [Workflow configuration](#workflow-configuration)
+    * [Result](#result)
+<!-- TOC -->
 
 ## Providers
 
@@ -32,12 +37,6 @@ by chosen provider.
 Identifier is `cloudmersive`. Sign up to [Cloudmersive](https://cloudmersive.com/)
 official website. Then go to [API Keys](https://account.cloudmersive.com/keys)
 page, create a new one and copy it.
-
-### DeepAI
-
-Identifier is `deepai`. Sign up to [DeepAI](https://deepai.org/) official website.
-Then go to [Profile](https://deepai.org/dashboard/profile) page and copy `api-key`
-that is located on the top of the page.
 
 ### PicPurify
 
@@ -50,17 +49,17 @@ page and copy `API key` that is located on the top of the page.
 Identifier is `sightengine`. Sign up to [SightEngine](https://sightengine.com/)
 official website. Then go to [Get Started](https://dashboard.sightengine.com/getstarted)
 page and copy API user and API secret from the examples provided. This provider
-requires to provide 2 API identifiers, so please put them into `api_key` parameter
-separated by comma. For example, your `api_user` is _123456_ and `api_secret` is
-_abcdef_, so `api_key` should be _123456,abcdef_.
+requires to provide 2 API identifiers, so please put them into `api-key` parameter
+separated by comma. For example, `api-key` should be _123456,abcdef_ if your
+`api_user` is _123456_ and `api_secret` is _abcdef_.
 
 ## Inputs
 
 | Name         | Required | Description                                                                                   | Default                          | Possible values                  |
 |--------------|----------|-----------------------------------------------------------------------------------------------|----------------------------------|----------------------------------|
-| github_token | Yes      | GitHub token                                                                                  |                                  | &lt;String&gt;                   |
+| github-token | Yes      | GitHub token                                                                                  |                                  | &lt;String&gt;                   |
 | provider     | Yes      | Provider identifier                                                                           |                                  | &lt;String&gt;                   |
-| api_key      | Yes      | API key that should be used for chosen `provider`                                             |                                  | &lt;String&gt;                   |
+| api-key      | Yes      | API key that should be used for chosen `provider`                                             |                                  | &lt;String&gt;                   |
 | threshold    | Yes      | Action will be failed in case NSFW detection value will be greater or equal to this parameter |                                  | &lt;Float&gt;                    |
 | type         | No       | Type of committed files separated by comma                                                    | `modified,added,renamed`         | `modified,added,renamed`         |
 | extensions   | No       | List of file extensions separated by comma                                                    | `jpeg,jpg,png,gif,webp,tiff,bmp` | `jpeg,jpg,png,gif,webp,tiff,bmp` |
@@ -76,18 +75,18 @@ on: push
 
 jobs:
   nsfw-detection:
-    name: Build
+    name: Verify files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
-      - uses: fabasoad/nsfw-detection-action@main
+      - uses: actions/checkout@v4
+      - uses: fabasoad/nsfw-detection-action@v3
         with:
-          provider: deepai
+          provider: picpurify
           threshold: 0.9
           type: modified,added,renamed
           extensions: jpg,jpeg
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          api_key: ${{ secrets.DEEPAI_API_KEY }}
+          github-token: ${{ github.token }}
+          api-key: ${{ secrets.PICPURIFY_API_KEY }}
 ```
 
 ### Result

@@ -19,11 +19,8 @@ jobs:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
             threshold: 0.32
-          - provider: deepai
-            api-key: DEEPAI_API_KEY
-            threshold: 0.39
           - provider: picpurify
-            api-key: PICPURIFY_API_KEY
+            api-key: picpurify
             threshold: 0.97
           - provider: sightengine
             api-user: SIGHTENGINE_API_USER
@@ -47,7 +44,7 @@ jobs:
       - name: Detect NSFW content
         uses: ./
         with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
           provider: "${{ matrix.provider }}"
-          api_key: "${{ steps.secrets.outputs.api-key }}"
+          api-key: "${{ steps.secrets.outputs.api-key }}"
           threshold: "${{ matrix.threshold }}"

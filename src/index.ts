@@ -1,27 +1,35 @@
 import { getInput, setFailed } from '@actions/core'
 import { Logger } from 'winston'
 import {
+  INsfwDetectionProvider,
   NsfwDetectionProviderFactory
 } from './detection/NsfwDetectionProviderFactory'
 import { GitHubClient } from './utils/GitHubClient'
 import { getLogger } from './utils/LoggerFactory'
 
-async function run() {
+type RunOptions = {
+  threshold: number,
+  providerName: string,
+  githubToken: string,
+  types: string[],
+  extensions: string[]
+}
+
+async function run({ threshold, providerName, githubToken, types, extensions }: RunOptions) {
   const logger: Logger = getLogger()
   try {
-    const threshold = Number(getInput('threshold'))
-    const provider =
-        NsfwDetectionProviderFactory.getProvider(getInput('provider'))
+    const provider: INsfwDetectionProvider =
+        NsfwDetectionProviderFactory.getProvider(providerName)
     const githubClient = new GitHubClient()
     const files: Set<string> = await githubClient.getChangedFiles(
-      getInput('github_token'),
-      getInput('type').split(','),
-      getInput('extensions').split(',')
+      githubToken,
+      types,
+      extensions
     )
 
     let count = 0
     for (const file of files) {
-      const score: number = await provider.getScore(getInput('api_key'), file)
+      const score: number = await provider.getScore(getInput('api-key'), file)
       const result: number = threshold - score
       if (result < 0) {
         count++
@@ -43,4 +51,10 @@ async function run() {
   }
 }
 
-run()
+run({
+  threshold: Number(getInput('threshold')),
+  providerName: getInput('provider'),
+  githubToken: getInput('github-token'),
+  types: getInput('types').split(','),
+  extensions: getInput('extensions').split(',')
+})
