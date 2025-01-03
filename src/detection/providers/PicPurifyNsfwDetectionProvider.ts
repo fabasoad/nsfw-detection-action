@@ -1,5 +1,6 @@
 import FormData from 'form-data'
-import fs from 'fs'
+import { PathLike, Stats, statSync, createReadStream } from 'fs'
+import { resolve } from 'path'
 import NsfwDetectionProviderBase from './NsfwDetectionProviderBase'
 
 type PicPurifyResponse = {
@@ -15,9 +16,14 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
     super('https://www.picpurify.com/analyse/1.1')
   }
 
-  public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
+  public async getScore(apiKey: string, file: PathLike): Promise<number> {
     const body = new FormData()
-    body.append('file_image', fs.createReadStream(file))
+    const { size }: Stats = statSync(file)
+    body.append('file_image', createReadStream(file), {
+      knownLength: size,
+      filename: file.toString(),
+      filepath: resolve(file.toString())
+    })
     body.append('API_KEY', apiKey)
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
 
