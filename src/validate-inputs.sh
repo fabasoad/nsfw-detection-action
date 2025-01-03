@@ -66,7 +66,7 @@ main() {
   check_is_not_empty "api-key" "${input_api_key}"
   check_number "threshold" "${input_threshold}"
   check_is_not_empty "extensions" "${input_extensions}"
-  check_is_not_empty "types" "${input_types}"
+  check_enum "types" "${input_types}" "added,copied,modified,renamed"
 }
 
 main "$@"
