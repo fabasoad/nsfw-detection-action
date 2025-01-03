@@ -53,19 +53,6 @@ runs:
       with:
         files: "**.{${{ inputs.extensions }}}"
 
-    #    - name: Get changed files
-    #      id: get-changed-files
-    #      env:
-    #        INPUT_TYPES: "${{ inputs.types }}"
-    #        INPUT_EXTENSIONS: "${{ inputs.extensions }}"
-    #      run: |
-    #        ${GITHUB_ACTION_PATH}/src/get-changed-files.sh \
-    #          "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}" \
-    #          "${{ github.event.pull_request.head.sha }}" \
-    #          "${INPUT_TYPES}" \
-    #          "${INPUT_EXTENSIONS}"
-    #      shell: sh
-
     - name: Setup jq
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: dcarbone/install-jq-action@v3

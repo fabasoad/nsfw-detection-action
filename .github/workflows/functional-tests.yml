@@ -30,10 +30,10 @@ jobs:
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.97
-    #          - provider: sightengine
-    #            api-user: SIGHTENGINE_API_USER
-    #            api-key: SIGHTENGINE_API_SECRET
-    #            threshold: 0.8
+          - provider: sightengine
+            api-user: SIGHTENGINE_API_USER
+            api-key: SIGHTENGINE_API_SECRET
+            threshold: 0.8
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
@@ -45,6 +45,5 @@ jobs:
         uses: ./
         with:
           provider: "${{ matrix.provider }}"
-          # api-key: "${{ matrix.provider == 'sightengine' && format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]) || secrets[matrix.api-key] }}"
-          api-key: "${{ secrets[matrix.api-key] }}"
+          api-key: "${{ matrix.provider == 'sightengine' && format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]) || secrets[matrix.api-key] }}"
           threshold: "${{ matrix.threshold }}"

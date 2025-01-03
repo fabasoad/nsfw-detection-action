@@ -16,3 +16,9 @@ log_info() {
 log_warning() {
   log "[warning]" "${1}"
 }
+
+log_debug() {
+  if [ "${ACTIONS_STEP_DEBUG:-false}" = "true" ]; then
+    log "[debug] " "${1}"
+  fi
+}

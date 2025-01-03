@@ -13,7 +13,7 @@ main() {
   api_key="${2}"
 
   for file_path in ${files}; do
-    log_info "Classifying ${file_path}..."
+    log_debug "Classifying ${file_path}..."
     response=$(curl -s \
       -X POST "${url}" \
       -F "API_KEY=${api_key}" \
@@ -24,7 +24,7 @@ main() {
       log_info "Classified ${file_path} with score ${score}"
     else
       msg="There was a problem during ${file_path} file classification."
-      if [ -n "${response}" ]; then
+      if [ -n "${response}" ] && [ "$(echo "${response}" | jq 'has("error")')" = "true" ]; then
         msg="${msg} $(echo "${response}" | jq -r '.error | "Code: \(.errorCode). Reason: \(.errorMsg)"')"
       fi
       log_warning "${msg}"
