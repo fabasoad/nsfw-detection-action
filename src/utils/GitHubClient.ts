@@ -1,14 +1,15 @@
 import { context, getOctokit } from '@actions/github'
-import LoggerFactory from './LoggerFactory'
+import { getLogger } from './LoggerFactory'
 import { Logger } from 'winston'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import {
   GetResponseTypeFromEndpointMethod,
   GetResponseDataTypeFromEndpointMethod
 } from '@octokit/types'
+import { resolve } from 'path'
 
 export class GitHubClient {
-  private readonly logger: Logger = LoggerFactory.create(GitHubClient.name)
+  private readonly logger: Logger = getLogger()
 
   public async getChangedFiles(
     gitHubToken: string,
@@ -25,31 +26,32 @@ export class GitHubClient {
     const payload: WebhookPayload = context.payload
     const { repo, owner } = context.repo
 
+    const base: string = context.eventName === 'pull_request'
+      ? payload.pull_request?.base.sha
+      : payload.before
+    const head: string = payload.after
     const resp: CompareCommitsResponseType =
-      await octokit.rest.repos.compareCommits(
-        { owner, repo, base: payload.before, head: payload.after }
-      )
+      await octokit.rest.repos.compareCommits({ owner, repo, base, head })
     const data: CompareCommitsResponseDataType = resp.data
     if (!data.files) {
       throw new Error('Cannot retrieve files list')
     }
     const count = data.files.length;
     this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
-      `file${count > 1 ? 's' : ''} found between ${payload.before} and ` +
-      `${payload.after} commits`)
+      `file${count > 1 ? 's' : ''} found between base (${base.substring(0, 7)})` +
+      ` and head (${head.substring(0, 7)})`)
     const result = new Set<string>()
     for (const file of data.files) {
-      this.logger.debug(`File: ${file.filename}. Status: ${file.status}`)
+      this.logger.info(`File: ${file.filename}. Status: ${file.status}`)
       if (types.includes(file.status)) {
         const temp: string[] = file.filename.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
           .includes(temp[temp.length - 1].toLowerCase())) {
-          result.add(file.filename)
+          result.add(resolve(file.filename))
         }
       }
     }
-    this.logger.info(`There ${result.size === 1 ? 'is' : 'are'}` +
-      ` ${result.size} file${result.size === 1 ? '' : 's'} will be checked`)
+    this.logger.info(`${result.size} file${result.size === 1 ? '' : 's'} will be checked`)
     return result
   }
 }

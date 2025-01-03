@@ -16,7 +16,7 @@ export class SightEngineNsfwDetectionProvider
   }
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
-    const apiKeys = apiKey.split(',')
+    const apiKeys: string[] = apiKey.split(',')
     const body = new FormData()
     body.append('media', fs.createReadStream(file))
     body.append('api_user', apiKeys[0])
