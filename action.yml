@@ -53,12 +53,12 @@ runs:
         INPUT_TYPES: "${{ inputs.types }}"
         INPUT_EXTENSIONS: "${{ inputs.extensions }}"
       run: |
-        ./get-changed-files.sh \
+        ${GITHUB_ACTION_PATH}/src/get-changed-files.sh \
           "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}" \
+          "${{ github.sha }}" \
           "${INPUT_TYPES}" \
           "${INPUT_EXTENSIONS}"
       shell: sh
-      working-directory: "${{ github.action_path }}/src"
 
     - name: Setup jq
       if: ${{ steps.get-changed-files.outputs.files != '' }}

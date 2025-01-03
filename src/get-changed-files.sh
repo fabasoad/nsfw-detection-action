@@ -8,12 +8,13 @@ LIB_DIR_PATH="${SRC_DIR_PATH}/lib"
 
 list_files_by_type() {
   base_sha="${1}"
-  types="${2}"
-  type="${3}"
-  type_modifier="${4}"
+  head_sha="${2}"
+  types="${3}"
+  type="${4}"
+  type_modifier="${5}"
   case ",${types}," in
     *",${type},"*)
-      git diff --name-status $(git merge-base HEAD "${base_sha}") HEAD \
+      git diff --name-status $(git merge-base "${head_sha}" "${base_sha}") "${head_sha}" \
         | grep "^${type_modifier}" \
         | cut -f2
       ;;
@@ -22,18 +23,20 @@ list_files_by_type() {
 
 list_changed_files() {
   base_sha="${1}"
-  types="${2}"
-  list_files_by_type "${base_sha}" "${types}" "added" "A"
-  list_files_by_type "${base_sha}" "${types}" "modified" "M"
-  list_files_by_type "${base_sha}" "${types}" "renamed" "R"
+  head_sha="${2}"
+  types="${3}"
+  list_files_by_type "${base_sha}" "${head_sha}" "${types}" "added" "A"
+  list_files_by_type "${base_sha}" "${head_sha}" "${types}" "modified" "M"
+  list_files_by_type "${base_sha}" "${head_sha}" "${types}" "renamed" "R"
 }
 
 main() {
   base_sha="${1}"
-  types="${2}"
-  extensions="${3}"
+  head_sha="${2}"
+  types="${3}"
+  extensions="${4}"
   echo "files<<EOF" >> "$GITHUB_OUTPUT"
-  for file_path in $(list_changed_files "${base_sha}" "${types}"); do
+  for file_path in $(list_changed_files "${base_sha}" "${head_sha}" "${types}"); do
     filename=$(basename "${file_path}")
     extension="${filename##*.}"
     case ",${extensions}," in
