@@ -1,5 +1,5 @@
 import fs from 'fs'
-import CloudmersiveValidateApiClient from 'cloudmersive-validate-api-client'
+import CloudmersiveImageApiClient from 'cloudmersive-image-api-client'
 import NsfwDetectionProviderBase from './NsfwDetectionProviderBase'
 
 type CloudmersiveResponse = {
@@ -13,9 +13,23 @@ export class CloudmersiveNsfwDetectionProvider
   }
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
-    const client = CloudmersiveValidateApiClient.ApiClient.instance
-    console.dir(client)
+    const defaultClient = CloudmersiveImageApiClient.ApiClient.instance
+    const Apikey = defaultClient.authentications['Apikey']
+    Apikey.apiKey = apiKey
+    const apiInstance = new CloudmersiveImageApiClient.NsfwApi()
+    const imageFile = Buffer.from(fs.readFileSync(file).buffer)
+    console.dir(apiInstance)
+    apiInstance.nsfwClassify(imageFile, (error, data, response) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log('API called successfully. Returned data: ' + data);
+      }
+    })
     return 0
+    // const client = CloudmersiveValidateApiClient.ApiClient.instance
+    // console.dir(client)
+    // return 0
     // const body = new FormData()
     // body.append('imageFile', fs.createReadStream(file))
     //

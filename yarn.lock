@@ -1559,12 +1559,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cloudmersive-validate-api-client@npm:1.4.8":
-  version: 1.4.8
-  resolution: "cloudmersive-validate-api-client@npm:1.4.8"
+"cloudmersive-image-api-client@npm:1.3.5":
+  version: 1.3.5
+  resolution: "cloudmersive-image-api-client@npm:1.3.5"
   dependencies:
     superagent: "npm:3.7.0"
-  checksum: 10c0/dfba69a732ffbbe5c79eb1caa33061404411ef72fb1ba0435ab86964cd626fe74108102d90082d3f69e377b285db5639c7184afb5437e8c2db9d9c4da3bc7d1f
+  checksum: 10c0/540434ee2bcb5be097d5184b5e94f925aa8b353466602c52713a15ae4d57602e4c653269b7993a6613aefc30c2f7ff656267dee424fa8c1fed5ae648be805846
   languageName: node
   linkType: hard
 
@@ -3386,7 +3386,7 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.10.3"
     "@vercel/ncc": "npm:0.38.3"
-    cloudmersive-validate-api-client: "npm:1.4.8"
+    cloudmersive-image-api-client: "npm:1.3.5"
     form-data: "npm:4.0.1"
     jest: "npm:29.7.0"
     jest-circus: "npm:29.7.0"
