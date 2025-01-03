@@ -1,13 +1,16 @@
 import FormData from 'form-data'
-import fs from 'fs'
+import { PathLike, statSync, createReadStream } from 'fs'
 import NsfwDetectionProviderBase from './NsfwDetectionProviderBase'
+
+type PicPurifyError = {
+  errorCode: number,
+  errorMsg: string
+}
 
 type PicPurifyResponse = {
   status: string
-  error: {
-    errorMsg: string
-  }
-  confidence_score_decision: number
+  error?: PicPurifyError
+  confidence_score_decision?: number
 }
 
 export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
@@ -15,18 +18,25 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
     super('https://www.picpurify.com/analyse/1.1')
   }
 
-  public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
+  public async getScore(apiKey: string, file: PathLike): Promise<number | null> {
     const body = new FormData()
-    body.append('file_image', fs.createReadStream(file))
+    body.append('file_image', createReadStream(file), {
+      knownLength: statSync(file).size
+    })
     body.append('API_KEY', apiKey)
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
 
-    const resp = await this.request<PicPurifyResponse>(body)
-    if (resp.status !== 'success') {
-      const message = resp.error && resp.error.errorMsg ?
-        resp.error.errorMsg : `Failed to analyze ${file}.`
-      throw new Error(message)
+    const { status, error, confidence_score_decision } =
+      await this.request<PicPurifyResponse>(body)
+    if (status === 'failure') {
+      const { errorCode, errorMsg }: PicPurifyError = error!
+      this.logger.warning(
+        `There was a problem during ${file} file classification. `
+          + `Code: ${errorCode}. Reason: ${errorMsg}`
+      )
+      return null
+    } else {
+      return confidence_score_decision!
     }
-    return resp.confidence_score_decision
   }
 }

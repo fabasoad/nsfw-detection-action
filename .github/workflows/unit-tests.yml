@@ -1,11 +1,16 @@
 ---
 name: Unit Tests
 
-on:
-  pull_request: {}
+on: # yamllint disable-line rule:truthy
   push:
     branches:
       - main
+  pull_request:
+    paths:
+      - .github/workflows/unit-tests.yml
+      - src/**
+      - jest.config.json
+  workflow_dispatch: {}
 
 jobs:
   jest:

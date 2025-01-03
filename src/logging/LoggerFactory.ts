@@ -13,7 +13,7 @@ const logger: Logger = createLogger({
   format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(({ level, message, timestamp }: TransformableInfo) => {
-      return `[${level}] [${header}] ${timestamp} ${message}`
+      return `[${level}]${level == 'error' ? '' : ' '}[${header}] ${timestamp} ${message}`
     })
   ),
   transports: [
@@ -21,6 +21,6 @@ const logger: Logger = createLogger({
   ]
 })
 
-export function getLogger() {
+export function getLogger(): Logger {
   return logger
 }

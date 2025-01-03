@@ -1,12 +1,11 @@
 import { context, getOctokit } from '@actions/github'
-import { getLogger } from './LoggerFactory'
+import { getLogger } from '../logging/LoggerFactory'
 import { Logger } from 'winston'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import {
   GetResponseTypeFromEndpointMethod,
   GetResponseDataTypeFromEndpointMethod
 } from '@octokit/types'
-import { resolve } from 'path'
 
 export class GitHubClient {
   private readonly logger: Logger = getLogger()
@@ -36,7 +35,7 @@ export class GitHubClient {
     if (!data.files) {
       throw new Error('Cannot retrieve files list')
     }
-    const count = data.files.length;
+    const count = data.files.length
     this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
       `file${count > 1 ? 's' : ''} found between base (${base.substring(0, 7)})` +
       ` and head (${head.substring(0, 7)})`)
@@ -47,7 +46,7 @@ export class GitHubClient {
         const temp: string[] = file.filename.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
           .includes(temp[temp.length - 1].toLowerCase())) {
-          result.add(resolve(file.filename))
+          result.add(file.filename)
         }
       }
     }
