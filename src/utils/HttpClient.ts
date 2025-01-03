@@ -9,6 +9,7 @@ export default class HttpClient {
   public async request<TResponse>(
     url: string, init?: RequestInit
   ): Promise<TResponse> {
+    console.dir(init)
     const response = await fetch(url, init)
 
     if (!response.ok) {
