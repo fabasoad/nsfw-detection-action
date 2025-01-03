@@ -6,6 +6,7 @@ import {
   GetResponseTypeFromEndpointMethod,
   GetResponseDataTypeFromEndpointMethod
 } from '@octokit/types'
+import { resolve } from 'path'
 
 export class GitHubClient {
   private readonly logger: Logger = getLogger()
@@ -47,7 +48,7 @@ export class GitHubClient {
         const temp: string[] = file.filename.split('.')
         if (extensions.map((e: string) => e.toLowerCase())
           .includes(temp[temp.length - 1].toLowerCase())) {
-          result.add(file.filename)
+          result.add(resolve(file.filename))
         }
       }
     }
