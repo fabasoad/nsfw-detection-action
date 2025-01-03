@@ -5,7 +5,7 @@ import {
   NsfwDetectionProviderFactory
 } from './detection/NsfwDetectionProviderFactory'
 import { GitHubClient } from './utils/GitHubClient'
-import { getLogger } from './utils/LoggerFactory'
+import { getLogger } from './logging/LoggerFactory'
 
 type RunOptions = {
   threshold: number,

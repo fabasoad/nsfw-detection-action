@@ -1,5 +1,5 @@
 import { context, getOctokit } from '@actions/github'
-import { getLogger } from './LoggerFactory'
+import { getLogger } from '../logging/LoggerFactory'
 import { Logger } from 'winston'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import {

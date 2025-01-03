@@ -1,7 +1,7 @@
 import fs from 'fs'
 import CloudmersiveImageApiClient from 'cloudmersive-image-api-client'
 import { Logger } from 'winston'
-import { getLogger } from '../../utils/LoggerFactory'
+import { getLogger } from '../../logging/LoggerFactory'
 import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
 
 type CloudmersiveResponse = {
