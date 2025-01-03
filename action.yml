@@ -63,12 +63,10 @@ runs:
       env:
         INPUT_PROVIDER: ${{ inputs.provider }}
         INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
       run: |
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
           "${{ steps.changed-files.outputs.all_changed_files }}" \
-          "${INPUT_API_KEY}"
-      shell: sh
-
-    - name: Print scores
-      run: echo "${{ steps.classify-files.outputs.scores }}"
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}"
       shell: sh

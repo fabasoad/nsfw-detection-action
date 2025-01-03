@@ -9,12 +9,16 @@ log() {
   printf "%s[%s] %s %s\n" "${1}" "${header}" "$(date +'%Y-%m-%d %T')" "${2}" 1>&2
 }
 
-log_info() {
-  log "[info] " "${1}"
+log_error() {
+  log "[error]" "${1}"
 }
 
 log_warning() {
   log "[warning]" "${1}"
+}
+
+log_info() {
+  log "[info] " "${1}"
 }
 
 log_debug() {
