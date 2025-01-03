@@ -21,6 +21,7 @@ async function run() {
 
     let count = 0
     for (const file of files) {
+      console.log(file)
       const score: number = await provider.getScore(getInput('api_key'), file)
       const result: number = threshold - score
       if (result < 0) {
