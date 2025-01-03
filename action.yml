@@ -24,13 +24,50 @@ inputs:
   types:
     description: Comma-separated types of changes made during work on the branch.
     required: false
-    default: modified,added,renamed
-  github-token:
-    description: |
-      GitHub token that is used to send requests to GitHub API. Defaults to the
-      token provided by GitHub Actions environment.
-    required: false
-    default: ${{ github.token }}
+    default: added,copied,modified,renamed
 runs:
-  using: node20
-  main: dist/index.js
+  using: composite
+  steps:
+    - name: Validate inputs
+      if: env.SCAN_SCA_EXIT_CODE == '0'
+      id: validate-inputs
+      env:
+        INPUT_PROVIDER: "${{ inputs.provider }}"
+        INPUT_API_KEY: "${{ inputs.api-key }}"
+        INPUT_THRESHOLD: "${{ inputs.threshold }}"
+        INPUT_EXTENSIONS: "${{ inputs.extensions }}"
+        INPUT_TYPES: "${{ inputs.types }}"
+      run: |
+        ./validate-inputs.sh \
+          "${INPUT_PROVIDER}" \
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}" \
+          "${INPUT_EXTENSIONS}" \
+          "${INPUT_TYPES}"
+      shell: sh
+      working-directory: ${{ github.action_path }}/src
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        files: "**.{${{ inputs.extensions }}}"
+
+    - name: Setup jq
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      uses: dcarbone/install-jq-action@v3
+
+    - name: Classify files
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      id: classify-files
+      env:
+        INPUT_PROVIDER: ${{ inputs.provider }}
+        INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        # TODO: Not all files but based on types
+        ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
+          "${{ steps.changed-files.outputs.all_changed_files }}" \
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}"
+      shell: sh
