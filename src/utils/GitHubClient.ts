@@ -26,21 +26,20 @@ export class GitHubClient {
     const payload: WebhookPayload = context.payload
     const { repo, owner } = context.repo
 
-    const baseSha = context.eventName === 'pull_request'
+    const base: string = context.eventName === 'pull_request'
       ? payload.pull_request?.base.sha
-      : payload.before;
+      : payload.before
+    const head: string = payload.after
     const resp: CompareCommitsResponseType =
-      await octokit.rest.repos.compareCommits(
-        { owner, repo, base: baseSha, head: payload.after }
-      )
+      await octokit.rest.repos.compareCommits({ owner, repo, base, head })
     const data: CompareCommitsResponseDataType = resp.data
     if (!data.files) {
       throw new Error('Cannot retrieve files list')
     }
     const count = data.files.length;
     this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
-      `file${count > 1 ? 's' : ''} found between base (${payload.before}) and ` +
-      `head (${payload.after})`)
+      `file${count > 1 ? 's' : ''} found between base (${base.substring(0, 7)})` +
+      ` and head (${head.substring(0, 7)})`)
     const result = new Set<string>()
     for (const file of data.files) {
       this.logger.info(`File: ${file.filename}. Status: ${file.status}`)
