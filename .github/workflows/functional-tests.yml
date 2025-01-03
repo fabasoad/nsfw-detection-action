@@ -2,10 +2,20 @@
 name: Functional Tests
 
 on: # yamllint disable-line rule:truthy
-  pull_request: {}
   push:
     branches:
-      - main
+      - "main"
+  pull_request:
+    paths:
+      - ".github/workflows/functional-tests.yml"
+      - "src/**"
+      - "!src/__tests__/**"
+      - "dist/**"
+      - "action.yml"
+  schedule:
+    # Every Friday at 09:00 JST
+    - cron: "0 0 * * 5"
+  workflow_dispatch: {}
 
 jobs:
   detect:
