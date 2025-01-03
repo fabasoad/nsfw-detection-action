@@ -5,7 +5,7 @@ export default class HttpClient {
     console.log('>> 1')
     const { json } = await fetch(url, init)
     console.log('>> 2')
-    console.dir(json())
+    console.dir(await json())
     return await json() as TResponse
   }
 }
