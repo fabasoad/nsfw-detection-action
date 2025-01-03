@@ -1,13 +1,14 @@
-import ky from 'ky'
 import { Logger } from 'winston'
 import { getLogger } from '../../logging/LoggerFactory'
 import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
+import HttpClient from '../../utils/HttpClient'
 import FormData from 'form-data'
 import { PathLike } from 'fs'
 
 export default abstract class NsfwDetectionProviderBase
-implements INsfwDetectionProvider {
+  implements INsfwDetectionProvider {
   private readonly baseUrl: string
+  private readonly client = new HttpClient()
 
   protected readonly logger: Logger = getLogger()
 
@@ -15,15 +16,14 @@ implements INsfwDetectionProvider {
     this.baseUrl = baseUrl
   }
 
-  protected async request<TResponse>(
+  protected request<TResponse>(
     body: FormData, headers?: FormData.Headers
   ): Promise<TResponse> {
-    const { json } = await ky.post<TResponse>(this.baseUrl, {
-      body: body,
-      headers: headers
-    })
-
-    return await json()
+    const init: RequestInit = { body, method: 'POST' }
+    if (headers) {
+      init['headers'] = headers
+    }
+    return this.client.request<TResponse>(this.baseUrl, init)
   }
 
   abstract getScore(apiKey: string, file: PathLike): Promise<number | null>

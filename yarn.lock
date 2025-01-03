@@ -3021,13 +3021,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ky@npm:1.7.4":
-  version: 1.7.4
-  resolution: "ky@npm:1.7.4"
-  checksum: 10c0/8b28b85cbee6d3e073ff796b92661f4bf155ec9b9a131411de1c34fb2f89f8507e67ff3df369e3c6d18714134774e8735e88cba72b19d005a09112b800d14474
-  languageName: node
-  linkType: hard
-
 "leven@npm:^3.1.0":
   version: 3.1.0
   resolution: "leven@npm:3.1.0"
@@ -3406,7 +3399,6 @@ __metadata:
     form-data: "npm:4.0.1"
     jest: "npm:29.7.0"
     jest-circus: "npm:29.7.0"
-    ky: "npm:1.7.4"
     ts-jest: "npm:29.2.5"
     typescript: "npm:5.7.2"
     winston: "npm:3.17.0"
