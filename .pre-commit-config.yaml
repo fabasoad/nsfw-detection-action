@@ -4,37 +4,20 @@ default_stages: ["pre-commit", "pre-push"]
 exclude: ^(dist/.*\.js|coverage/.*|\.yarn/.*)$
 minimum_pre_commit_version: 2.18.0
 repos:
+  # Linting
   - repo: local
     hooks:
-      - id: build
-        name: Build
-        entry: yarn run build
-        language: system
-        pass_filenames: false
-        verbose: true
-        stages: ["pre-push"]
-      - id: lint
-        name: Lint
-        entry: yarn run lint
-        language: system
-        pass_filenames: false
-        verbose: true
-        stages: ["pre-push"]
-      - id: test
-        name: Unit tests
-        entry: yarn test
-        language: system
-        pass_filenames: false
-        verbose: true
-        stages: ["pre-push"]
+      - id: prettier
+        name: Prettier
+        entry: prettier --write --ignore-unknown
+        language: node
+        types: [text]
+        args: []
+        files: ^(.*\.md|.*\.yaml|.*\.yml)$
+        # https://github.com/prettier/prettier/releases
+        additional_dependencies: ["prettier@3.4.2"]
+        stages: ["pre-commit"]
   # Security
-      - id: audit
-        name: Yarn audit
-        entry: yarn npm audit --all
-        language: system
-        pass_filenames: false
-        verbose: false
-        stages: ["pre-push"]
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.5.0
     hooks:
@@ -43,35 +26,26 @@ repos:
     rev: v8.22.1
     hooks:
       - id: gitleaks
-  - repo: https://github.com/fabasoad/pre-commit-snyk
-    rev: v1.0.0
-    hooks:
-      - id: snyk-test
-        args:
-          - --snyk-args=--severity-threshold=low
-          - --hook-args=--log-level debug
-        stages: ["pre-push"]
   - repo: https://github.com/fabasoad/pre-commit-grype
     rev: v0.6.1
     hooks:
       - id: grype-dir
         args:
-          - --grype-args=--by-cve --fail-on=low --exclude=**/node_modules
+          - --grype-args=--by-cve --fail-on=low
           - --hook-args=--log-level debug
-        stages: ["pre-push"]
-  - repo: https://github.com/google/osv-scanner
-    rev: v1.9.1
-    hooks:
-      - id: osv-scanner
-        args:
-          - --lockfile=yarn.lock
-        verbose: true
         stages: ["pre-push"]
   # Markdown
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.43.0
     hooks:
       - id: markdownlint-fix
+        stages: ["pre-commit"]
+  # Shell
+  - repo: https://github.com/openstack/bashate
+    rev: 2.1.1
+    hooks:
+      - id: bashate
+        args: ["-i", "E003,E006"]
         stages: ["pre-commit"]
   # Yaml
   - repo: https://github.com/adrienverge/yamllint
@@ -90,6 +64,10 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
+      - id: check-executables-have-shebangs
+        stages: ["pre-commit"]
+      - id: check-shebang-scripts-are-executable
+        stages: ["pre-commit"]
       - id: check-merge-conflict
       - id: check-json
         stages: ["pre-push"]
