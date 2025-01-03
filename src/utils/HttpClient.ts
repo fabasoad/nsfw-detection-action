@@ -1,4 +1,4 @@
-export class HTTPError extends Error {
+class HTTPError extends Error {
   constructor(status: number, message: string) {
     super(`Status: ${status}. Reason: ${message}`)
     this.name = 'HTTPError'
