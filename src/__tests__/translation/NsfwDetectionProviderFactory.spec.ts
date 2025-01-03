@@ -39,5 +39,5 @@ describe(NsfwDetectionProviderFactory.name, () => {
     const name = 'randomstring'
     expect(() => NsfwDetectionProviderFactory.getProvider(name))
       .toThrow(`${name} provider is not supported`)
-  });
+  })
 })

@@ -35,7 +35,7 @@ export class GitHubClient {
     if (!data.files) {
       throw new Error('Cannot retrieve files list')
     }
-    const count = data.files.length;
+    const count = data.files.length
     this.logger.info(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
       `file${count > 1 ? 's' : ''} found between base (${base.substring(0, 7)})` +
       ` and head (${head.substring(0, 7)})`)

@@ -9,14 +9,12 @@ export default class HttpClient {
   public async request<TResponse>(
     url: string, init?: RequestInit
   ): Promise<TResponse> {
-    console.dir(init)
-    const response = await fetch(url, init)
+    const { ok, status, statusText, json } = await fetch(url, init)
 
-    if (!response.ok) {
-      throw new HTTPError(response.status, response.statusText);
+    if (!ok) {
+      throw new HTTPError(status, statusText)
     }
 
-    const data = await response.json();
-    return data as TResponse;
+    return await json() as TResponse
   }
 }

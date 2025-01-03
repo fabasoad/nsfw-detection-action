@@ -26,7 +26,7 @@ export class SightEngineNsfwDetectionProvider
     super('https://api.sightengine.com/1.0/check.json')
   }
 
-  public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
+  public async getScore(apiKey: string, file: fs.PathLike): Promise<number | null> {
     const apiKeys: string[] = apiKey.split(',')
     const body = new FormData()
     body.append('media', fs.createReadStream(file))
@@ -41,7 +41,7 @@ export class SightEngineNsfwDetectionProvider
         `There was a problem during ${file} file classification. Type: ${type}.`
         + ` Code: ${code}. Reason: ${message}`
       )
-      return 0
+      return null
     } else {
       const { sexual_activity, sexual_display, erotica } = nudity!
       return Math.max(sexual_activity, sexual_display, erotica)

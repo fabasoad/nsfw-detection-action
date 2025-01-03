@@ -26,5 +26,5 @@ implements INsfwDetectionProvider {
     return this.client.request<TResponse>(this.baseUrl, init)
   }
 
-  abstract getScore(apiKey: string, file: PathLike): Promise<number>
+  abstract getScore(apiKey: string, file: PathLike): Promise<number | null>
 }

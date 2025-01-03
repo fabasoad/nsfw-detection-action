@@ -27,12 +27,18 @@ async function run({ threshold, providerName, githubToken, types, extensions }: 
       extensions
     )
 
-    let count = 0
+    let countFailed = 0
+    let countError = 0
     for (const file of files) {
-      const score: number = await provider.getScore(getInput('api-key'), file)
-      const result: number = threshold - score
+      const score: number | null = await provider.getScore(getInput('api-key'), file)
+      if (score == null) {
+        countFailed++
+        logger.warning(`Failed to classify ${file} file.`)
+        continue
+      }
+      const result: number = threshold - score!
       if (result < 0) {
-        count++
+        countError++
         logger.error(`${file} file is detected as NSFW (score is ${score})`)
       } else if (result > 0.2) {
         logger.info(`${file} is safe to be used (score is ${score})`)
@@ -41,9 +47,15 @@ async function run({ threshold, providerName, githubToken, types, extensions }: 
           `${file} file is close to be detected as NSFW (score is ${score})`)
       }
     }
-    if (count > 0) {
-      setFailed(`${count} file${count > 1 ? 's' : ''} ` +
-        `ha${count > 1 ? 've' : 's'} been detected as NSFW.`)
+    if (countFailed > 0 || countError > 0) {
+      const messages: string[] = []
+      if (countFailed > 0) {
+        messages.push(`Failed to classify ${countFailed} file${countFailed > 1 ? 's' : ''}.`)
+      }
+      if (countError > 0) {
+        messages.push(`${countError} file${countError > 1 ? 's' : ''} ha${countError > 1 ? 've' : 's'} been detected as NSFW.`)
+      }
+      setFailed(messages.join(' '))
     }
   } catch (e) {
     setFailed((<Error>e).message)

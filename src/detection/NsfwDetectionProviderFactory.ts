@@ -10,7 +10,7 @@ import {
 } from './providers/SightEngineNsfwDetectionProvider'
 
 export interface INsfwDetectionProvider {
-  getScore(apiKey: string, file: fs.PathLike): Promise<number>
+  getScore(apiKey: string, file: fs.PathLike): Promise<number | null>
 }
 
 export class NsfwDetectionProviderFactory {

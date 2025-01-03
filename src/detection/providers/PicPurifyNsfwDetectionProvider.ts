@@ -1,6 +1,5 @@
 import FormData from 'form-data'
 import { PathLike, statSync, createReadStream } from 'fs'
-import { basename } from 'path'
 import NsfwDetectionProviderBase from './NsfwDetectionProviderBase'
 
 type PicPurifyError = {
@@ -19,12 +18,10 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
     super('https://www.picpurify.com/analyse/1.1')
   }
 
-  public async getScore(apiKey: string, file: PathLike): Promise<number> {
+  public async getScore(apiKey: string, file: PathLike): Promise<number | null> {
     const body = new FormData()
     body.append('file_image', createReadStream(file), {
-      knownLength: statSync(file).size,
-      filename: basename(file.toString()),
-      filepath: file.toString()
+      knownLength: statSync(file).size
     })
     body.append('API_KEY', apiKey)
     body.append('task', 'porn_moderation,suggestive_nudity_moderation')
@@ -37,7 +34,7 @@ export class PicPurifyNsfwDetectionProvider extends NsfwDetectionProviderBase {
         `There was a problem during ${file} file classification. `
           + `Code: ${errorCode}. Reason: ${errorMsg}`
       )
-      return 0
+      return null
     } else {
       return confidence_score_decision!
     }
