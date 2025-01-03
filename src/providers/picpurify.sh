@@ -12,6 +12,7 @@ main() {
   files="${1}"
   api_key="${2}"
 
+  result="[]"
   for file_path in ${files}; do
     log_debug "Classifying ${file_path}..."
     response=$(curl -s \
@@ -28,7 +29,7 @@ main() {
         --arg s "${score}" \
         '{file: $f, score: $s | tonumber}')"
       # Add object to the resulting array
-      result=$(echo "${result}" | jq --argjson obj "${obj}" '. += [$obj]')
+      result=$(echo "${result}" | jq -c --argjson obj "${obj}" '. += [$obj]')
       log_info "Classified ${file_path} with score ${score}"
     else
       msg="There was a problem during ${file_path} file classification."
