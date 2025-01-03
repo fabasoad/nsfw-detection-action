@@ -1,12 +1,18 @@
 import fs from 'fs'
 import CloudmersiveImageApiClient from 'cloudmersive-image-api-client'
-import NsfwDetectionProviderBase from './NsfwDetectionProviderBase'
+import { Logger } from 'winston'
+import { getLogger } from '../../utils/LoggerFactory'
+import { INsfwDetectionProvider } from '../NsfwDetectionProviderFactory'
+
+type CloudmersiveResponse = {
+  Score: number,
+  Successful: boolean,
+  ClassificationOutcome: string
+}
 
 export class CloudmersiveNsfwDetectionProvider
-  extends NsfwDetectionProviderBase {
-  constructor() {
-    super('')
-  }
+  implements INsfwDetectionProvider {
+  private readonly logger: Logger = getLogger()
 
   public async getScore(apiKey: string, file: fs.PathLike): Promise<number> {
     const defaultClient = CloudmersiveImageApiClient.ApiClient.instance
@@ -14,14 +20,21 @@ export class CloudmersiveNsfwDetectionProvider
     Apikey.apiKey = apiKey
     const apiInstance = new CloudmersiveImageApiClient.NsfwApi()
     const imageFile = Buffer.from(fs.readFileSync(file).buffer)
-    return new Promise((resolve, reject) => {
-      apiInstance.nsfwClassify(imageFile, (error, data, response) => {
+    return new Promise<number>((resolve, reject) => {
+      const callback = (error, { Successful, Score }: CloudmersiveResponse, response) => {
         if (error) {
+          if (!response.ok) {
+            this.logger.error(`Status: ${response.status}. Reason: ${response.statusText}`)
+          }
           reject(error)
         } else {
-          resolve(Number(data['Score']))
+          if (!Successful) {
+            this.logger.warning(`There was a problem during ${file} file classification`)
+          }
+          resolve(Score)
         }
-      })
+      }
+      apiInstance.nsfwClassify(imageFile, callback)
     })
   }
 }

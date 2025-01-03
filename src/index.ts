@@ -42,9 +42,8 @@ async function run({ threshold, providerName, githubToken, types, extensions }: 
       }
     }
     if (count > 0) {
-      setFailed(`There ${count > 1 ? 'are' : 'is'} ${count} ` +
-        `file${count > 1 ? 's' : ''} ha${count > 1 ? 've' : 's'} ` +
-        'been detected as NSFW')
+      setFailed(`${count} file${count > 1 ? 's' : ''} ` +
+        `ha${count > 1 ? 've' : 's'} been detected as NSFW.`)
     }
   } catch (e) {
     setFailed((<Error>e).message)
