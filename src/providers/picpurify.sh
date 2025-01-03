@@ -20,7 +20,15 @@ main() {
       -F "task=porn_moderation,suggestive_nudity_moderation" \
       -F "file_image=@${file_path}")
     if [ "$(echo "${response}" | jq -r '.status')" = "success" ]; then
+      # Getting score
       score=$(echo "${response}" | jq -r '.confidence_score_decision')
+      # Build object for the output
+      obj="$(jq -n \
+        --arg f "${file_path}" \
+        --arg s "${score}" \
+        '{file: $f, score: $s | tonumber}')"
+      # Add object to the resulting array
+      result=$(echo "${result}" | jq --argjson obj "${obj}" '. += [$obj]')
       log_info "Classified ${file_path} with score ${score}"
     else
       msg="There was a problem during ${file_path} file classification."
@@ -30,6 +38,7 @@ main() {
       log_warning "${msg}"
     fi
   done
+  echo "scores=${result}" >> "$GITHUB_OUTPUT"
 }
 
 main "$@"

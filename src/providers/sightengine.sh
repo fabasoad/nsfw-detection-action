@@ -22,7 +22,15 @@ main() {
       -F "api_user=${api_user}" \
       -F "api_secret=${api_secret}")
     if [ "$(echo "${response}" | jq -r '.status')" = "success" ]; then
+      # Getting maximum score
       score=$(echo "${response}" | jq -r '.nudity | [.sexual_activity, .sexual_display, .erotica] | max')
+      # Build object for the output
+      obj="$(jq -n \
+        --arg f "${file_path}" \
+        --arg s "${score}" \
+        '{file: $f, score: $s | tonumber}')"
+      # Add object to the resulting array
+      result=$(echo "${result}" | jq --argjson obj "${obj}" '. += [$obj]')
       log_info "Classified ${file_path} with score ${score}"
     else
       msg="There was a problem during ${file_path} file classification."
@@ -32,6 +40,7 @@ main() {
       log_warning "${msg}"
     fi
   done
+  echo "scores=${result}" >> "$GITHUB_OUTPUT"
 }
 
 main "$@"

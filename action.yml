@@ -59,6 +59,7 @@ runs:
 
     - name: Classify files
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      id: classify-files
       env:
         INPUT_PROVIDER: ${{ inputs.provider }}
         INPUT_API_KEY: ${{ inputs.api-key }}
@@ -66,4 +67,8 @@ runs:
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
           "${{ steps.changed-files.outputs.all_changed_files }}" \
           "${INPUT_API_KEY}"
+      shell: sh
+
+    - name: Print scores
+      run: echo "${{ steps.classify-files.outputs.scores }}"
       shell: sh
