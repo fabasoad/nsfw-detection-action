@@ -18,15 +18,18 @@ export class CloudmersiveNsfwDetectionProvider
     Apikey.apiKey = apiKey
     const apiInstance = new CloudmersiveImageApiClient.NsfwApi()
     const imageFile = Buffer.from(fs.readFileSync(file).buffer)
-    console.dir(apiInstance)
-    apiInstance.nsfwClassify(imageFile, (error, data, response) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log('API called successfully. Returned data: ' + data);
-      }
+    return new Promise((resolve, reject) => {
+      apiInstance.nsfwClassify(imageFile, (error, data, response) => {
+        console.dir(error)
+        console.dir(data)
+        console.dir(response)
+        if (error) {
+          reject(error)
+        } else {
+          resolve(data)
+        }
+      })
     })
-    return 0
     // const client = CloudmersiveValidateApiClient.ApiClient.instance
     // console.dir(client)
     // return 0
