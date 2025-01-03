@@ -53,6 +53,8 @@ runs:
         INPUT_TYPES: "${{ inputs.types }}"
         INPUT_EXTENSIONS: "${{ inputs.extensions }}"
       run: |
+        ls -la .
+        git log -n 1
         ${GITHUB_ACTION_PATH}/src/get-changed-files.sh \
           "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}" \
           "${{ github.sha }}" \
