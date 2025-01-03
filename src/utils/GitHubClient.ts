@@ -25,9 +25,12 @@ export class GitHubClient {
     const payload: WebhookPayload = context.payload
     const { repo, owner } = context.repo
 
+    const baseSha = context.eventName === 'pull_request'
+      ? payload.pull_request?.base.sha
+      : payload.before;
     const resp: CompareCommitsResponseType =
       await octokit.rest.repos.compareCommits(
-        { owner, repo, base: payload.before, head: payload.after }
+        { owner, repo, base: baseSha, head: payload.after }
       )
     const data: CompareCommitsResponseDataType = resp.data
     if (!data.files) {
@@ -48,8 +51,7 @@ export class GitHubClient {
         }
       }
     }
-    this.logger.info(`There ${result.size === 1 ? 'is' : 'are'}` +
-      ` ${result.size} file${result.size === 1 ? '' : 's'} will be checked`)
+    this.logger.info(`${result.size} file${result.size === 1 ? '' : 's'} will be checked`)
     return result
   }
 }
