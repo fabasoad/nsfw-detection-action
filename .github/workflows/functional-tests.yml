@@ -39,10 +39,10 @@ jobs:
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v4
-      - name: Download test file
-        run: |
-          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
-          git add test.jpg
+#      - name: Download test file
+#        run: |
+#          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
+#          git add test.jpg
       - name: Detect NSFW content
         uses: ./
         with:
