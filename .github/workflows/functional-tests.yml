@@ -26,7 +26,7 @@ jobs:
         include:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
-            threshold: 0.32
+            threshold: 0.54
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.97
