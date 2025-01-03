@@ -24,7 +24,7 @@ inputs:
   types:
     description: Comma-separated types of changes made during work on the branch.
     required: false
-    default: modified,added,renamed
+    default: added,modified,renamed
   github-token:
     description: |
       GitHub token that is used to send requests to GitHub API. Defaults to the
@@ -32,5 +32,17 @@ inputs:
     required: false
     default: ${{ github.token }}
 runs:
-  using: node20
-  main: dist/index.js
+  using: composite
+  steps:
+    - name: Setup jq
+      uses: dcarbone/install-jq-action@v3
+
+    - name: Get changed files
+      run: |
+        ./get-changed-files.sh \
+          "${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}" \
+          "${{ contains(format(',{0},', inputs.types), 'added') }}"
+          "${{ contains(format(',{0},', inputs.types), 'modified') }}"
+          "${{ contains(format(',{0},', inputs.types), 'renamed') }}"
+      shell: sh
+      working-directory: "${{ github.action_path }}/src"
