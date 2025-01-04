@@ -11,12 +11,13 @@ LIB_DIR_PATH="${SRC_DIR_PATH}/lib"
 main() {
   url="https://api.sightengine.com/1.0/check.json"
   files="${1}"
-  api_user="$(echo "${2}" | cut -d',' -f1)"
-  api_secret="$(echo "${2}" | cut -d',' -f2)"
-  threshold="${3}"
+  type="${2}"
+  api_user="$(echo "${3}" | cut -d',' -f1)"
+  api_secret="$(echo "${3}" | cut -d',' -f2)"
+  threshold="${4}"
 
   for file_path in ${files}; do
-    log_debug "Classifying ${file_path}..."
+    log_debug "Classifying ${type} ${file_path}..."
     response=$(curl -s \
       -X POST "${url}" \
       -F "media=@${file_path}" \

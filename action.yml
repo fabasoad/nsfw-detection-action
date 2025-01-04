@@ -54,20 +54,115 @@ runs:
         files: "**.{${{ inputs.extensions }}}"
 
     - name: Setup jq
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: (
+        (
+        contains(format(',{0},', inputs.types), ',added,')
+        && steps.changed-files.outputs.added_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',copied,')
+        && steps.changed-files.outputs.copied_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',modified,')
+        && steps.changed-files.outputs.modified_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',renamed,')
+        && steps.changed-files.outputs.renamed_files_count != '0'
+        )
+        )
       uses: dcarbone/install-jq-action@v3
 
-    - name: Classify files
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      id: classify-files
+    - name: Classify added files
+      if: (
+        contains(format(',{0},', inputs.types), ',added,')
+        && steps.changed-files.outputs.added_files_count != '0'
+        )
       env:
         INPUT_PROVIDER: ${{ inputs.provider }}
         INPUT_API_KEY: ${{ inputs.api-key }}
         INPUT_THRESHOLD: ${{ inputs.threshold }}
       run: |
-        # TODO: Not all files but based on types
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
-          "${{ steps.changed-files.outputs.all_changed_files }}" \
+          "${{ steps.changed-files.outputs.added_files }}" \
+          "created" \
           "${INPUT_API_KEY}" \
           "${INPUT_THRESHOLD}"
       shell: sh
+
+    - name: Classify copied files
+      if: (
+        contains(format(',{0},', inputs.types), ',copied,')
+        && steps.changed-files.outputs.copied_files_count != '0'
+        )
+      env:
+        INPUT_PROVIDER: ${{ inputs.provider }}
+        INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
+          "${{ steps.changed-files.outputs.copied_files }}" \
+          "copied" \
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}"
+      shell: sh
+
+    - name: Classify modified files
+      if: (
+        contains(format(',{0},', inputs.types), ',modified,')
+        && steps.changed-files.outputs.modified_files_count != '0'
+        )
+      env:
+        INPUT_PROVIDER: ${{ inputs.provider }}
+        INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
+          "${{ steps.changed-files.outputs.modified_files }}" \
+          "modified" \
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}"
+      shell: sh
+
+    - name: Classify renamed files
+      if: (
+        contains(format(',{0},', inputs.types), ',renamed,')
+        && steps.changed-files.outputs.renamed_files_count != '0'
+        )
+      env:
+        INPUT_PROVIDER: ${{ inputs.provider }}
+        INPUT_API_KEY: ${{ inputs.api-key }}
+        INPUT_THRESHOLD: ${{ inputs.threshold }}
+      run: |
+        ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
+          "${{ steps.changed-files.outputs.renamed_files }}" \
+          "renamed" \
+          "${INPUT_API_KEY}" \
+          "${INPUT_THRESHOLD}"
+      shell: sh
+
+    - name: Print message
+      if: (
+        (
+        !contains(format(',{0},', inputs.types), ',added,')
+        || steps.changed-files.outputs.added_files_count == '0'
+        )
+        && (
+        !contains(format(',{0},', inputs.types), ',copied,')
+        || steps.changed-files.outputs.copied_files_count == '0'
+        )
+        && (
+        !contains(format(',{0},', inputs.types), ',modified,')
+        || steps.changed-files.outputs.modified_files_count == '0'
+        )
+        && (
+        !contains(format(',{0},', inputs.types), ',renamed,')
+        || steps.changed-files.outputs.renamed_files_count == '0'
+        )
+        )
+      run: |
+        . ./logging.sh
+        log_info "No files found for classification"
+      shell: sh
+      working-directory: ${{ github.action_path }}/src/lib

@@ -11,11 +11,12 @@ LIB_DIR_PATH="${SRC_DIR_PATH}/lib"
 main() {
   url="https://www.picpurify.com/analyse/1.1"
   files="${1}"
-  api_key="${2}"
-  threshold="${3}"
+  type="${2}"
+  api_key="${3}"
+  threshold="${4}"
 
   for file_path in ${files}; do
-    log_debug "Classifying ${file_path}..."
+    log_debug "Classifying ${type} ${file_path}..."
     response=$(curl -s \
       -X POST "${url}" \
       -F "API_KEY=${api_key}" \

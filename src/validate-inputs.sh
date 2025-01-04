@@ -66,7 +66,11 @@ main() {
   check_is_not_empty "api-key" "${input_api_key}"
   check_number "threshold" "${input_threshold}"
   check_is_not_empty "extensions" "${input_extensions}"
-  check_enum "types" "${input_types}" "added,copied,modified,renamed"
+  check_is_not_empty "types" "${input_types}"
+  IFS=','
+  for input_type in ${input_types}; do
+    check_enum "types" "${input_type}" "added,copied,modified,renamed"
+  done
 }
 
 main "$@"

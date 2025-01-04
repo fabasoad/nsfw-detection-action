@@ -11,11 +11,12 @@ LIB_DIR_PATH="${SRC_DIR_PATH}/lib"
 main() {
   url="https://api.cloudmersive.com/image/nsfw/classify"
   files="${1}"
-  api_key="${2}"
-  threshold="${3}"
+  type="${2}"
+  api_key="${3}"
+  threshold="${4}"
 
   for file_path in ${files}; do
-    log_debug "Classifying ${file_path}..."
+    log_debug "Classifying ${type} ${file_path} file..."
     response=$(curl -sL \
       -X POST "${url}" \
       --header "Content-Type: multipart/form-data" \
