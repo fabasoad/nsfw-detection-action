@@ -47,4 +47,4 @@ jobs:
           provider: "${{ matrix.provider }}"
           api-key: "${{ matrix.provider == 'sightengine' && format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]) || secrets[matrix.api-key] }}"
           threshold: "${{ matrix.threshold }}"
-          types: "renamed"
+          types: "added"
