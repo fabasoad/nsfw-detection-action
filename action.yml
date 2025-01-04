@@ -55,10 +55,22 @@ runs:
 
     - name: Setup jq
       if: (
-        steps.changed-files.outputs.added_files_count != '0'
-        || steps.changed-files.outputs.copied_files_count != '0'
-        || steps.changed-files.outputs.modified_files_count != '0'
-        || steps.changed-files.outputs.renamed_files_count != '0'
+        (
+        contains(format(',{0},', inputs.types), ',added,')
+        && steps.changed-files.outputs.added_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',copied,')
+        && steps.changed-files.outputs.copied_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',modified,')
+        && steps.changed-files.outputs.modified_files_count != '0'
+        )
+        || (
+        contains(format(',{0},', inputs.types), ',renamed,')
+        && steps.changed-files.outputs.renamed_files_count != '0'
+        )
         )
       uses: dcarbone/install-jq-action@v3
 
