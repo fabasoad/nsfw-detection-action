@@ -2,13 +2,9 @@
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/fabasoad/nsfw-detection-action?include_prereleases)
-![unit-tests](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/unit-tests.yml/badge.svg)
 ![functional-tests](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/functional-tests.yml/badge.svg)
 ![security](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/security.yml/badge.svg)
 ![linting](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/linting.yml/badge.svg)
-[![Maintainability](https://api.codeclimate.com/v1/badges/4b83792aebf367a33f6c/maintainability)](https://codeclimate.com/github/fabasoad/nsfw-detection-action/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/4b83792aebf367a33f6c/test_coverage)](https://codeclimate.com/github/fabasoad/nsfw-detection-action/test_coverage)
-[![Known Vulnerabilities](https://snyk.io/test/github/fabasoad/nsfw-detection-action/badge.svg?targetFile=package.json)](https://snyk.io/test/github/fabasoad/nsfw-detection-action?targetFile=package.json)
 
 This action checks each modified and added file with the extensions that is defined
 in action configuration and failed in case of threshold of NSFW check is greater
