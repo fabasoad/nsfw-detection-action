@@ -67,7 +67,8 @@ main() {
   check_number "threshold" "${input_threshold}"
   check_is_not_empty "extensions" "${input_extensions}"
   check_is_not_empty "types" "${input_types}"
-  echo "${input_types}" | while IFS=',' read -r input_type; do
+  IFS=','
+  for input_type in ${input_types}; do
     check_enum "types" "${input_type}" "added,copied,modified,renamed"
   done
 }
