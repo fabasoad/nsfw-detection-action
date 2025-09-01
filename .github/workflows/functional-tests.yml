@@ -36,7 +36,7 @@ jobs:
             threshold: 0.85
     steps:
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       #      - name: Download test file
       #        run: |
       #          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
