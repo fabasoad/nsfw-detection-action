@@ -2,7 +2,7 @@
 default_install_hook_types: ["pre-commit", "pre-push"]
 default_stages: ["pre-commit", "pre-push"]
 exclude: ^(dist/.*\.js|coverage/.*|\.yarn/.*)$
-minimum_pre_commit_version: 2.18.0
+minimum_pre_commit_version: 4.0.0
 repos:
   # Linting
   - repo: local
@@ -15,7 +15,7 @@ repos:
         args: []
         files: ^(.*\.md|.*\.yaml|.*\.yml)$
         # https://github.com/prettier/prettier/releases
-        additional_dependencies: ["prettier@3.5.3"]
+        additional_dependencies: ["prettier@3.6.2"]
         stages: ["pre-commit"]
   # Security
   - repo: https://github.com/Yelp/detect-secrets
