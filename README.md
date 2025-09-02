@@ -25,6 +25,7 @@ by chosen provider.
   * [Prerequisites](#prerequisites)
   * [Inputs](#inputs)
   * [Outputs](#outputs)
+  * [Contributions](#contributions)
 <!-- TOC -->
 <!-- prettier-ignore-end -->
 
