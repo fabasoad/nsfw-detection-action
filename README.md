@@ -89,3 +89,7 @@ The following tools have to be installed for successful work of this GitHub Acti
 ## Outputs
 
 None.
+
+## Contributions
+
+![Alt](https://repobeats.axiom.co/api/embed/45a9ac4850583b5ce74634f877915763852aaea7.svg "Repobeats analytics image")
