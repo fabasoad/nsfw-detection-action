@@ -15,7 +15,7 @@ repos:
         args: []
         files: ^(.*\.md|.*\.yaml|.*\.yml)$
         # https://github.com/prettier/prettier/releases
-        additional_dependencies: ["prettier@3.7.4"]
+        additional_dependencies: ["prettier@3.8.0"]
         stages: ["pre-commit"]
   # Security
   - repo: https://github.com/Yelp/detect-secrets
@@ -49,7 +49,7 @@ repos:
         stages: ["pre-commit"]
   # Yaml
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
+    rev: v1.38.0
     hooks:
       - id: yamllint
         stages: ["pre-push"]
