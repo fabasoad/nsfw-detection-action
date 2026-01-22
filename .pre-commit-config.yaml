@@ -15,7 +15,7 @@ repos:
         args: []
         files: ^(.*\.md|.*\.yaml|.*\.yml)$
         # https://github.com/prettier/prettier/releases
-        additional_dependencies: ["prettier@3.8.0"]
+        additional_dependencies: ["prettier@3.8.1"]
         stages: ["pre-commit"]
   # Security
   - repo: https://github.com/Yelp/detect-secrets
