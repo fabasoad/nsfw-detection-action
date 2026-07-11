@@ -49,7 +49,7 @@ runs:
 
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v47
+      uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
       with:
         files: "**.{${{ inputs.extensions }}}"
 
@@ -72,7 +72,7 @@ runs:
         && steps.changed-files.outputs.renamed_files_count != '0'
         )
         )
-      uses: dcarbone/install-jq-action@v3
+      uses: dcarbone/install-jq-action@4fcb5062d7ce9bc4382d1a352d19ba3ba2c317c1 # v4.0.1
 
     - name: Classify added files
       if: (
@@ -80,12 +80,13 @@ runs:
         && steps.changed-files.outputs.added_files_count != '0'
         )
       env:
-        INPUT_PROVIDER: ${{ inputs.provider }}
-        INPUT_API_KEY: ${{ inputs.api-key }}
-        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_PROVIDER: "${{ inputs.provider }}"
+        INPUT_API_KEY: "${{ inputs.api-key }}"
+        INPUT_THRESHOLD: "${{ inputs.threshold }}"
+        STEP_CHANGED_FILES_OUTPUT_ADDED_FILES: "${{ steps.changed-files.outputs.added_files }}"
       run: |
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
-          "${{ steps.changed-files.outputs.added_files }}" \
+          "${STEP_CHANGED_FILES_OUTPUT_ADDED_FILES}" \
           "created" \
           "${INPUT_API_KEY}" \
           "${INPUT_THRESHOLD}"
@@ -97,12 +98,13 @@ runs:
         && steps.changed-files.outputs.copied_files_count != '0'
         )
       env:
-        INPUT_PROVIDER: ${{ inputs.provider }}
-        INPUT_API_KEY: ${{ inputs.api-key }}
-        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_PROVIDER: "${{ inputs.provider }}"
+        INPUT_API_KEY: "${{ inputs.api-key }}"
+        INPUT_THRESHOLD: "${{ inputs.threshold }}"
+        STEP_CHANGED_FILES_OUTPUT_COPIED_FILES: "${{ steps.changed-files.outputs.copied_files }}"
       run: |
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
-          "${{ steps.changed-files.outputs.copied_files }}" \
+          "${STEP_CHANGED_FILES_OUTPUT_COPIED_FILES}" \
           "copied" \
           "${INPUT_API_KEY}" \
           "${INPUT_THRESHOLD}"
@@ -114,12 +116,13 @@ runs:
         && steps.changed-files.outputs.modified_files_count != '0'
         )
       env:
-        INPUT_PROVIDER: ${{ inputs.provider }}
-        INPUT_API_KEY: ${{ inputs.api-key }}
-        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_PROVIDER: "${{ inputs.provider }}"
+        INPUT_API_KEY: "${{ inputs.api-key }}"
+        INPUT_THRESHOLD: "${{ inputs.threshold }}"
+        STEP_CHANGED_FILES_OUTPUT_MODIFIED_FILES: "${{ steps.changed-files.outputs.modified_files }}"
       run: |
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
-          "${{ steps.changed-files.outputs.modified_files }}" \
+          "${STEP_CHANGED_FILES_OUTPUT_MODIFIED_FILES}" \
           "modified" \
           "${INPUT_API_KEY}" \
           "${INPUT_THRESHOLD}"
@@ -131,12 +134,13 @@ runs:
         && steps.changed-files.outputs.renamed_files_count != '0'
         )
       env:
-        INPUT_PROVIDER: ${{ inputs.provider }}
-        INPUT_API_KEY: ${{ inputs.api-key }}
-        INPUT_THRESHOLD: ${{ inputs.threshold }}
+        INPUT_PROVIDER: "${{ inputs.provider }}"
+        INPUT_API_KEY: "${{ inputs.api-key }}"
+        INPUT_THRESHOLD: "${{ inputs.threshold }}"
+        STEP_CHANGED_FILES_OUTPUT_RENAMED_FILES: "${{ steps.changed-files.outputs.renamed_files }}"
       run: |
         ${GITHUB_ACTION_PATH}/src/providers/${INPUT_PROVIDER}.sh \
-          "${{ steps.changed-files.outputs.renamed_files }}" \
+          "${STEP_CHANGED_FILES_OUTPUT_RENAMED_FILES}" \
           "renamed" \
           "${INPUT_API_KEY}" \
           "${INPUT_THRESHOLD}"
