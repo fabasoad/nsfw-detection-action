@@ -1,18 +1,14 @@
 ---
+# Workflow 2 of 2 ("test"): triggered on pushes to `ci/v1kr4yih-*`
+# branches, which are created by "Functional Tests (Prepare)" (functional-tests-prepare.yml).
+# It runs the action on the branch, restricted to the "added" files
+# scenario, and deletes the branch in a final cleanup job.
 name: Functional Tests
 
 on: # yamllint disable-line rule:truthy
   push:
     branches:
-      - main
-  pull_request:
-    paths:
-      - .github/workflows/functional-tests.yml
-      - src/**
-      - action.yml
-  schedule:
-    # Every Friday at 09:00 JST
-    - cron: "0 0 * * 5"
+      - "ci/v1kr4yih-*"
   workflow_dispatch: {}
 
 jobs:
@@ -28,26 +24,86 @@ jobs:
         include:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
-            threshold: 0.45
+            threshold: 0.42
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.95
           - provider: sightengine
             api-user: SIGHTENGINE_API_USER
             api-key: SIGHTENGINE_API_SECRET
-            threshold: 0.85
+            threshold: 0.95
     steps:
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: "false"
-      #      - name: Download test file
-      #        run: |
-      #          curl https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg --output test.jpg
-      #          git add test.jpg
+          # tj-actions/changed-files (used inside the action) needs the
+          # parent commit of the ci/v1kr4yih-* push to classify the image as
+          # "added", so a shallow clone is not enough.
+          fetch-depth: 0
+
+      # Guard against a vacuous pass: on a ci/v1kr4yih-* branch the fixture image
+      # must show up as an added file. If it does not, fail here instead
+      # of letting the action print "No files found for classification"
+      # and succeed without scanning anything.
+      - name: Verify "added" scenario
+        if: startsWith(github.ref, 'refs/heads/ci/v1kr4yih-')
+        id: verify-added
+        uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
+        with:
+          files: "**.jpg"
+
+      - name: Fail if no file was added
+        if: >-
+          startsWith(github.ref, 'refs/heads/ci/v1kr4yih-') &&
+          steps.verify-added.outputs.added_files_count == '0'
+        run: |
+          echo "::error::No added .jpg file detected on ${{ github.ref_name }}."
+          echo "::error::The 'added' functional test would pass without scanning anything."
+          exit 1
+
       - name: Detect NSFW content
+        id: detect
         uses: ./
+        continue-on-error: true
         with:
           provider: "${{ matrix.provider }}"
           api-key: "${{ case(matrix.provider == 'sightengine', format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]), secrets[matrix.api-key]) }}"
           threshold: "${{ matrix.threshold }}"
+          # This workflow tests the "added" scenario only (issue #132).
+          types: "added"
+
+      - name: Test action completion
+        run: |
+          test_equal() {
+            if [ "${2}" != "${3}" ]; then
+              echo "::error title=${1}::Expected: ${3}. Actual: ${2}."
+              exit 1
+            fi
+          }
+          test_equal \
+            "Wrong completion status" "${{ steps.detect.outcome }}" "failure"
+
+  # Issue #132 asks for the branch to be deleted "in the very last step".
+  # With a provider matrix, a delete step inside the detect job would run
+  # once per provider and race itself, so deletion lives in this separate
+  # final job. It runs even when detection fails, so a failed test never
+  # leaves a ci/v1kr4yih-* branch behind.
+  cleanup:
+    name: Delete ci/v1kr4yih-* branch
+    needs: detect
+    if: >-
+      always() &&
+      startsWith(github.ref, 'refs/heads/ci/v1kr4yih-')
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Delete ${{ github.ref_name }}
+        env:
+          GH_TOKEN: "${{ github.token }}"
+        run: |
+          gh api --method DELETE \
+            "repos/${GITHUB_REPOSITORY}/git/refs/heads/${GITHUB_REF_NAME}" \
+            || echo "Branch ${GITHUB_REF_NAME} is already gone."

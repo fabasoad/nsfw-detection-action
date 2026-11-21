@@ -1,0 +1,24 @@
+---
+version: 2
+
+multi-ecosystem-groups:
+  common:
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels: ["dependencies"]
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    multi-ecosystem-group: "common"
+    patterns: ["*"]
+    cooldown:
+      default-days: 3
+
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    multi-ecosystem-group: "common"
+    patterns: ["*"]
+    cooldown:
+      default-days: 3
