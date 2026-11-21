@@ -1,19 +1,10 @@
 ---
 #
 # Workflow 1 of 2 ("prepare"): triggered on pull_request / push as usual.
-# It adds one new image file, commits it to a new `ci/*` branch and pushes
+# It adds one new image file, commits it to a new `ci/v1kr4yih-*` branch and pushes
 # that branch. The push triggers "Functional Tests" (functional-tests.yml,
-# workflow 2 of 2), which runs the action on the `ci/*` branch and deletes
+# workflow 2 of 2), which runs the action on the `ci/v1kr4yih-*` branch and deletes
 # the branch when it is done.
-#
-# REQUIRED SETUP — read before merging:
-# Pushes made with the default GITHUB_TOKEN do NOT trigger other workflows,
-# so this workflow must push with a different credential, otherwise
-# workflow 2 will never start. It generates a GitHub App installation
-# token with actions/create-github-app-token, from the repository secrets
-# GH_APP_CONTENTS_CRUD_CLIENT_ID (the app's client ID) and
-# GH_APP_CONTENTS_CRUD_PRIVATE_KEY (the app's private key). The app needs
-# "Contents: Read and write" and must be installed on this repository.
 name: Functional Tests (Prepare)
 
 on: # yamllint disable-line rule:truthy
@@ -37,7 +28,7 @@ on: # yamllint disable-line rule:truthy
     - cron: "0 0 * * 5"
   workflow_dispatch: {}
 
-# Never prepare two ci/* branches for the same ref at the same time.
+# Never prepare two ci/v1kr4yih-* branches for the same ref at the same time.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
@@ -57,18 +48,19 @@ jobs:
     steps:
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@f418cff399f7aef4c2f0ad47e25ca7a6abbdd6fc # v3.4.0
         with:
           client-id: "${{ secrets.GH_APP_CONTENTS_CRUD_CLIENT_ID }}"
           private-key: "${{ secrets.GH_APP_CONTENTS_CRUD_PRIVATE_KEY }}"
 
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           # See the header comment: this token (not GITHUB_TOKEN) is what
           # makes the push below trigger workflow 2.
           token: "${{ steps.app-token.outputs.token }}"
           ref: "${{ github.event.pull_request.head.sha || github.sha }}"
+          persist-credentials: "true"
 
       - name: Download test file
         # Same fixture the commented-out step in the old
@@ -79,16 +71,21 @@ jobs:
             https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg \
             --output nsfw-functional-test-added.jpg
 
-      - name: Create ci/* branch and push the added file
+      - name: Create ci/v1kr4yih-* branch and push the added file
         env:
+          GH_TOKEN: "${{ steps.app-token.outputs.token }}"
           # run_id + run_attempt keep the name unique across re-runs.
-          # The name has exactly one "/" after "ci", so it matches the
-          # "ci/*" branch filter of workflow 2.
-          BRANCH_NAME: >-
-            ci/functional-tests-added-${{ github.run_id }}-${{ github.run_attempt }}
+          # The name matches the "ci/v1kr4yih-*" branch filter of workflow 2.
+          BRANCH_NAME: ci/v1kr4yih-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          user_name="${{ steps.app-token.outputs.app-slug }}[bot]"
+
+          user_id="$(gh api "/users/${user_name}" --jq .id)"
+          user_email="${user_id}+${user_name}@users.noreply.github.com"
+
+          git config user.name "${user_name}"
+          git config user.email "${user_email}"
+
           git checkout -b "${BRANCH_NAME}"
           git add nsfw-functional-test-added.jpg
           git commit -m "test(functional): add image for \"added\" scenario"

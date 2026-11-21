@@ -1,21 +1,14 @@
 ---
-#
-# Workflow 2 of 2 ("test"): triggered on pushes to `ci/*` branches, which
-# are created by "Functional Tests (Prepare)" (functional-tests-prepare.yml).
+# Workflow 2 of 2 ("test"): triggered on pushes to `ci/v1kr4yih-*`
+# branches, which are created by "Functional Tests (Prepare)" (functional-tests-prepare.yml).
 # It runs the action on the branch, restricted to the "added" files
 # scenario, and deletes the branch in a final cleanup job.
-#
-# This file replaces the current functional-tests.yml (same file name, so
-# the README badge keeps working). The old push-to-main / pull_request /
-# schedule triggers move to the prepare workflow: running the action
-# directly on main found no changed images and passed without scanning
-# anything.
 name: Functional Tests
 
 on: # yamllint disable-line rule:truthy
   push:
     branches:
-      - "ci/*"
+      - "ci/v1kr4yih-*"
   workflow_dispatch: {}
 
 jobs:
@@ -41,20 +34,20 @@ jobs:
             threshold: 0.85
     steps:
       - name: Checkout ${{ github.repository }}
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: "false"
           # tj-actions/changed-files (used inside the action) needs the
-          # parent commit of the ci/* push to classify the image as
+          # parent commit of the ci/v1kr4yih-* push to classify the image as
           # "added", so a shallow clone is not enough.
           fetch-depth: 0
 
-      # Guard against a vacuous pass: on a ci/* branch the fixture image
+      # Guard against a vacuous pass: on a ci/v1kr4yih-* branch the fixture image
       # must show up as an added file. If it does not, fail here instead
       # of letting the action print "No files found for classification"
       # and succeed without scanning anything.
       - name: Verify "added" scenario
-        if: startsWith(github.ref, 'refs/heads/ci/')
+        if: startsWith(github.ref, 'refs/heads/ci/v1kr4yih-')
         id: verify-added
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
         with:
@@ -62,7 +55,7 @@ jobs:
 
       - name: Fail if no file was added
         if: >-
-          startsWith(github.ref, 'refs/heads/ci/') &&
+          startsWith(github.ref, 'refs/heads/ci/v1kr4yih-') &&
           steps.verify-added.outputs.added_files_count == '0'
         run: |
           echo "::error::No added .jpg file detected on ${{ github.ref_name }}."
@@ -82,13 +75,13 @@ jobs:
   # With a provider matrix, a delete step inside the detect job would run
   # once per provider and race itself, so deletion lives in this separate
   # final job. It runs even when detection fails, so a failed test never
-  # leaves a ci/* branch behind.
+  # leaves a ci/v1kr4yih-* branch behind.
   cleanup:
-    name: Delete ci/* branch
+    name: Delete ci/v1kr4yih-* branch
     needs: detect
     if: >-
       always() &&
-      startsWith(github.ref, 'refs/heads/ci/')
+      startsWith(github.ref, 'refs/heads/ci/v1kr4yih-')
     timeout-minutes: 2
     runs-on: ubuntu-latest
     permissions:
@@ -99,5 +92,5 @@ jobs:
           GH_TOKEN: "${{ github.token }}"
         run: |
           gh api --method DELETE \
-            "repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}" \
-            || echo "Branch ${{ github.ref_name }} is already gone."
+            "repos/${GITHUB_REPOSITORY}/git/refs/heads/${GITHUB_REF_NAME}" \
+            || echo "Branch ${GITHUB_REF_NAME} is already gone."
