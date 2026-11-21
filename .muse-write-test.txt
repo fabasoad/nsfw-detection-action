@@ -1,1 +1,0 @@
-temporary write-permission diagnostic
