@@ -1,0 +1,87 @@
+---
+#
+# Workflow 1 of 2 ("prepare"): triggered on pull_request / push as usual.
+# It adds one new image file, commits it to a new `ci/*` branch and pushes
+# that branch. The push triggers "Functional Tests" (functional-tests.yml,
+# workflow 2 of 2), which runs the action on the `ci/*` branch and deletes
+# the branch when it is done.
+#
+# REQUIRED SETUP — read before merging:
+# Pushes made with the default GITHUB_TOKEN do NOT trigger other workflows,
+# so this workflow must push with a different credential, otherwise
+# workflow 2 will never start. Create a fine-grained personal access token
+# (or a GitHub App installation token) with "Contents: Read and write" on
+# this repository only, store it as the repository secret
+# FUNCTIONAL_TESTS_TOKEN, and this workflow will use it for checkout/push.
+name: Functional Tests (Prepare)
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/functional-tests-prepare.yml
+      - .github/workflows/functional-tests.yml
+      - src/**
+      - action.yml
+  pull_request:
+    paths:
+      - .github/workflows/functional-tests-prepare.yml
+      - .github/workflows/functional-tests.yml
+      - src/**
+      - action.yml
+  schedule:
+    # Every Friday at 09:00 JST (moved from the old functional-tests.yml,
+    # so the weekly run now exercises the whole prepare -> test chain)
+    - cron: "0 0 * * 5"
+  workflow_dispatch: {}
+
+# Never prepare two ci/* branches for the same ref at the same time.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare-added:
+    name: Prepare "added" scenario
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    # Forks cannot create branches in this repository and do not have
+    # access to FUNCTIONAL_TESTS_TOKEN, so skip pull requests from forks.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v7
+        with:
+          # See the header comment: this token (not GITHUB_TOKEN) is what
+          # makes the push below trigger workflow 2.
+          token: "${{ secrets.FUNCTIONAL_TESTS_TOKEN }}"
+          ref: "${{ github.event.pull_request.head.sha || github.sha }}"
+
+      - name: Download test file
+        # Same fixture the commented-out step in the old
+        # functional-tests.yml used, under a distinctive name so it can
+        # never collide with a real file on main.
+        run: |
+          curl --fail --location \
+            https://images-na.ssl-images-amazon.com/images/I/91cDPlxcRiL._SL1500_.jpg \
+            --output nsfw-functional-test-added.jpg
+
+      - name: Create ci/* branch and push the added file
+        env:
+          # run_id + run_attempt keep the name unique across re-runs.
+          # The name has exactly one "/" after "ci", so it matches the
+          # "ci/*" branch filter of workflow 2.
+          BRANCH_NAME: >-
+            ci/functional-tests-added-${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH_NAME}"
+          git add nsfw-functional-test-added.jpg
+          git commit -m "test(functional): add image for \"added\" scenario"
+          git push origin "HEAD:refs/heads/${BRANCH_NAME}"
