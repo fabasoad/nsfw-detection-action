@@ -31,7 +31,7 @@ jobs:
           - provider: sightengine
             api-user: SIGHTENGINE_API_USER
             api-key: SIGHTENGINE_API_SECRET
-            threshold: 0.85
+            threshold: 0.95
     steps:
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -63,13 +63,26 @@ jobs:
           exit 1
 
       - name: Detect NSFW content
+        id: detect
         uses: ./
+        continue-on-error: true
         with:
           provider: "${{ matrix.provider }}"
           api-key: "${{ case(matrix.provider == 'sightengine', format('{0},{1}', secrets[matrix.api-user], secrets[matrix.api-key]), secrets[matrix.api-key]) }}"
           threshold: "${{ matrix.threshold }}"
           # This workflow tests the "added" scenario only (issue #132).
           types: "added"
+
+      - name: Test action completion
+        run: |
+          test_equal() {
+            if [ "${2}" != "${3}" ]; then
+              echo "::error title=${1}::Expected: ${3}. Actual: ${2}."
+              exit 1
+            fi
+          }
+          test_equal \
+            "Wrong completion status" "${{ steps.detect.outcome }}" "failure"
 
   # Issue #132 asks for the branch to be deleted "in the very last step".
   # With a provider matrix, a delete step inside the detect job would run
