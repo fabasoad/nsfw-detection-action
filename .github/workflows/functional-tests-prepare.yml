@@ -9,10 +9,11 @@
 # REQUIRED SETUP — read before merging:
 # Pushes made with the default GITHUB_TOKEN do NOT trigger other workflows,
 # so this workflow must push with a different credential, otherwise
-# workflow 2 will never start. Create a fine-grained personal access token
-# (or a GitHub App installation token) with "Contents: Read and write" on
-# this repository only, store it as the repository secret
-# FUNCTIONAL_TESTS_TOKEN, and this workflow will use it for checkout/push.
+# workflow 2 will never start. It generates a GitHub App installation
+# token with actions/create-github-app-token, from the repository secrets
+# GH_APP_CONTENTS_CRUD_CLIENT_ID (the app's client ID) and
+# GH_APP_CONTENTS_CRUD_PRIVATE_KEY (the app's private key). The app needs
+# "Contents: Read and write" and must be installed on this repository.
 name: Functional Tests (Prepare)
 
 on: # yamllint disable-line rule:truthy
@@ -49,17 +50,24 @@ jobs:
     permissions:
       contents: write
     # Forks cannot create branches in this repository and do not have
-    # access to FUNCTIONAL_TESTS_TOKEN, so skip pull requests from forks.
+    # access to this repository's secrets, so skip pull requests from forks.
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: "${{ secrets.GH_APP_CONTENTS_CRUD_CLIENT_ID }}"
+          private-key: "${{ secrets.GH_APP_CONTENTS_CRUD_PRIVATE_KEY }}"
+
       - name: Checkout ${{ github.repository }}
         uses: actions/checkout@v7
         with:
           # See the header comment: this token (not GITHUB_TOKEN) is what
           # makes the push below trigger workflow 2.
-          token: "${{ secrets.FUNCTIONAL_TESTS_TOKEN }}"
+          token: "${{ steps.app-token.outputs.token }}"
           ref: "${{ github.event.pull_request.head.sha || github.sha }}"
 
       - name: Download test file
