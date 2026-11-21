@@ -57,7 +57,15 @@ repos:
     rev: v1.7.12
     hooks:
       - id: actionlint
-        args: ["-pyflakes="]
+        args:
+          - "-pyflakes="
+          # create-github-app-token v3 replaced the "app-id" input with
+          # "client-id"; actionlint's built-in action dataset does not
+          # know the new input yet and reports both errors for valid use.
+          - "-ignore"
+          - 'missing input "app-id" which is required by action "actions/create-github-app-token@v3".*'
+          - "-ignore"
+          - 'input "client-id" is not defined in action "actions/create-github-app-token@v3".*'
         stages: ["pre-commit"]
   # Other
   - repo: https://github.com/pre-commit/pre-commit-hooks
