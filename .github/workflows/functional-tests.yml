@@ -1,9 +1,9 @@
 ---
 # Workflow 2 of 2 ("test"): triggered on pushes to `ci/v1kr4yih-*`
-# branches, which are created by "Functional Tests (Step 1)" (functional-tests-step-1.yml).
+# branches, which are created by "Trigger Functional Tests" (trigger-functional-tests.yml).
 # It runs the action on the branch, restricted to the "added" files
 # scenario, and deletes the branch in a final cleanup job.
-name: Functional Tests (Step 2)
+name: Functional Tests
 
 on: # yamllint disable-line rule:truthy
   push:
