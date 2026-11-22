@@ -72,8 +72,7 @@ main() {
       compare_with_threshold "${score}" "${threshold}" "${file_path}"
     else
       msg="There was a problem during ${file_path} file classification."
-      if [ -n "${response}" ] &&
-        [ "$(echo "${response}" | jq 'has("error")')" = "true" ]; then
+      if [ -n "${response}" ] && [ "$(echo "${response}" | jq 'has("error")')" = "true" ]; then
         msg="${msg} $(echo "${response}" | jq -r \
           '.error | "Type: \(.type). Code: \(.code). Reason: \(.message)"')"
       fi
