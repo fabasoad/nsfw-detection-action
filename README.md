@@ -19,6 +19,7 @@ by chosen provider.
   * [Contents](#contents)
   * [Providers](#providers)
     * [Cloudmersive](#cloudmersive)
+    * [OpenAI](#openai)
     * [PicPurify](#picpurify)
     * [SightEngine](#sightengine)
   * [Supported OS](#supported-os)
@@ -36,6 +37,17 @@ by chosen provider.
 Identifier is `cloudmersive`. Sign up to [Cloudmersive](https://cloudmersive.com/)
 official website. Then go to [API Keys](https://account.cloudmersive.com/keys)
 page, create a new one and copy it.
+
+### OpenAI
+
+Identifier is `openai`. Sign up to [OpenAI](https://openai.com/) official
+website. Then go to [API Keys](https://platform.openai.com/api-keys) page,
+create a new one and copy it. This provider uses the
+[Moderation API](https://platform.openai.com/docs/guides/moderation) with the
+`omni-moderation-latest` model, and the value of the `sexual` category is used
+as the NSFW detection score. The Moderation API supports jpeg, png, gif and
+webp images, so files with other extensions (e.g. tiff, bmp from the default
+`extensions` list) cannot be classified by this provider.
 
 ### PicPurify
 
