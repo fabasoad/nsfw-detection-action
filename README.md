@@ -2,7 +2,7 @@
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/fabasoad/nsfw-detection-action?include_prereleases)
-![functional-tests](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/functional-tests.yml/badge.svg)
+![functional-tests-step-2](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/functional-tests-step-2.yml/badge.svg)
 ![security](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/security.yml/badge.svg)
 ![linting](https://github.com/fabasoad/nsfw-detection-action/actions/workflows/linting.yml/badge.svg)
 

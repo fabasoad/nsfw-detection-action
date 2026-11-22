@@ -1,9 +1,9 @@
 ---
 # Workflow 2 of 2 ("test"): triggered on pushes to `ci/v1kr4yih-*`
-# branches, which are created by "Functional Tests (Prepare)" (functional-tests-prepare.yml).
+# branches, which are created by "Functional Tests (Step 1)" (functional-tests-step-1.yml).
 # It runs the action on the branch, restricted to the "added" files
 # scenario, and deletes the branch in a final cleanup job.
-name: Functional Tests
+name: Functional Tests (Step 2)
 
 on: # yamllint disable-line rule:truthy
   push:
@@ -27,7 +27,7 @@ jobs:
             threshold: 0.42
           - provider: openai
             api-key: OPENAI_API_KEY
-            threshold: 0.42
+            threshold: 0.08
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.95

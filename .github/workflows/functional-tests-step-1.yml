@@ -5,7 +5,7 @@
 # that branch. The push triggers "Functional Tests" (functional-tests.yml,
 # workflow 2 of 2), which runs the action on the `ci/v1kr4yih-*` branch and deletes
 # the branch when it is done.
-name: Functional Tests (Prepare)
+name: Functional Tests (Step 1)
 
 on: # yamllint disable-line rule:truthy
   push:
