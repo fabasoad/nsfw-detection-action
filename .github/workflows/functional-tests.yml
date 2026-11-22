@@ -25,6 +25,9 @@ jobs:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
             threshold: 0.42
+          - provider: openai
+            api-key: OPENAI_API_KEY
+            threshold: 0.42
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.95
