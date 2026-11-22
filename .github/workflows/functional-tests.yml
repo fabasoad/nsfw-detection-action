@@ -1,6 +1,6 @@
 ---
 # Workflow 2 of 2 ("test"): triggered on pushes to `ci/v1kr4yih-*`
-# branches, which are created by "Functional Tests (Prepare)" (functional-tests-prepare.yml).
+# branches, which are created by "Trigger Functional Tests" (trigger-functional-tests.yml).
 # It runs the action on the branch, restricted to the "added" files
 # scenario, and deletes the branch in a final cleanup job.
 name: Functional Tests
@@ -25,6 +25,9 @@ jobs:
           - provider: cloudmersive
             api-key: CLOUDMERSIVE_API_KEY
             threshold: 0.42
+          - provider: openai
+            api-key: OPENAI_API_KEY
+            threshold: 0.08
           - provider: picpurify
             api-key: PICPURIFY_API_KEY
             threshold: 0.95

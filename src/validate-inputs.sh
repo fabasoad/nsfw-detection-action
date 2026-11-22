@@ -62,7 +62,7 @@ main() {
   input_extensions="${4}"
   input_types="${5}"
 
-  check_enum "provider" "${input_provider}" "cloudmersive,picpurify,sightengine"
+  check_enum "provider" "${input_provider}" "cloudmersive,openai,picpurify,sightengine"
   check_is_not_empty "api-key" "${input_api_key}"
   check_number "threshold" "${input_threshold}"
   check_is_not_empty "extensions" "${input_extensions}"
